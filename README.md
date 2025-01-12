@@ -1,4 +1,4 @@
-# flickr-dashboard
+# Flickr Dashboard
 A dashboard for the Flickr
 
 # React + TypeScript + Vite
