@@ -1,0 +1,14 @@
+{
+  "name": "flickr-functions",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "dependencies": {
+    "firebase-functions": "^4.0.0",
+    "firebase-admin": "^11.0.0",
+    "axios": "^1.0.0"
+  },
+  "scripts": {
+    "deploy": "firebase deploy --only functions"
+  }
+}
