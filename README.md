@@ -1,5 +1,5 @@
 # Flickr Dashboard
-A dashboard for the Flickr
+A dashboard to analyse images from Flickr
 
 # React + TypeScript + Vite
 
