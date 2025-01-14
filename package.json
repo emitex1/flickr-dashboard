@@ -1,0 +1,10 @@
+{
+  "name": "flickr-dashboard-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  }
+}
