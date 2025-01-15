@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "flickr-dashboard"
-  }
+    "default": "flickr-dashboard",
+    "flickr-dashboard-backend": "flickr-dashboard-backend"
+  },
+  "targets": {},
+  "etags": {}
 }
