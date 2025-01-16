@@ -19,7 +19,7 @@ const App = () => {
         <div>
             <h1>My Flickr Dashboard</h1>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {photos.map((photo: any) => (
+                {photos.map((photo: {id: string; server: string; secret: string; title: string}) => (
                     <div key={photo.id} style={{ margin: "10px" }}>
                         <img
                             src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`}
