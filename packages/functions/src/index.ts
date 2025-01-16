@@ -15,13 +15,15 @@ import axios from "axios";
 // https://firebase.google.com/docs/functions/typescript
 
 export const fetchFlickrPhotos = functions.https.onRequest(async (req: any, res: any) => {
-  logger.info("Before calling Flickr API!", {structuredData: true});
+    logger.info("Start fetching photos.");
     try {
-        const apiKey = functions.config().flickr.api_key;
+      const apiKey = functions.config().flickr.api_key;
         if (!apiKey) throw new Error("Flickr API Key is not defined");
+        logger.info("Flickr API Key is available.");
 
         const userId = req.query.userId;
         if (!userId) throw new Error("Target User ID is not defined");
+        logger.info(`Target User ID: ${userId}`);
 
         const isPublic = (req.query.isPublic || '').trim().toLowerCase() === 'true';
         const flickrMethodName = isPublic ? 'getPublicPhotos' : 'getPhotos';
@@ -33,10 +35,12 @@ export const fetchFlickrPhotos = functions.https.onRequest(async (req: any, res:
               'Accept': 'application/json',
           }
         });
+        logger.info('Photos are fetched from Flickr API.');
         const photos = response.data;
+        logger.info(`${photos.length} photos are fetched.`);
         res.status(200).json(photos);
     } catch (error: any) {
-        console.error('Error fetching Flickr photos:', error);
+        logger.error('Error fetching Flickr photos:', error);
         res.status(500).send('Error fetching Flickr photos:\n' + error.message);
     }
 });
