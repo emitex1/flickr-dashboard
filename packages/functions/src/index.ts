@@ -15,6 +15,36 @@ import axios from "axios";
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 
+async function getUserId(username: string, api_key: string) {
+  const url = 'https://www.flickr.com/services/rest/';
+  const params = {
+    method: 'flickr.people.findByUsername',
+    api_key: api_key,
+    username: username,
+    format: 'json',
+    nojsoncallback: 1,
+  };
+
+  try {
+    const response = await axios.get(url, { params, headers: {
+      'User-Agent': 'Mozilla/5.0',
+      'Accept': 'application/json',
+    } });
+    const data = response.data;
+    
+    if (data.stat === 'ok') {
+      const userId = data.user.id;
+      logger.info(`User ID for ${username}: ${userId}`);
+      return userId;
+    } else {
+      logger.error('Error:', data.message);
+    }
+  } catch (error: any) {
+    logger.error('API request failed:', error.message);
+    throw new Error('API request failed:' + error.message);
+  }
+}
+
 export const fetchFlickrPhotos = functions.https.onRequest(async (req: any, res: any) => {
   logger.info("Start fetching photos.");
   try {
@@ -23,9 +53,10 @@ export const fetchFlickrPhotos = functions.https.onRequest(async (req: any, res:
     if (!apiKey) throw new Error("Flickr API Key is not defined");
     logger.info("Flickr API Key is available.");
 
-    const userId = req.query.userId;
-    if (!userId) throw new Error("Target User ID is not defined");
-    logger.info(`Target User ID: ${userId}`);
+    const userName = req.query.userName;
+    if (!userName) throw new Error("Target User Name is not defined");
+    logger.info(`Target User Name: ${userName}`);
+    const userId = await getUserId(userName, apiKey);
 
     const isPublic = (req.query.isPublic || '').trim().toLowerCase() === 'true';
     const flickrMethodName = isPublic ? 'getPublicPhotos' : 'getPhotos';
