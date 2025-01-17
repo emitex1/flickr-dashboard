@@ -70,7 +70,7 @@ export const fetchFlickrPhotos = functions.https.onRequest(async (req: any, res:
     });
     logger.info('Photos are fetched from Flickr API.');
     const photos = response.data;
-    logger.info(`${photos.length} photos are fetched.`);
+    logger.info(`${photos.photos.total} photos are fetched.`);
 
     res.status(200).json(photos);
   } catch (error: any) {
