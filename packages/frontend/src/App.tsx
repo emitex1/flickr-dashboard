@@ -1,30 +1,39 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const App = () => {
 	const [photos, setPhotos] = useState([]);
+	const [userName, setUserName] = useState("");
 
-	useEffect(() => {
-		const getPhotos = async () => {
-			try {
-				const userId = import.meta.env.VITE_TARGET_USER_ID;
-				if (!userId) throw new Error("TARGET_USER_ID is not defined");
-				console.log('user id is ' + userId);
+	const getPhotos = async () => {
+		try {
+			console.log("User Name is " + userName);
 
-				const response = await axios.get("https://fetchflickrphotos-ys2zam5ckq-uc.a.run.app?userId=" + userId, {
-						params: { tags: "nature" },
-				});
-				setPhotos(response.data.photos.photo);
-			} catch (error) {
-				console.error("Error fetching photos:", error);
-			}
-		};
-		getPhotos();
-	}, []);
+			const response = await axios.get(
+				"https://fetchflickrphotos-ys2zam5ckq-uc.a.run.app",
+				{
+					params: { userName: userName, isPublic: true },
+				}
+			);
+			setPhotos(response.data.photos.photo);
+		} catch (error) {
+			console.error("Error fetching photos:", error);
+		}
+	};
 
 	return (
 		<div>
 			<h1>My Flickr Dashboard</h1>
+
+			<div>
+				<input
+					type="text"
+					placeholder="User Name"
+					value={userName}
+					onChange={(e) => setUserName(e.target.value)}
+				/>
+				<button onClick={getPhotos}>Fetch Photos</button>
+			</div>
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
 				{photos.map(
 					(photo: {
