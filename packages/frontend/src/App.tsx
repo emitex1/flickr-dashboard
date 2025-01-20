@@ -10,7 +10,7 @@ const App = () => {
 			console.log("User Name is " + userName);
 
 			const response = await axios.get(
-				"https://fetchflickrphotos-ys2zam5ckq-uc.a.run.app",
+				"https://fetchflickrphotos-ag5w5dzqxq-uc.a.run.app",
 				{
 					params: { userName: userName, isPublic: true },
 				}
