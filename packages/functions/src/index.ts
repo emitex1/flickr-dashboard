@@ -37,7 +37,7 @@ async function getUserId(username: string, api_key: string) {
 }
 
 export const fetchFlickrPhotos = functions.https.onRequest(
-	async (req: any, res: any) => {
+  async (req: functions.https.Request, res: any) => {
 		res.set("Access-Control-Allow-Origin", "*");
 		res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
 		res.set("Access-Control-Allow-Headers", "Content-Type");
