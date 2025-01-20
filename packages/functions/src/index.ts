@@ -37,7 +37,7 @@ async function getUserId(username: string, api_key: string) {
 }
 
 export const fetchFlickrPhotos = functions.https.onRequest(
-  async (req: functions.https.Request, res: any) => {
+  async (req: any, res: any) => {
 		res.set("Access-Control-Allow-Origin", "*");
 		res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
 		res.set("Access-Control-Allow-Headers", "Content-Type");
@@ -54,7 +54,7 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 			if (!apiKey) throw new Error("Flickr API Key is not defined");
 			logger.info("Flickr API Key is available.");
 
-			const userName = req.query.userName;
+			const userName = req.query.userName || '';
 			if (!userName) throw new Error("Target User Name is not defined");
 			logger.info(`Target User Name: ${userName}`);
 			const userId = await getUserId(userName, apiKey);
