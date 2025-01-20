@@ -3,6 +3,12 @@ import * as logger from "firebase-functions/logger";
 import * as dotenvContent from "dotenv";
 import axios from "axios";
 
+const allowedOrigins = [
+  'https://flickr-dashboard.web.app',
+  'https://flickr-dashboard.firebaseapp.com',
+  'http://localhost:5173/'
+];
+
 async function getUserId(username: string, api_key: string) {
 	const url = "https://www.flickr.com/services/rest/";
 	const params = {
@@ -38,7 +44,10 @@ async function getUserId(username: string, api_key: string) {
 
 export const fetchFlickrPhotos = functions.https.onRequest(
   async (req: any, res: any) => {
-		res.set("Access-Control-Allow-Origin", "*");
+    const currentOrigin = req.headers.origin;  
+    if (allowedOrigins.includes(currentOrigin)) {
+      res.set('Access-Control-Allow-Origin', currentOrigin);
+    }
 		res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
 		res.set("Access-Control-Allow-Headers", "Content-Type");
 
