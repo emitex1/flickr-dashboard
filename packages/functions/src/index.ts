@@ -47,7 +47,7 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 			return;
 		}
 
-		logger.info("Start fetching photos.");
+		logger.info("Fetching the photos is started.");
 		try {
 			dotenvContent.config();
 			const apiKey = process.env.FLICKR_API_KEY;
