@@ -31,6 +31,7 @@ const App = () => {
 					placeholder="User Name"
 					value={userName}
 					onChange={(e) => setUserName(e.target.value)}
+					onKeyDown={(e) => e.key === "Enter" && getPhotos()}
 				/>
 				<button onClick={getPhotos}>Fetch Photos</button>
 			</div>
