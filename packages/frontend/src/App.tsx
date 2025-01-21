@@ -4,9 +4,11 @@ import axios from "axios";
 const App = () => {
 	const [photos, setPhotos] = useState([]);
 	const [userName, setUserName] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const getPhotos = async () => {
 		try {
+			setIsLoading(true);
 			console.log("User Name is " + userName);
 
 			const response = await axios.get(
@@ -18,6 +20,8 @@ const App = () => {
 			setPhotos(response.data.photos.photo);
 		} catch (error) {
 			console.error("Error fetching photos:", error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -36,6 +40,7 @@ const App = () => {
 				<button onClick={getPhotos}>Fetch Photos</button>
 			</div>
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
+				{isLoading && <div>Loading...</div>}
 				{photos.map(
 					(photo: {
 						id: string;
