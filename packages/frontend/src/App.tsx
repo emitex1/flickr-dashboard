@@ -9,6 +9,7 @@ const App = () => {
 	const getPhotos = async () => {
 		try {
 			setIsLoading(true);
+			setPhotos([]);
 			console.log("User Name is " + userName);
 
 			const response = await axios.get(
@@ -41,6 +42,11 @@ const App = () => {
 			</div>
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
 				{isLoading && <div>Loading...</div>}
+
+				{!userName && <div>Enter a user name to fetch the photos.</div>}
+
+				{!isLoading && !!userName && photos.length == 0 && <div>No photos found</div>}
+
 				{photos.map(
 					(photo: {
 						id: string;
