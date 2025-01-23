@@ -1,6 +1,7 @@
 # Flickr Dashboard
-A dashboard to analyse images from Flickr
+An interactive dashboard designed to analyze and visualize image data sourced from Flickr.
 
+## Sub Repositories
 This repository utilizes **Yarn Workspaces** to efficiently manage the monorepo structure. It contains two primary sub-projects:
 
 1. **frontend**: The user interface and client-side logic.
