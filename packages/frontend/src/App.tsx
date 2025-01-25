@@ -7,7 +7,13 @@ import {
 	signOut,
 	User,
 } from "firebase/auth";
-import { doc, setDoc, getFirestore, serverTimestamp, initializeFirestore } from "firebase/firestore";
+import {
+	doc,
+	setDoc,
+	getFirestore,
+	serverTimestamp,
+	getDoc,
+} from "firebase/firestore";
 import { auth } from "./firebase";
 
 const App = () => {
@@ -54,30 +60,43 @@ const App = () => {
 			const result = await signInWithPopup(auth, provider);
 			console.log("User Info:", result.user);
 
-			saveUserToDatabase(result.user);
+			saveOrUpdateUser(result.user);
 		} catch (error: any) {
 			console.error("Login Error:", error.message);
 		}
 	};
 
-	const saveUserToDatabase = async (user: User) => {
+	const saveOrUpdateUser = async (user: User) => {
 		if (!user) return;
-	
+
 		const userRef = doc(db, "users", user.uid);
-	
-		const userData = {
-			uid: user.uid,
-			name: user.displayName,
-			email: user.email,
-			photoURL: user.photoURL,
-			createdAt: serverTimestamp(),
-		};
-	
-		try {
-			await setDoc(userRef, userData, { merge: true }); // merge: true ensures not to overwrite existing data
-			console.log("User info saved successfully:", userData);
-		} catch (error) {
-			console.error("Error in saving user info in DB:", error);
+		const userDoc = await getDoc(userRef);
+
+		if (userDoc.exists()) {
+			await setDoc(
+				userRef,
+				{
+					lastLogin: new Date(),
+				},
+				{ merge: true }
+			);
+
+			console.log("Last login date updated successfully.");
+		} else {
+			const userData = {
+				uid: user.uid,
+				name: user.displayName,
+				email: user.email,
+				photoURL: user.photoURL,
+				createdAt: serverTimestamp(),
+			};
+
+			try {
+				await setDoc(userRef, userData, { merge: true }); // merge: true ensures not to overwrite existing data
+				console.log("User info saved successfully:", userData);
+			} catch (error) {
+				console.error("Error in saving user info in DB:", error);
+			}
 		}
 	};
 
