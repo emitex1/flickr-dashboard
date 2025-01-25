@@ -55,19 +55,20 @@ const App = () => {
 
 	const readFlickrId = async (userId: string) => {
 		const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
-      const user = userSnap.data();
-      console.log("Flickr ID:", user.flickrId);
+		const userSnap = await getDoc(userRef);
+		if (userSnap.exists()) {
+			const user = userSnap.data();
+			console.log("Flickr ID:", user.flickrId);
 			setUserName(user.flickrId);
-    } else {
-      console.log("User not found in Firestore.");
-    }
-	}
+		} else {
+			console.log("User not found in Firestore.");
+		}
+	};
+
 	useEffect(() => {
 		if (user) readFlickrId(user.uid);
-		else setUserName('');
-  }, [user]);
+		else setUserName("");
+	}, [user]);
 
 	// Listen to authentication state changes
 	useEffect(() => {
@@ -126,15 +127,15 @@ const App = () => {
 	};
 
 	const handleGoogleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("User logged out successfully.");
-        setUser(null);
-      })
-      .catch((error: any) => {
-        console.error("Logout Error:", error.message);
-      });
-  };
+		signOut(auth)
+			.then(() => {
+				console.log("User logged out successfully.");
+				setUser(null);
+			})
+			.catch((error: any) => {
+				console.error("Logout Error:", error.message);
+			});
+	};
 
 	const formatDate = (timestamp: string) => {
 		const date = new Date(parseInt(timestamp) * 1);
@@ -159,44 +160,45 @@ const App = () => {
 						<br />
 						<button onClick={handleGoogleLogout}>Logout</button>
 						<hr />
-					</div>
-				)}
-			</div>
 
-			<div>
-				<input
-					type="text"
-					placeholder="User Name"
-					value={userName}
-					onChange={(e) => setUserName(e.target.value)}
-					onKeyDown={(e) => e.key === "Enter" && getPhotos()}
-				/>
-				<button onClick={getPhotos}>Fetch Photos</button>
-			</div>
-			<div style={{ display: "flex", flexWrap: "wrap" }}>
-				{isLoading && <div>Loading...</div>}
-
-				{!userName && <div>Enter a user name to fetch the photos.</div>}
-
-				{!isLoading && !!userName && photos.length == 0 && (
-					<div>No photos found</div>
-				)}
-
-				{photos.map(
-					(photo: {
-						id: string;
-						server: string;
-						secret: string;
-						title: string;
-					}) => (
-						<div key={photo.id} style={{ margin: "10px" }}>
-							<img
-								src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`}
-								// src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg`}
-								alt={photo.title}
+						<div>
+							<input
+								type="text"
+								placeholder="User Name"
+								value={userName}
+								onChange={(e) => setUserName(e.target.value)}
+								onKeyDown={(e) => e.key === "Enter" && getPhotos()}
 							/>
+							<button onClick={getPhotos}>Fetch Photos</button>
 						</div>
-					)
+
+						<div style={{ display: "flex", flexWrap: "wrap" }}>
+							{isLoading && <div>Loading...</div>}
+
+							{!userName && <div>Enter a user name to fetch the photos.</div>}
+
+							{!isLoading && !!userName && photos.length == 0 && (
+								<div>No photos found</div>
+							)}
+
+							{photos.map(
+								(photo: {
+									id: string;
+									server: string;
+									secret: string;
+									title: string;
+								}) => (
+									<div key={photo.id} style={{ margin: "10px" }}>
+										<img
+											src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`}
+											// src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg`}
+											alt={photo.title}
+										/>
+									</div>
+								)
+							)}
+						</div>
+					</div>
 				)}
 			</div>
 		</div>
