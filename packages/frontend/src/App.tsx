@@ -37,11 +37,20 @@ const App = () => {
 				}
 			);
 			setPhotos(response.data.photos.photo);
+
+			updateFlickrId(userName);
 		} catch (error) {
 			console.error("Error fetching photos:", error);
 		} finally {
 			setIsLoading(false);
 		}
+	};
+
+	const updateFlickrId = async (flickrId: string) => {
+		const userRef = doc(db, "users", user.uid);
+		await setDoc(userRef, { flickrId: flickrId }, { merge: true });
+		console.log("Flickr ID updated successfully.");
+		return flickrId;
 	};
 
 	// Listen to authentication state changes
