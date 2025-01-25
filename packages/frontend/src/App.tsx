@@ -5,7 +5,9 @@ import {
 	signInWithPopup,
 	onAuthStateChanged,
 	signOut,
+	User,
 } from "firebase/auth";
+import { doc, setDoc, getFirestore, serverTimestamp, initializeFirestore } from "firebase/firestore";
 import { auth } from "./firebase";
 
 const App = () => {
@@ -13,6 +15,8 @@ const App = () => {
 	const [userName, setUserName] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [user, setUser] = useState<any>(null);
+
+	const db = getFirestore();
 
 	const getPhotos = async () => {
 		try {
@@ -49,8 +53,31 @@ const App = () => {
 		try {
 			const result = await signInWithPopup(auth, provider);
 			console.log("User Info:", result.user);
+
+			saveUserToDatabase(result.user);
 		} catch (error: any) {
 			console.error("Login Error:", error.message);
+		}
+	};
+
+	const saveUserToDatabase = async (user: User) => {
+		if (!user) return;
+	
+		const userRef = doc(db, "users", user.uid);
+	
+		const userData = {
+			uid: user.uid,
+			name: user.displayName,
+			email: user.email,
+			photoURL: user.photoURL,
+			createdAt: serverTimestamp(),
+		};
+	
+		try {
+			await setDoc(userRef, userData, { merge: true }); // merge: true ensures not to overwrite existing data
+			console.log("User info saved successfully:", userData);
+		} catch (error) {
+			console.error("Error in saving user info in DB:", error);
 		}
 	};
 
@@ -65,9 +92,9 @@ const App = () => {
 	};
 
 	const formatDate = (timestamp: string) => {
-    const date = new Date(parseInt(timestamp) * 1);
-    return date.toLocaleString();
-  };
+		const date = new Date(parseInt(timestamp) * 1);
+		return date.toLocaleString();
+	};
 
 	return (
 		<div>
@@ -80,7 +107,10 @@ const App = () => {
 					<div>
 						<img src={user.photoURL} alt={user.displayName} />
 						<span>Welcome, {user.displayName}!</span>
-						<span> (Last Login Date: {formatDate(user.reloadUserInfo.lastLoginAt)})</span>
+						<span>
+							{" "}
+							(Last Login Date: {formatDate(user.reloadUserInfo.lastLoginAt)})
+						</span>
 						<br />
 						<button onClick={handleLogout}>Logout</button>
 						<hr />
