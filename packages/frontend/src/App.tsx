@@ -53,6 +53,22 @@ const App = () => {
 		return flickrId;
 	};
 
+	const readFlickrId = async (userId: string) => {
+		const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      const user = userSnap.data();
+      console.log("Flickr ID:", user.flickrId);
+			setUserName(user.flickrId);
+    } else {
+      console.log("User not found in Firestore.");
+    }
+	}
+	useEffect(() => {
+		if (user) readFlickrId(user.uid);
+		else setUserName('');
+  }, [user]);
+
 	// Listen to authentication state changes
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -109,15 +125,16 @@ const App = () => {
 		}
 	};
 
-	// Handle logout
-	const handleLogout = async () => {
-		try {
-			await signOut(auth);
-			console.log("User logged out.");
-		} catch (error: any) {
-			console.error("Logout Error:", error.message);
-		}
-	};
+	const handleGoogleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("User logged out successfully.");
+        setUser(null);
+      })
+      .catch((error: any) => {
+        console.error("Logout Error:", error.message);
+      });
+  };
 
 	const formatDate = (timestamp: string) => {
 		const date = new Date(parseInt(timestamp) * 1);
@@ -140,7 +157,7 @@ const App = () => {
 							(Last Login Date: {formatDate(user.reloadUserInfo.lastLoginAt)})
 						</span>
 						<br />
-						<button onClick={handleLogout}>Logout</button>
+						<button onClick={handleGoogleLogout}>Logout</button>
 						<hr />
 					</div>
 				)}
