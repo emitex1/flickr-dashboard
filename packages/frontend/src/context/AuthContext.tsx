@@ -5,8 +5,6 @@ interface AuthContextType {
   flickrUser: string | null;
   isAuthenticated: boolean;
   userInfo: any;
-  login: (user: string) => void;
-  logout: () => void;
   setFlickrUser: (username: string) => void;
   checkAuth: () => void;
   setUserInfo: (userInfo: any) => void;
@@ -21,18 +19,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [userInfo, setUserInfo] = useState<any>(null);
 
   const isAuthenticated = !!userInfo;
-
-  const login = (username: string) => {
-    setUser(username);
-    localStorage.setItem("user", username);
-  };
-
-  const logout = () => {
-    setUser(null);
-    setFlickrUserState(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("flickrUser");
-  };
 
   const setFlickrUser = (username: string) => {
     setFlickrUserState(username);
@@ -60,8 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     flickrUser,
     isAuthenticated,
     userInfo,
-    login,
-    logout,
     setFlickrUser,
     checkAuth,
     setUserInfo,
