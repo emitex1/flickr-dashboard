@@ -4,12 +4,13 @@ import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 export const UserInfo: React.FC = () => {
-	const { firebaseUser, setFirebaseUser } = useAuth();
+	const { firebaseUser, setFirebaseUser, setFlickrUser } = useAuth();
 
 	const handleGoogleLogout = () => {
 		signOut(auth)
 			.then(() => {
 				console.log("User logged out successfully.");
+				setFlickrUser(undefined);
 				setFirebaseUser(null);
 			})
 			.catch((error: any) => {

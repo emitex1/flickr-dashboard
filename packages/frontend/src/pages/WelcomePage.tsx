@@ -5,7 +5,7 @@ import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 export const WelcomePage: React.FC = () => {
-	const { setFirebaseUser } = useAuth();
+	const { setFirebaseUser, setFlickrUser } = useAuth();
   const db = getFirestore();
 
   const handleGoogleLogin = async () => {
@@ -27,6 +27,8 @@ export const WelcomePage: React.FC = () => {
 		const userDoc = await getDoc(userRef);
 
 		if (userDoc.exists()) {
+			setFlickrUser(userDoc.data().flickrId);
+
 			await setDoc(
 				userRef,
 				{
@@ -65,7 +67,7 @@ export const WelcomePage: React.FC = () => {
 
   return (
     <div>
-			<h1>My Flickr Dashboard</h1>
+			<h1>Flickr Dashboard</h1>
 
 			<div>
 					<button onClick={handleGoogleLogin}>Login with Google</button>

@@ -12,7 +12,8 @@ import { Settings } from "./pages/Settings";
 import { useAuth } from "./context/AuthContext";
 
 const App: React.FC = () => {
-	const { flickrUser, isAuthenticated } = useAuth();
+	const { getFlickrUserName, isAuthenticated } = useAuth();
+	const flickrUser = getFlickrUserName();
 
 	return (
 		<Router>

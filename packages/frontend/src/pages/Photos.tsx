@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { UserInfo } from "../components/UserInfo";
 import axios from "axios";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 
 export const Photos: React.FC = ({}) => {
 	const [photos, setPhotos] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [userName, setUserName] = useState("");
-	const db = getFirestore();
 
-	const { firebaseUser } = useAuth();
+	const { getFlickrUserName } = useAuth();
 
 	const getPhotos = async (userName: string) => {
 		try {
@@ -33,29 +30,8 @@ export const Photos: React.FC = ({}) => {
 		}
 	};
 
-	const readFlickrId = async (userId: string) => {
-		const userRef = doc(db, "users", userId);
-		const userSnap = await getDoc(userRef);
-		if (userSnap.exists()) {
-			const user = userSnap.data();
-			console.log("Flickr ID:", user.flickrId);
-			setUserName(user.flickrId);
-			return user.flickrId;
-		} else {
-			console.log("User not found in Firestore.");
-		}
-	};
-
-	// useEffect(() => {
-	// 	if (user) readFlickrId(user.uid);
-	// 	else setUserName("");
-	// }, [user]);
-
 	useEffect(() => {
-		// readFlickrId(user.uid);
-		readFlickrId(firebaseUser.uid).then((flickrId: string) => {
-			getPhotos(flickrId);
-		});
+		getPhotos(getFlickrUserName()!);
 	}, []);
 
 	return (
@@ -69,7 +45,7 @@ export const Photos: React.FC = ({}) => {
 
 				{/* {!userName && <div>Enter a user name to fetch the photos.</div>} */}
 
-				{!isLoading && !!userName && photos.length == 0 && (
+				{!isLoading && photos.length == 0 && (
 					<div>No photos found</div>
 				)}
 

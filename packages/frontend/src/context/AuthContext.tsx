@@ -3,9 +3,9 @@ import React, { createContext, useContext, useState } from "react";
 interface AuthContextType {
   firebaseUser: any;
   isAuthenticated: boolean;
-  flickrUser: string | null;
   setFirebaseUser: (userInfo: any) => void;
-  setFlickrUser: (username: string) => void;
+  getFlickrUserName: () => string | undefined;
+  setFlickrUser: (username: string | undefined) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,16 +16,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const isAuthenticated = !!firebaseUser;
 
-  const setFlickrUser = (username: string) => {
-    setFlickrUserState(username);
-    localStorage.setItem("flickrUser", username);
+  const getFlickrUserName = () => {
+    return flickrUser || localStorage.getItem('flickrUser') || undefined;
+  }
+  const setFlickrUser = (username: string | undefined) => {
+    setFlickrUserState(username || '');
+    if (username === undefined) {
+      localStorage.removeItem("flickrUser");
+    } else {
+      localStorage.setItem("flickrUser", username);
+    }
   };
 
   const contextObject = {
     firebaseUser,
     isAuthenticated,
-    flickrUser,
     setFirebaseUser,
+    getFlickrUserName,
     setFlickrUser,
   };
 
