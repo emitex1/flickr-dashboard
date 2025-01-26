@@ -10,7 +10,7 @@ export const Photos: React.FC = ({}) => {
 	const [userName, setUserName] = useState("");
 	const db = getFirestore();
 
-	const { userInfo: user } = useAuth();
+	const { firebaseUser } = useAuth();
 
 	const getPhotos = async (userName: string) => {
 		try {
@@ -53,7 +53,7 @@ export const Photos: React.FC = ({}) => {
 
 	useEffect(() => {
 		// readFlickrId(user.uid);
-		readFlickrId(user.uid).then((flickrId: string) => {
+		readFlickrId(firebaseUser.uid).then((flickrId: string) => {
 			getPhotos(flickrId);
 		});
 	}, []);

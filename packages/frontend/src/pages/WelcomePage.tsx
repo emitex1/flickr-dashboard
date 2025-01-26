@@ -5,7 +5,7 @@ import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 export const WelcomePage: React.FC = () => {
-	const { setUserInfo } = useAuth();
+	const { setFirebaseUser } = useAuth();
   const db = getFirestore();
 
   const handleGoogleLogin = async () => {
@@ -57,8 +57,7 @@ export const WelcomePage: React.FC = () => {
 	// Listen to authentication state changes
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-			// setUser(currentUser);
-			setUserInfo(currentUser);
+			setFirebaseUser(currentUser);
 		});
 
 		return () => unsubscribe();

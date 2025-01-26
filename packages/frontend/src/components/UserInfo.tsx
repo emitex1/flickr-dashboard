@@ -4,13 +4,13 @@ import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 export const UserInfo: React.FC = () => {
-	const { userInfo: user, setUserInfo } = useAuth();
+	const { firebaseUser, setFirebaseUser } = useAuth();
 
 	const handleGoogleLogout = () => {
 		signOut(auth)
 			.then(() => {
 				console.log("User logged out successfully.");
-				setUserInfo(null);
+				setFirebaseUser(null);
 			})
 			.catch((error: any) => {
 				console.error("Logout Error:", error.message);
@@ -24,11 +24,11 @@ export const UserInfo: React.FC = () => {
 
 	return (
 		<div>
-			<img src={user.photoURL} alt={user.displayName} />
-			<span>Welcome, {user.displayName}!</span>
+			<img src={firebaseUser.photoURL} alt={firebaseUser.displayName} />
+			<span>Welcome, {firebaseUser.displayName}!</span>
 			<span>
 				{" "}
-				(Last Login Date: {formatDate(user.reloadUserInfo.lastLoginAt)})
+				(Last Login Date: {formatDate(firebaseUser.reloadUserInfo.lastLoginAt)})
 			</span>
 			<br />
 			<button onClick={handleGoogleLogout}>Logout</button>

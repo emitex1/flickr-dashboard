@@ -8,13 +8,9 @@ export const FlickrUserPrompt: React.FC = () => {
   const db = getFirestore();
 
   const updateFlickrId = async (flickrId: string) => {
-    // const user = useContext(AuthContext);
-    const { user } = useAuth();
+    const { firebaseUser } = useAuth();
 
-    if (!user) return;
-    // update user's flickrId in Firestore
-		// const userRef = doc(db, "users", user.uid);
-		const userRef = doc(db, "users", user);
+		const userRef = doc(db, "users", firebaseUser.uid);
 		await setDoc(userRef, { flickrId: flickrId }, { merge: true });
 		console.log("Flickr ID updated successfully.");
 		return flickrId;
