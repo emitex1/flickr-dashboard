@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -12,12 +12,7 @@ import { Settings } from "./pages/Settings";
 import { useAuth } from "./context/AuthContext";
 
 const App: React.FC = () => {
-	// const { user, flickrUser, isAuthenticated, checkAuth } = useAuth();
-	const { flickrUser, isAuthenticated, checkAuth } = useAuth();
-
-	useEffect(() => {
-		checkAuth();
-	}, [checkAuth]);
+	const { flickrUser, isAuthenticated } = useAuth();
 
 	return (
 		<Router>

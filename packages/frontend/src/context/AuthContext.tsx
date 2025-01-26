@@ -1,22 +1,18 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
-  user: string | null;
   flickrUser: string | null;
   isAuthenticated: boolean;
   userInfo: any;
   setFlickrUser: (username: string) => void;
-  checkAuth: () => void;
   setUserInfo: (userInfo: any) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<string | null>(null);
-  const [flickrUser, setFlickrUserState] = useState<string | null>(null);
-  
   const [userInfo, setUserInfo] = useState<any>(null);
+  const [flickrUser, setFlickrUserState] = useState<string | null>(null);
 
   const isAuthenticated = !!userInfo;
 
@@ -25,30 +21,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem("flickrUser", username);
   };
 
-  const checkAuth = useCallback(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedFlickrUser = localStorage.getItem("flickrUser");
-
-    if (storedUser) {
-      setUser(storedUser);
-    }
-    if (storedFlickrUser) {
-      setFlickrUserState(storedFlickrUser);
-    }
-  }, []);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
   const contextObject = {
-    user,
-    flickrUser,
-    isAuthenticated,
     userInfo,
-    setFlickrUser,
-    checkAuth,
+    isAuthenticated,
+    flickrUser,
     setUserInfo,
+    setFlickrUser,
   };
 
   return (
