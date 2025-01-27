@@ -3,8 +3,10 @@
 Flickr Dashboard is a web application that integrates with the Flickr API to provide users with personalized photo management and viewing experiences. This project is designed with a modern tech stack and is built for scalability and ease of use.
 
 ## Features
-- **User Authentication**: Secure login/logout functionality.
+- **User Authentication**: Secure login/logout functionality using Google Authentication.
 - **Flickr API Integration**: Fetch and display user-specific photos and metadata.
+- **Firebase Functions**: Ensures security and confidentiality of API keys, while also fetching data securely from Flickr.
+- **Interest Rate Algorithm**: A custom algorithm calculates photo interest rates for better insights.
 - **Customizable Settings**: User preferences for managing their Flickr account.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
 
