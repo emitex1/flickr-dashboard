@@ -5,6 +5,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "start:fe": "cd packages/frontend && yarn start"
+  },
   "devDependencies": {
     "eslint": "^8.0.0"
   }
