@@ -43,15 +43,17 @@ Follow these steps to set up and run the project locally:
    - Copy `.env.sample` to `.env` in the respective directories (`frontend` and `functions`).
    - Update the environment variables with your API keys and Firebase configuration.
 
-4. **Run the Application**:
+4. **Run Firebase Functions Emulator**:
+   Navigate to the root directory and start the Firebase functions emulator:
+   ```bash
+   firebase emulators:start --only functions
+   ```
+
+5. **Run the Application**:
    - Start the frontend:
      ```bash
      cd packages/frontend
      yarn start
-     ```
-   - Deploy Firebase functions (optional for local testing):
-     ```bash
-     firebase deploy
      ```
 
 ---
