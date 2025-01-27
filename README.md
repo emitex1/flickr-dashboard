@@ -76,6 +76,44 @@ flickr-dashboard/
 
 ---
 
+## Deployment on Firebase
+
+To deploy the project on Firebase, follow these steps:
+
+1. **Install Firebase CLI**:
+   ```bash
+   npm install -g firebase-tools
+   ```
+
+2. **Login to Firebase**:
+   ```bash
+   firebase login
+   ```
+
+3. **Build and Deploy Firebase Functions**:
+   Navigate to the functions directory and build the project:
+   ```bash
+   cd packages/functions
+   yarn build
+   ```
+   Then deploy the Firebase functions:
+   ```bash
+   yarn deploy
+   ```
+
+4. **Build and Deploy the Frontend**:
+   Navigate to the frontend directory and build the project:
+   ```bash
+   cd packages/frontend
+   yarn build
+   ```
+   Then deploy the hosting:
+   ```bash
+   yarn deploy
+   ```
+
+---
+
 ## How to Contribute
 
 We welcome contributions! To get started:
