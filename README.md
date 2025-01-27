@@ -47,7 +47,7 @@ Follow these steps to set up and run the project locally:
    - Start the frontend:
      ```bash
      cd packages/frontend
-     yarn dev
+     yarn start
      ```
    - Deploy Firebase functions (optional for local testing):
      ```bash
