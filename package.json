@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "start:be": "cd packages/functions && yarn emulate",
     "start:fe": "cd packages/frontend && yarn start"
   },
   "devDependencies": {
