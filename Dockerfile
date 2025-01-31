@@ -13,4 +13,4 @@ RUN cd packages/functions && yarn install && yarn build
 
 EXPOSE 5000 5001
 
-CMD ["sh", "-c", "firebase emulators:start --only hosting,functions"]
+CMD ["sh", "-c", "firebase emulators:start --only functions & yarn start:fe"]
