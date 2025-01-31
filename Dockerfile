@@ -11,6 +11,6 @@ COPY firebase.json ./
 RUN cd packages/frontend && yarn install
 RUN cd packages/functions && yarn install && yarn build
 
-EXPOSE 5000 5001
+EXPOSE 4000 5001 5173
 
-CMD ["sh", "-c", "firebase emulators:start --only functions & yarn start:fe"]
+CMD ["sh", "-c", "yarn start:be & yarn start:fe"]
