@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  functions:
+    build:
+      context: .
+      dockerfile: Dockerfile.functions
+    ports:
+      - "5001:5001"
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - app-network
+    depends_on:
+      - functions
+
+networks:
+  app-network:
+    driver: bridge

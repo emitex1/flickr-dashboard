@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN cd packages/frontend && yarn install
+
+EXPOSE 5173
+
+CMD ["yarn", "start:fe"]
