@@ -13,6 +13,19 @@ help:
 	@echo "  make build       Build the Docker image"
 	@echo "  make run         Run the application in Docker"
 	@echo "  make clean       Clean up Docker containers and images"
+	@echo "---------------------------------------------------------------"
+	@echo "  make build2      Build each Docker image separately, then run a container for each image"
+	@echo "  make run2        Run each application separately"
+	@echo "  make stop2       Stop all of the docker containers"
+
+run2:
+	docker compose up
+
+build2:
+	docker compose up --build
+
+stop2:
+	docker compose down
 
 # Build the Docker image
 build:
