@@ -18,13 +18,8 @@
 // import Index from "views/Index.js";
 import { Photos } from "./pages/Photos";
 import { Settings } from "./pages/Settings";
-// import Profile from "views/examples/Profile.js";
-// import Maps from "views/examples/Maps.js";
-// import Register from "views/examples/Register.js";
-// import Login from "views/examples/Login.js";
 import { WelcomePage } from "./pages/WelcomePage";
-// import Tables from "views/examples/Tables.js";
-// import Icons from "views/examples/Icons.js";
+import { SetFlickrUser } from "./pages/SetFlickrUser";
 
 var routes = [
   {
@@ -36,26 +31,30 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    // component: <Icons />,
-    component: <Settings />,
-    layout: "/admin",
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    // component: <Maps />,
-    component: <Settings />,
-    layout: "/admin",
-  },
-  {
-    path: "/user-profile",
-    name: "User Profile",
+    path: "/photos",
+    name: "Photos",
     icon: "ni ni-single-02 text-yellow",
-    // component: <Profile />,
+    component: <Photos />,
+    layout: "/admin",
+  },
+  {
+    path: "/set-flickr-user",
+    name: "Set Flickr User",
+    icon: "ni ni-single-02 text-yellow",
+    component: <SetFlickrUser />,
+    layout: "/admin",
+  },
+  // {
+  //   path: "/user-profile",
+  //   name: "User Profile",
+  //   icon: "ni ni-single-02 text-yellow",
+  //   component: <Profile />,
+  //   layout: "/admin",
+  // },
+  {
+    path: "/settings",
+    name: "Settings",
+    icon: "ni ni-single-02 text-yellow",
     component: <Settings />,
     layout: "/admin",
   },
