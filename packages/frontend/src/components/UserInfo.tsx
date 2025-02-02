@@ -35,9 +35,7 @@ export const UserInfo: React.FC = () => {
 				{" "}
 				(Last Login Date: {formatDate(firebaseUser.reloadUserInfo.lastLoginAt)})
 			</span>
-			<br />
 			<button onClick={handleGoogleLogout}>Logout</button>
-			<hr />
 		</div>
 	);
 };
