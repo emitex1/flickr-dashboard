@@ -1,16 +1,33 @@
-import React from 'react';
-import { FlickrUserPrompt } from '../components/FlickrUserPrompt';
-import { UserInfo } from '../components/UserInfo';
+import React from "react";
+import { FlickrUserPrompt } from "../components/FlickrUserPrompt";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import Header from "../components/Headers/Header";
 
 export const SetFlickrUser: React.FC = () => {
-  return (
-    <div>
-      <h1>Welcome to Flickr Dashboard</h1>
-      <p>You signed up successfully.</p>
-
-      <UserInfo />
-
-      <FlickrUserPrompt />
-    </div>
-  );
-}
+	return (
+		<>
+			<Header />
+			<Container className="mt--7" fluid>
+				<Row>
+					<Col>
+						<Card className="shadow">
+							<CardHeader className="bg-transparent">
+								<Row className="align-items-center">
+									<div className="col">
+										<h6 className="text-uppercase text-muted ls-1 mb-1">
+											You signed up successfully.
+										</h6>
+										<h2 className="mb-0">Welcome to Flickr Dashboard</h2>
+									</div>
+								</Row>
+							</CardHeader>
+							<CardBody>
+								<FlickrUserPrompt />
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
+			</Container>
+		</>
+	);
+};
