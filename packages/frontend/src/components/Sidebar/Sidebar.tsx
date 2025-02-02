@@ -33,7 +33,7 @@ import {
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  FormGroup,
+  // FormGroup,
   Form,
   Input,
   InputGroupAddon,
@@ -45,22 +45,22 @@ import {
   NavItem,
   NavLink,
   Nav,
-  Progress,
-  Table,
+  // Progress,
+  // Table,
   Container,
   Row,
   Col,
 } from "reactstrap";
 import teamLogo from "../../assets/img/theme/team-1-800x800.jpg";
 
-var ps;
+// var ps;
 
 const Sidebar = (props: any) => {
   const [collapseOpen, setCollapseOpen] = useState<boolean>();
   // verifies if routeName is the one active (in browser input)
-  const activeRoute = (routeName) => {
-    return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
-  };
+  // const activeRoute = (routeName) => {
+  //   return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
+  // };
   // toggles collapse between opened and closed (true/false)
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
@@ -70,8 +70,8 @@ const Sidebar = (props: any) => {
     setCollapseOpen(false);
   };
   // creates the links that appear in the left menu / Sidebar
-  const createLinks = (routes) => {
-    return routes.map((prop, key) => {
+  const createLinks = (routes: any) => {
+    return routes.map((prop: any, key: any) => {
       return (
         <NavItem key={key}>
           <NavLink
@@ -87,7 +87,8 @@ const Sidebar = (props: any) => {
     });
   };
 
-  const { bgColor, routes, logo } = props;
+  // const { bgColor, routes, logo } = props;
+  const { routes, logo } = props;
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {

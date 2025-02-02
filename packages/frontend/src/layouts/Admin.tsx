@@ -33,8 +33,8 @@ const Admin = (props: any) => {
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    mainContent.current.scrollTop = 0;
+    document.scrollingElement && (document.scrollingElement.scrollTop = 0);
+    // mainContent.current && (mainContent.current.scrollTop = 0);
   }, [location]);
 
   const getRoutes = (routes: any) => {
@@ -50,7 +50,7 @@ const Admin = (props: any) => {
     });
   };
 
-  const getBrandText = (path: any) => {
+  const getBrandText = (_path: any) => {
     for (let i = 0; i < routes.length; i++) {
       if (
         props?.location?.pathname.indexOf(routes[i].layout + routes[i].path) !==

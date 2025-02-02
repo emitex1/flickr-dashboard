@@ -5,7 +5,7 @@ import {
 	Route,
 	Navigate,
 } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
+// import { useAuth } from "./context/AuthContext";
 import AdminLayout from "./layouts/Admin";
 import AuthLayout from "./layouts/Auth";
 
@@ -14,8 +14,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 
 const App: React.FC = () => {
-	const { getFlickrUserName, isAuthenticated } = useAuth();
-	const flickrUser = getFlickrUserName();
+	// const { getFlickrUserName, isAuthenticated } = useAuth();
+	// const flickrUser = getFlickrUserName();
 
 	return (
 		<Router>

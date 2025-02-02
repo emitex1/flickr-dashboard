@@ -26,7 +26,7 @@ import AuthFooter from "../components/Footers/AuthFooter";
 
 import routes from "../routes";
 
-const Auth = (props: any) => {
+const Auth = (_props: unknown) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
 
@@ -39,8 +39,8 @@ const Auth = (props: any) => {
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    mainContent.current.scrollTop = 0;
+    document.scrollingElement && (document.scrollingElement.scrollTop = 0);
+    // mainContent.current && (mainContent.current.scrollTop = 0);
   }, [location]);
 
   console.log('routes', routes);
