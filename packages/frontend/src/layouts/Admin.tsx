@@ -23,6 +23,7 @@ import { Container } from "reactstrap";
 import AdminNavbar from "../components/Navbars/AdminNavbar";
 import AdminFooter from "../components/Footers/AdminFooter";
 import Sidebar from "../components/Sidebar/Sidebar";
+import argonReactLogo from "../assets/img/brand/argon-react.png";
 
 import routes from "../routes";
 
@@ -40,7 +41,8 @@ const Admin = (props: any) => {
     return routes.map((prop: any, key: any) => {
       if (prop.layout === "/admin") {
         return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
+          // <Route path={prop.path} element={prop.component} key={key} exact />
+          <Route path={prop.path} element={prop.component} key={key} />
         );
       } else {
         return null;
@@ -67,7 +69,7 @@ const Admin = (props: any) => {
         routes={routes}
         logo={{
           innerLink: "/admin/index",
-          imgSrc: require("../assets/img/brand/argon-react.png"),
+          imgSrc: argonReactLogo,
           imgAlt: "...",
         }}
       />
