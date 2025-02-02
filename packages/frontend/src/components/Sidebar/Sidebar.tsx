@@ -19,15 +19,15 @@
 import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
-import { PropTypes } from "prop-types";
+// import { PropTypes } from "prop-types";
 
 // reactstrap components
 import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
+  // Button,
+  // Card,
+  // CardHeader,
+  // CardBody,
+  // CardTitle,
   Collapse,
   DropdownMenu,
   DropdownItem,
@@ -55,8 +55,8 @@ import teamLogo from "../../assets/img/theme/team-1-800x800.jpg";
 
 var ps;
 
-const Sidebar = (props) => {
-  const [collapseOpen, setCollapseOpen] = useState();
+const Sidebar = (props: any) => {
+  const [collapseOpen, setCollapseOpen] = useState<boolean>();
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -273,21 +273,21 @@ Sidebar.defaultProps = {
   routes: [{}],
 };
 
-Sidebar.propTypes = {
-  // links that will be displayed inside the component
-  routes: PropTypes.arrayOf(PropTypes.object),
-  logo: PropTypes.shape({
-    // innerLink is for links that will direct the user within the app
-    // it will be rendered as <Link to="...">...</Link> tag
-    innerLink: PropTypes.string,
-    // outterLink is for links that will direct the user outside the app
-    // it will be rendered as simple <a href="...">...</a> tag
-    outterLink: PropTypes.string,
-    // the image src of the logo
-    imgSrc: PropTypes.string.isRequired,
-    // the alt for the img
-    imgAlt: PropTypes.string.isRequired,
-  }),
-};
+// Sidebar.propTypes = {
+//   // links that will be displayed inside the component
+//   routes: PropTypes.arrayOf(PropTypes.object),
+//   logo: PropTypes.shape({
+//     // innerLink is for links that will direct the user within the app
+//     // it will be rendered as <Link to="...">...</Link> tag
+//     innerLink: PropTypes.string,
+//     // outterLink is for links that will direct the user outside the app
+//     // it will be rendered as simple <a href="...">...</a> tag
+//     outterLink: PropTypes.string,
+//     // the image src of the logo
+//     imgSrc: PropTypes.string.isRequired,
+//     // the alt for the img
+//     imgAlt: PropTypes.string.isRequired,
+//   }),
+// };
 
 export default Sidebar;
