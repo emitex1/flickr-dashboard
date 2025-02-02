@@ -6,6 +6,10 @@ import { useAuth } from "../context/AuthContext";
 export const UserInfo: React.FC = () => {
 	const { firebaseUser, setFirebaseUser, setFlickrUser } = useAuth();
 
+	if(firebaseUser === null) {
+		return <div>User is not logged in.</div>;
+	}
+
 	const handleGoogleLogout = () => {
 		signOut(auth)
 			.then(() => {
