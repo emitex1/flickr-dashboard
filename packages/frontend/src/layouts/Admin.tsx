@@ -24,12 +24,15 @@ import AdminNavbar from "../components/Navbars/AdminNavbar";
 import AdminFooter from "../components/Footers/AdminFooter";
 import Sidebar from "../components/Sidebar/Sidebar";
 import argonReactLogo from "../assets/img/brand/argon-react.png";
+import { useAuth } from "../context/AuthContext";
 
 import routes from "../routes";
 
 const Admin = (props: any) => {
-  const mainContent = React.useRef(null);
-  const location = useLocation();
+	const mainContent = React.useRef(null);
+	const location = useLocation();
+	const { getFlickrUserName } = useAuth();
+	const flickrUser = getFlickrUserName();
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -62,32 +65,41 @@ const Admin = (props: any) => {
     return "Brand";
   };
 
-  return (
-    <>
-      <Sidebar
-        {...props}
-        routes={routes}
-        logo={{
-          innerLink: "/user/index",
-          imgSrc: argonReactLogo,
-          imgAlt: "...",
-        }}
-      />
-      <div className="main-content" ref={mainContent}>
-        <AdminNavbar
-          {...props}
-          brandText={getBrandText(props?.location?.pathname)}
-        />
-        <Routes>
-          {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/user/index" replace />} />
-        </Routes>
-        <Container fluid>
-          <AdminFooter />
-        </Container>
-      </div>
-    </>
-  );
+	return (
+		<>
+			<Sidebar
+				{...props}
+				routes={routes}
+				logo={{
+					innerLink: "/user/index",
+					imgSrc: argonReactLogo,
+					imgAlt: "...",
+				}}
+			/>
+			<div className="main-content" ref={mainContent}>
+				<AdminNavbar
+					{...props}
+					brandText={getBrandText(props?.location?.pathname)}
+				/>
+				<Routes>
+					{getRoutes(routes)}
+					<Route
+						path="*"
+						element={
+							flickrUser ? (
+								<Navigate to="/user/index" replace />
+							) : (
+								<Navigate to="/user/set-flickr-user" replace />
+							)
+						}
+					/>
+				</Routes>
+				<Container fluid>
+					<AdminFooter />
+				</Container>
+			</div>
+		</>
+	);
 };
 
 export default Admin;

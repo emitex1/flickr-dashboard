@@ -32,7 +32,7 @@ import googleLogo from "../assets/img/icons/common/google.svg";
 import { useNavigate } from "react-router-dom";
 
 export const WelcomePage: React.FC = () => {
-	const { setFirebaseUser, setFlickrUser, firebaseUser } = useAuth();
+	const { setFirebaseUser, setFlickrUser } = useAuth();
 	const db = getFirestore();
 	const navigate = useNavigate();
 

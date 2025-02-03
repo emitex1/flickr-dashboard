@@ -15,8 +15,6 @@ import "./assets/scss/argon-dashboard-react.scss";
 
 const App: React.FC = () => {
 	const { isAuthenticated } = useAuth();
-	// const { getFlickrUserName, isAuthenticated } = useAuth();
-	// const flickrUser = getFlickrUserName();
 
 	return (
 		<Router>
