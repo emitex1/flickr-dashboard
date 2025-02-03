@@ -39,7 +39,7 @@ const Admin = (props: any) => {
 
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/user") {
         return (
           // <Route path={prop.path} element={prop.component} key={key} exact />
           <Route path={prop.path} element={prop.component} key={key} />
@@ -68,7 +68,7 @@ const Admin = (props: any) => {
         {...props}
         routes={routes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/user/index",
           imgSrc: argonReactLogo,
           imgAlt: "...",
         }}
@@ -80,7 +80,7 @@ const Admin = (props: any) => {
         />
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/admin/index" replace />} />
+          <Route path="*" element={<Navigate to="/user/index" replace />} />
         </Routes>
         <Container fluid>
           <AdminFooter />

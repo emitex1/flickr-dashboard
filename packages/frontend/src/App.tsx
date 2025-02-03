@@ -20,9 +20,9 @@ const App: React.FC = () => {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/admin/*" element={<AdminLayout />} />
+				<Route path="/user/*" element={<AdminLayout />} />
 				<Route path="/auth/*" element={<AuthLayout />} />
-				<Route path="*" element={<Navigate to="/admin/index" replace />} />
+				<Route path="*" element={<Navigate to="/user/index" replace />} />
 			</Routes>
 		</Router>
 	);
