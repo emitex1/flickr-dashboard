@@ -43,8 +43,6 @@ const Auth = (_props: unknown) => {
     // mainContent.current && (mainContent.current.scrollTop = 0);
   }, [location]);
 
-  console.log('routes', routes);
-
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
       if (prop.layout === "/auth") {
