@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
   firebaseUser: any;
+  flickrUser: string | undefined;
   isAuthenticated: boolean;
   setFirebaseUser: (userInfo: any) => void;
   getFlickrUserName: () => string | undefined;
@@ -12,7 +13,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [firebaseUser, setFirebaseUser] = useState<any>(null);
-  const [flickrUser, setFlickrUserState] = useState<string | null>(null);
+  const [flickrUser, setFlickrUserState] = useState<string | undefined>(undefined);
 
   const isAuthenticated = !!firebaseUser;
 
@@ -30,6 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const contextObject = {
     firebaseUser,
+    flickrUser,
     isAuthenticated,
     setFirebaseUser,
     getFlickrUserName,
