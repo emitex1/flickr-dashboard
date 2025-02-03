@@ -29,10 +29,12 @@ import {
 	Row,
 } from "reactstrap";
 import googleLogo from "../assets/img/icons/common/google.svg";
+import { useNavigate } from "react-router-dom";
 
 export const WelcomePage: React.FC = () => {
-	const { setFirebaseUser, setFlickrUser } = useAuth();
+	const { setFirebaseUser, setFlickrUser, firebaseUser } = useAuth();
 	const db = getFirestore();
+	const navigate = useNavigate();
 
 	const handleGoogleLogin = async () => {
 		const provider = new GoogleAuthProvider();
@@ -41,6 +43,7 @@ export const WelcomePage: React.FC = () => {
 			console.log("User Info:", result.user);
 
 			saveOrUpdateUser(result.user);
+			navigate("/user");
 		} catch (error: any) {
 			console.error("Login Error:", error.message);
 		}
@@ -86,6 +89,9 @@ export const WelcomePage: React.FC = () => {
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setFirebaseUser(currentUser);
+			if(currentUser) {
+				navigate('/user');
+			}
 		});
 
 		return () => unsubscribe();
