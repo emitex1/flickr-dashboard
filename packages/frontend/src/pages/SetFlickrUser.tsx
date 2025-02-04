@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlickrUserPrompt } from "../components/FlickrUserPrompt";
 import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import Header from "../components/Headers/Header";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const SetFlickrUser: React.FC = () => {
+	const { flickrUser } = useAuth();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (flickrUser) {
+      navigate("/user/index");
+    }
+	}, [flickrUser]);
+
 	return (
 		<>
 			<Header />

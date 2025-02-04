@@ -1,5 +1,5 @@
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -9,11 +9,6 @@ export const FlickrUserPrompt: React.FC = () => {
   const db = getFirestore();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (flickrUser) {
-      navigate("/user/index");
-    }
-	}, [flickrUser]);
 
   const updateFlickrId = async (flickrId: string) => {
 		const userRef = doc(db, "users", firebaseUser.uid);
