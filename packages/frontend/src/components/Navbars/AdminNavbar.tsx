@@ -52,11 +52,6 @@ const AdminNavbar = (props: any) => {
 			});
 	};
 
-	const formatDate = (timestamp: string) => {
-		const date = new Date(parseInt(timestamp) * 1);
-		return date.toLocaleString();
-	};
-  
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
