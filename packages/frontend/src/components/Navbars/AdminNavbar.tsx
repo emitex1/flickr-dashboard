@@ -33,9 +33,30 @@ import {
   Container,
   Media,
 } from "reactstrap";
-import teamLogo from "../../assets/img/theme/team-4-800x800.jpg";
+import { useAuth } from "../../context/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const AdminNavbar = (props: any) => {
+  const { firebaseUser, setFirebaseUser, setFlickrUser } = useAuth();
+
+  const handleGoogleLogout = () => {
+		signOut(auth)
+			.then(() => {
+				console.log("User logged out successfully.");
+				setFlickrUser(undefined);
+				setFirebaseUser(null);
+			})
+			.catch((error: any) => {
+				console.error("Logout Error:", error.message);
+			});
+	};
+
+	const formatDate = (timestamp: string) => {
+		const date = new Date(parseInt(timestamp) * 1);
+		return date.toLocaleString();
+	};
+  
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -64,13 +85,13 @@ const AdminNavbar = (props: any) => {
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
                     <img
-                      alt="..."
-                      src={teamLogo}
+                      alt={firebaseUser.displayName}
+                      src={firebaseUser.photoURL}
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {firebaseUser.displayName}
                     </span>
                   </Media>
                 </Media>
@@ -96,7 +117,7 @@ const AdminNavbar = (props: any) => {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={handleGoogleLogout}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>

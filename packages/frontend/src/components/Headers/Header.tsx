@@ -18,7 +18,6 @@
 
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
-import { UserInfo } from "../UserInfo";
 
 const Header = () => {
   return (
@@ -141,11 +140,6 @@ const Header = () => {
                     </p>
                   </CardBody>
                 </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <UserInfo />
               </Col>
             </Row>
           </div>
