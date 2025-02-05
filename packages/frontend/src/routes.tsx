@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-// import Index from "views/Index.js";
+import { Index } from "./pages/Index";
 import { Photos } from "./pages/Photos";
 import { Settings } from "./pages/Settings";
 import { WelcomePage } from "./pages/WelcomePage";
@@ -26,8 +26,7 @@ var routes = [
     path: "/index",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
-    // component: <Index />,
-    component: <Photos />,
+    component: <Index />,
     layout: "/user",
   },
   {
