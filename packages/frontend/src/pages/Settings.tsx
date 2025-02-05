@@ -7,6 +7,7 @@ export const Settings: React.FC = () => {
 	return (
 		<>
 			<Header />
+
 			<Container className="mt--7" fluid>
 				<Row>
 					<Col>

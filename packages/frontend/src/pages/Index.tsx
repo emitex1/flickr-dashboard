@@ -15,7 +15,7 @@ import { PhotoList } from "../components/PhotoList";
 export const Index: React.FC = ({}) => {
 	return (
 		<>
-			<Header />
+			<Header displayStats />
 
 			<Container className="mt--7" fluid>
 				<Row>
