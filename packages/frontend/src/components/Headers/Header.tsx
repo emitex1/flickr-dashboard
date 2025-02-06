@@ -17,12 +17,34 @@
 */
 
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { useAuth } from "../../context/AuthContext";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 type Props = {
   displayStats?: boolean;
 };
 
 const Header: React.FC<Props> = ({ displayStats = false }) => {
+	const { firebaseUser } = useAuth();
+	const db = getFirestore();
+	const [photosCount, setPhotosCount] = useState(0);
+
+	const getUserInfo = async () => {
+		if (!firebaseUser) return;
+
+		const userRef = doc(db, "users", firebaseUser.uid);
+		const userDoc = await getDoc(userRef);
+
+		if (userDoc.exists()) {
+			setPhotosCount(userDoc.data().photosCount);
+		}
+	};
+
+	useEffect(() => {
+    getUserInfo();
+  }, []);
+
 	return (
 		<>
 			<div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
@@ -42,7 +64,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 														Photos
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														33
+														{photosCount}
 													</span>
 												</div>
 												<Col className="col-auto">
