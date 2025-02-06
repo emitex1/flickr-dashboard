@@ -39,10 +39,10 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 														tag="h5"
 														className="text-uppercase text-muted mb-0"
 													>
-														Traffic
+														Photos
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														350,897
+														33
 													</span>
 												</div>
 												<Col className="col-auto">
@@ -69,10 +69,10 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 														tag="h5"
 														className="text-uppercase text-muted mb-0"
 													>
-														New users
+														Views
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														2,356
+														2374
 													</span>
 												</div>
 												<Col className="col-auto">
@@ -99,9 +99,9 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 														tag="h5"
 														className="text-uppercase text-muted mb-0"
 													>
-														Sales
+														Faves
 													</CardTitle>
-													<span className="h2 font-weight-bold mb-0">924</span>
+													<span className="h2 font-weight-bold mb-0">36</span>
 												</div>
 												<Col className="col-auto">
 													<div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -127,10 +127,10 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 														tag="h5"
 														className="text-uppercase text-muted mb-0"
 													>
-														Performance
+														Comments
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														49,65%
+														12
 													</span>
 												</div>
 												<Col className="col-auto">
