@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, Row, CardBody } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 export const PhotoList: React.FC = () => {
 	const [photos, setPhotos] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-
-	const { getFlickrUserName } = useAuth();
+	const db = getFirestore();
+	const { getFlickrUserName, firebaseUser } = useAuth();
 
 	const getPhotos = async (userName: string) => {
 		try {
@@ -22,11 +23,28 @@ export const PhotoList: React.FC = () => {
 			);
 			setPhotos(response.data.photos.photo);
 
-			// updateFlickrId(userName);
+			updatePhotoInfo(response.data.photos.total);
 		} catch (error) {
 			console.error("Error fetching photos:", error);
 		} finally {
 			setIsLoading(false);
+		}
+	};
+
+	const updatePhotoInfo = async (photosCount: number) => {
+		const userRef = doc(db, "users", firebaseUser.uid);
+		const userDoc = await getDoc(userRef);
+
+		if (userDoc.exists()) {
+			await setDoc(
+				userRef,
+				{
+					photosCount: photosCount,
+				},
+				{ merge: true }
+			);
+
+			console.log("Number of current photos updated successfully.");
 		}
 	};
 
