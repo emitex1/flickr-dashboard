@@ -6,7 +6,8 @@ import axios from "axios";
 const allowedOrigins = [
   'https://flickr-dashboard.web.app',
   'https://flickr-dashboard.firebaseapp.com',
-  'http://localhost:5173' //TODO: should be removed when deploying to production
+  'http://localhost:5173',
+  'http://localhost:5174' //TODO: should be removed when deploying to production
 ];
 
 async function getUserId(username: string, api_key: string) {
