@@ -23,7 +23,7 @@ import { Container } from "reactstrap";
 import UserNavbar from "../components/Navbars/UserNavbar";
 import UserFooter from "../components/Footers/UserFooter";
 import Sidebar from "../components/Sidebar/Sidebar";
-import argonReactLogo from "../assets/img/brand/argon-react.png";
+import flickrDashboardWideLogo from "../assets/img/brand/wide_logo.png";
 import { useAuth } from "../context/AuthContext";
 
 import routes from "../routes";
@@ -72,7 +72,7 @@ const User = (props: any) => {
 				routes={routes}
 				logo={{
 					innerLink: "/user/index",
-					imgSrc: argonReactLogo,
+					imgSrc: flickrDashboardWideLogo,
 					imgAlt: "...",
 				}}
 			/>

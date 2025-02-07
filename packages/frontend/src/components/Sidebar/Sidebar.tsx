@@ -119,7 +119,7 @@ const Sidebar = (props: any) => {
         </button>
         {/* Brand */}
         {logo ? (
-          <NavbarBrand className="pt-0" {...navbarBrandProps}>
+          <NavbarBrand className="pt-0 pb-0" {...navbarBrandProps}>
             <img
               alt={logo.imgAlt}
               className="navbar-brand-img"
