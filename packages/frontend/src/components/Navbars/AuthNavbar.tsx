@@ -28,7 +28,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import argonLogo from "../../assets/img/brand/argon-react-white.png"
+import flickrDashboardWideLogo from "../../assets/img/brand/wide_white_logo.png";
 import argonReactLogo from "../../assets/img/brand/argon-react.png"
 
 const AuthNavbar = () => {
@@ -39,7 +39,7 @@ const AuthNavbar = () => {
           <NavbarBrand to="/" tag={Link}>
             <img
               alt="..."
-              src={argonLogo}
+              src={flickrDashboardWideLogo}
             />
           </NavbarBrand>
           <button className="navbar-toggler" id="navbar-collapse-main">
