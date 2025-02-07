@@ -31,7 +31,7 @@ import {
 import argonLogo from "../../assets/img/brand/argon-react-white.png"
 import argonReactLogo from "../../assets/img/brand/argon-react.png"
 
-const AdminNavbar = () => {
+const AuthNavbar = () => {
   return (
     <>
       <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
@@ -105,4 +105,4 @@ const AdminNavbar = () => {
   );
 };
 
-export default AdminNavbar;
+export default AuthNavbar;
