@@ -21,7 +21,7 @@ import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import { Container } from "reactstrap";
 // core components
 import UserNavbar from "../components/Navbars/UserNavbar";
-import AdminFooter from "../components/Footers/AdminFooter";
+import UserFooter from "../components/Footers/UserFooter";
 import Sidebar from "../components/Sidebar/Sidebar";
 import argonReactLogo from "../assets/img/brand/argon-react.png";
 import { useAuth } from "../context/AuthContext";
@@ -95,7 +95,7 @@ const User = (props: any) => {
 					/>
 				</Routes>
 				<Container fluid>
-					<AdminFooter />
+					<UserFooter />
 				</Container>
 			</div>
 		</>
