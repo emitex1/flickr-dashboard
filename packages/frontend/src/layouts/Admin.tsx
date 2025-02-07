@@ -20,7 +20,7 @@ import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
-import AdminNavbar from "../components/Navbars/AdminNavbar";
+import UserNavbar from "../components/Navbars/UserNavbar";
 import AdminFooter from "../components/Footers/AdminFooter";
 import Sidebar from "../components/Sidebar/Sidebar";
 import argonReactLogo from "../assets/img/brand/argon-react.png";
@@ -77,7 +77,7 @@ const Admin = (props: any) => {
 				}}
 			/>
 			<div className="main-content" ref={mainContent}>
-				<AdminNavbar
+				<UserNavbar
 					{...props}
 					brandText={getBrandText(props?.location?.pathname)}
 				/>
