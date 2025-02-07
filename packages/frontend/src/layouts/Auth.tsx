@@ -25,6 +25,7 @@ import AuthNavbar from "../components/Navbars/AuthNavbar";
 import AuthFooter from "../components/Footers/AuthFooter";
 
 import routes from "../routes";
+import flickrDashboardLogo from "../assets/img/brand/white_logo.png";
 
 const Auth = (_props: unknown) => {
   const mainContent = React.useRef(null);
@@ -60,12 +61,12 @@ const Auth = (_props: unknown) => {
     <>
       <div className="main-content" ref={mainContent}>
         <AuthNavbar />
-        <div className="header bg-gradient-info py-7 py-lg-8">
+        <div className="header bg-gradient-info py-4 py-lg-7">
           <Container>
-            <div className="header-body text-center mb-7">
+            <div className="header-body text-center mb-5">
               <Row className="justify-content-center">
                 <Col lg="5" md="6">
-                  <h1 className="text-white">Flickr Dashboard</h1>
+                  <img src={flickrDashboardLogo} alt="Flickr Dashboard" />
                   <p className="text-lead text-light">
                     Welcome to My Flickr Dashboard!
                   </p>
@@ -73,21 +74,6 @@ const Auth = (_props: unknown) => {
               </Row>
             </div>
           </Container>
-          <div className="separator separator-bottom separator-skew zindex-100">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0"
-            >
-              <polygon
-                className="fill-default"
-                points="2560 0 2560 100 0 100"
-              />
-            </svg>
-          </div>
         </div>
         {/* Page content */}
         <Container className="mt--8 pb-5">
