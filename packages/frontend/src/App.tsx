@@ -6,7 +6,7 @@ import {
 	Navigate,
 } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
-import AdminLayout from "./layouts/Admin";
+import UserLayout from "./layouts/User";
 import AuthLayout from "./layouts/Auth";
 
 import "./assets/plugins/nucleo/css/nucleo.css";
@@ -19,7 +19,7 @@ const App: React.FC = () => {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/user/*" element={isAuthenticated ? <AdminLayout /> : <Navigate to={"/auth/login"} />} />
+				<Route path="/user/*" element={isAuthenticated ? <UserLayout /> : <Navigate to={"/auth/login"} />} />
 				<Route path="/auth/*" element={<AuthLayout />} />
 				<Route path="*" element={<Navigate to="/user/index" replace />} />
 			</Routes>

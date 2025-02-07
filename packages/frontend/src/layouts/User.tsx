@@ -28,7 +28,7 @@ import { useAuth } from "../context/AuthContext";
 
 import routes from "../routes";
 
-const Admin = (props: any) => {
+const User = (props: any) => {
 	const mainContent = React.useRef(null);
 	const location = useLocation();
 	const { getFlickrUserName } = useAuth();
@@ -102,4 +102,4 @@ const Admin = (props: any) => {
 	);
 };
 
-export default Admin;
+export default User;
