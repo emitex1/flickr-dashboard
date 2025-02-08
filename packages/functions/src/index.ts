@@ -10,6 +10,20 @@ const allowedOrigins = [
   'http://localhost:5174' //TODO: should be removed when deploying to production
 ];
 
+const checkCORS = (req: any, res: any) => {
+	const currentOrigin = req.headers.origin;  
+	if (allowedOrigins.includes(currentOrigin)) {
+		res.set('Access-Control-Allow-Origin', currentOrigin);
+	}
+	res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+	res.set("Access-Control-Allow-Headers", "Content-Type");
+
+	if (req.method === "OPTIONS") {
+		res.status(204).send("");
+		return;
+	}
+}
+
 const callFlickrAPI = async (method: string, api_key: string, otherParams?: object) => {
 	const url = "https://www.flickr.com/services/rest/";
 	const params = {
@@ -36,6 +50,14 @@ const callFlickrAPI = async (method: string, api_key: string, otherParams?: obje
 	}
 };
 
+const getFlickrAPIKey = () => {
+	dotenvContent.config();
+	const apiKey = process.env.FLICKR_API_KEY;
+	logger.info("Flickr API Key is available.");
+	if (!apiKey) throw new Error("Flickr API Key is not defined");
+	return apiKey;
+}
+
 async function getUserId(flickrUserName: string, api_key: string) {
 	try {
 		const data = await callFlickrAPI("flickr.people.findByUsername", api_key, {username: flickrUserName});
@@ -48,20 +70,6 @@ async function getUserId(flickrUserName: string, api_key: string) {
 	}
 }
 
-const checkCORS = (req: any, res: any) => {
-	const currentOrigin = req.headers.origin;  
-	if (allowedOrigins.includes(currentOrigin)) {
-		res.set('Access-Control-Allow-Origin', currentOrigin);
-	}
-	res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
-	res.set("Access-Control-Allow-Headers", "Content-Type");
-
-	if (req.method === "OPTIONS") {
-		res.status(204).send("");
-		return;
-	}
-}
-
 export const checkFlickrUserName = functions.https.onRequest(
   async (req: any, res: any) => {
 		checkCORS(req, res);
@@ -69,10 +77,7 @@ export const checkFlickrUserName = functions.https.onRequest(
 		logger.info("Checking Flickr User Name.");
 
 		try {
-			dotenvContent.config();
-			const apiKey = process.env.FLICKR_API_KEY;
-			if (!apiKey) throw new Error("Flickr API Key is not defined");
-			logger.info("Flickr API Key is available.");
+			const apiKey = getFlickrAPIKey();
 
 			const flickrUserName = req.query.userName || '';
 			if (!flickrUserName) throw new Error("A user name should be provided.");
@@ -103,10 +108,7 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 
 		logger.info("Fetching the photos is started.");
 		try {
-			dotenvContent.config();
-			const apiKey = process.env.FLICKR_API_KEY;
-			if (!apiKey) throw new Error("Flickr API Key is not defined");
-			logger.info("Flickr API Key is available.");
+			const apiKey = getFlickrAPIKey();
 
 			const userName = req.query.userName || '';
 			if (!userName) throw new Error("Target User Name is not defined");
