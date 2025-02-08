@@ -4,16 +4,16 @@ import * as dotenvContent from "dotenv";
 import axios from "axios";
 
 const allowedOrigins = [
-  'https://flickr-dashboard.web.app',
-  'https://flickr-dashboard.firebaseapp.com',
-  'http://localhost:5173',
-  'http://localhost:5174' //TODO: should be removed when deploying to production
+	"https://flickr-dashboard.web.app",
+	"https://flickr-dashboard.firebaseapp.com",
+	"http://localhost:5173",
+	"http://localhost:5174", //TODO: should be removed when deploying to production
 ];
 
 const checkCORS = (req: any, res: any) => {
-	const currentOrigin = req.headers.origin;  
+	const currentOrigin = req.headers.origin;
 	if (allowedOrigins.includes(currentOrigin)) {
-		res.set('Access-Control-Allow-Origin', currentOrigin);
+		res.set("Access-Control-Allow-Origin", currentOrigin);
 	}
 	res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
 	res.set("Access-Control-Allow-Headers", "Content-Type");
@@ -22,9 +22,13 @@ const checkCORS = (req: any, res: any) => {
 		res.status(204).send("");
 		return;
 	}
-}
+};
 
-const callFlickrAPI = async (method: string, api_key: string, otherParams?: object) => {
+const callFlickrAPI = async (
+	method: string,
+	api_key: string,
+	otherParams?: object
+) => {
 	const url = "https://www.flickr.com/services/rest/";
 	const params = {
 		method: method,
@@ -56,11 +60,13 @@ const getFlickrAPIKey = () => {
 	logger.info("Flickr API Key is available.");
 	if (!apiKey) throw new Error("Flickr API Key is not defined");
 	return apiKey;
-}
+};
 
 async function getUserId(flickrUserName: string, api_key: string) {
 	try {
-		const data = await callFlickrAPI("flickr.people.findByUsername", api_key, {username: flickrUserName});
+		const data = await callFlickrAPI("flickr.people.findByUsername", api_key, {
+			username: flickrUserName,
+		});
 		const userId = data.user.id;
 		logger.info(`User ID for ${flickrUserName}: ${userId}`);
 		return userId;
@@ -71,7 +77,7 @@ async function getUserId(flickrUserName: string, api_key: string) {
 }
 
 export const checkFlickrUserName = functions.https.onRequest(
-  async (req: any, res: any) => {
+	async (req: any, res: any) => {
 		checkCORS(req, res);
 
 		logger.info("Checking Flickr User Name.");
@@ -79,38 +85,40 @@ export const checkFlickrUserName = functions.https.onRequest(
 		try {
 			const apiKey = getFlickrAPIKey();
 
-			const flickrUserName = req.query.userName || '';
+			const flickrUserName = req.query.userName || "";
 			if (!flickrUserName) throw new Error("A user name should be provided.");
 			logger.info(`Target User Name: ${flickrUserName}`);
 
-			const data = await callFlickrAPI("flickr.people.findByUsername", apiKey, { username: flickrUserName });
+			const data = await callFlickrAPI("flickr.people.findByUsername", apiKey, {
+				username: flickrUserName,
+			});
 
 			if (data.stat === "ok") {
 				const userId = data.user.id;
 				logger.info(`User ID for ${flickrUserName}: ${userId}`);
 				res.status(200).json({
-					flickrUserId: userId
+					flickrUserId: userId,
 				});
 			} else {
 				logger.error("Error:", data.message);
 				res.status(404);
 			}
-
 		} catch (error: any) {
 			logger.error("Error fetching Flickr User:", error);
 			res.status(500).send("Error fetching Flickr User:\n" + error.message);
 		}
-	});
+	}
+);
 
 export const fetchFlickrPhotos = functions.https.onRequest(
-  async (req: any, res: any) => {
-    checkCORS(req, res);
+	async (req: any, res: any) => {
+		checkCORS(req, res);
 
 		logger.info("Fetching the photos is started.");
 		try {
 			const apiKey = getFlickrAPIKey();
 
-			const userName = req.query.userName || '';
+			const userName = req.query.userName || "";
 			if (!userName) throw new Error("Target User Name is not defined");
 			logger.info(`Target User Name: ${userName}`);
 			const userId = await getUserId(userName, apiKey);
@@ -119,14 +127,18 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 				(req.query.isPublic || "").trim().toLowerCase() === "true";
 			const flickrMethodName = isPublic ? "getPublicPhotos" : "getPhotos";
 
-			const result = await callFlickrAPI("flickr.people." + flickrMethodName, apiKey, {
-				user_id: userId
-			});
+			const result = await callFlickrAPI(
+				"flickr.people." + flickrMethodName,
+				apiKey,
+				{
+					user_id: userId,
+				}
+			);
 
-      // if (photos.stat === "fail") {
-      //   logger.error("Error:", photos.message);
-      //   res.status(404);
-      // }
+			// if (photos.stat === "fail") {
+			//   logger.error("Error:", photos.message);
+			//   res.status(404);
+			// }
 			logger.info(`${result.photos.total} photos are fetched.`);
 
 			res.status(200).json(result);
