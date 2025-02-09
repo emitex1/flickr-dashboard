@@ -3,7 +3,7 @@ import { Container, Row, Col } from "reactstrap";
 import Header from "../components/Headers/Header";
 import { PhotoList } from "../components/PhotoList";
 
-export const Photos: React.FC = ({}) => {
+export const Photos: React.FC = () => {
 	return (
 		<>
 			<Header displayStats />
