@@ -1,4 +1,3 @@
-import { getFirestore } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +6,6 @@ import axios from "axios";
 export const FlickrUserPrompt: React.FC = () => {
 	const { firebaseUser, flickrUser, setFlickrUser } = useAuth();
   const [userName, setUserName] = useState(flickrUser);
-  const db = getFirestore();
 	const navigate = useNavigate();
 
   const saveInfo = async () => {
