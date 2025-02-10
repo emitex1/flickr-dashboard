@@ -1,7 +1,8 @@
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const FlickrUserPrompt: React.FC = () => {
 	const { firebaseUser, flickrUser, setFlickrUser } = useAuth();
@@ -9,18 +10,23 @@ export const FlickrUserPrompt: React.FC = () => {
   const db = getFirestore();
 	const navigate = useNavigate();
 
-
-  const updateFlickrId = async (flickrId: string) => {
-		const userRef = doc(db, "users", firebaseUser.uid);
-		await setDoc(userRef, { flickrId: flickrId }, { merge: true });
-		console.log("Flickr ID updated successfully.");
-		return flickrId;
-	};
-
-  const saveInfo = () => {
+  const saveInfo = async () => {
 		if (userName) {
+			const token = await firebaseUser.getIdToken();
+			console.log('token=', token);
+			console.log('accessToken=', firebaseUser.accessToken);
+			const response = await axios.get(
+				"https://checkflickrusername-ag5w5dzqxq-uc.a.run.app",
+				{
+					params: { userName: userName },
+					headers: {
+						"Content-Type": "Application/json",
+						"Authorization": `Bearer ${firebaseUser.accessToken}`,
+					},
+				}
+			);
+			const flickrUserId = response.data.flickrUserId;
 			setFlickrUser(userName);
-			updateFlickrId(userName);
 			navigate('/user/index');
 		}
   }
