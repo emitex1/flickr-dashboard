@@ -31,8 +31,7 @@ import routes from "../routes";
 const User = (props: any) => {
 	const mainContent = React.useRef(null);
 	const location = useLocation();
-	const { getFlickrUserName } = useAuth();
-	const flickrUser = getFlickrUserName();
+	const { flickrUserName } = useAuth();
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -86,7 +85,7 @@ const User = (props: any) => {
 					<Route
 						path="*"
 						element={
-							flickrUser ? (
+							flickrUserName ? (
 								<Navigate to="/user/index" replace />
 							) : (
 								<Navigate to="/user/set-flickr-user" replace />

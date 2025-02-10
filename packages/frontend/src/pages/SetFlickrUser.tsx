@@ -6,14 +6,14 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export const SetFlickrUser: React.FC = () => {
-	const { flickrUser } = useAuth();
+	const { flickrUserName } = useAuth();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (flickrUser) {
+		if (flickrUserName) {
       navigate("/user/index");
     }
-	}, [flickrUser]);
+	}, [flickrUserName]);
 
 	return (
 		<>

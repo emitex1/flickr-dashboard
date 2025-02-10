@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const FlickrUserPrompt: React.FC = () => {
-	const { firebaseUser, flickrUser, setFlickrUser } = useAuth();
-  const [userName, setUserName] = useState(flickrUser);
+	const { firebaseUser, flickrUserName, setFlickrUser } = useAuth();
+  const [userName, setUserName] = useState(flickrUserName);
 	const navigate = useNavigate();
 
   const saveInfo = async () => {
