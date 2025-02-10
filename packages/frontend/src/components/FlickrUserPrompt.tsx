@@ -10,7 +10,7 @@ export const FlickrUserPrompt: React.FC = () => {
 
   const saveInfo = async () => {
 		if (userName) {
-			const token = await firebaseUser?.getIdToken();
+			const token = await firebaseUser.getIdToken();
 			const response = await axios.get(
 				"https://checkflickrusername-ag5w5dzqxq-uc.a.run.app",
 				{

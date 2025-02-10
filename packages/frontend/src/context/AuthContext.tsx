@@ -2,10 +2,10 @@ import { User } from "firebase/auth";
 import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
-  firebaseUser: User | null;
+  firebaseUser: User;
   flickrUser: string | undefined;
   isAuthenticated: boolean;
-  setFirebaseUser: (userInfo: User | null) => void;
+  setFirebaseUser: (userInfo: User) => void;
   getFlickrUserName: () => string | undefined;
   setFlickrUser: (username: string | undefined) => void;
 }
@@ -13,10 +13,10 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
+  const [firebaseUser, setFirebaseUser] = useState<User>({} as User);
   const [flickrUser, setFlickrUserState] = useState<string | undefined>(undefined);
 
-  const isAuthenticated = !!firebaseUser;
+  const isAuthenticated = !!firebaseUser && !!firebaseUser.uid;
 
   const getFlickrUserName = () => {
     return flickrUser || localStorage.getItem('flickrUser') || undefined;
