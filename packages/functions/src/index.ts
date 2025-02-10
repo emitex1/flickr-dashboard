@@ -1,7 +1,11 @@
 import * as functions from "firebase-functions";
 import * as logger from "firebase-functions/logger";
+import admin from "firebase-admin";
 import * as dotenvContent from "dotenv";
 import axios from "axios";
+
+admin.initializeApp();
+const db = admin.firestore();
 
 const allowedOrigins = [
 	"https://flickr-dashboard.web.app",
@@ -16,7 +20,7 @@ const checkCORS = (req: any, res: any) => {
 		res.set("Access-Control-Allow-Origin", currentOrigin);
 	}
 	res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
-	res.set("Access-Control-Allow-Headers", "Content-Type");
+	res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
 	if (req.method === "OPTIONS") {
 		res.status(204).send("");
@@ -82,6 +86,15 @@ export const checkFlickrUserName = functions.https.onRequest(
 
 		logger.info("Checking Flickr User Name.");
 
+		const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const currentUserId = decodedToken.uid;
+
 		try {
 			const apiKey = getFlickrAPIKey();
 
@@ -92,15 +105,26 @@ export const checkFlickrUserName = functions.https.onRequest(
 			const data = await callFlickrAPI("flickr.people.findByUsername", apiKey, {
 				username: flickrUserName,
 			});
+			logger.info("Data fetched by Flickr API:", data);
 
-			if (data.stat === "ok") {
-				const userId = data.user.id;
-				logger.info(`User ID for ${flickrUserName}: ${userId}`);
+			if (data?.stat === "ok") {
+				const flickrUserId = data.user.id;
+				logger.info(`Flickr User ID for ${flickrUserName}: ${flickrUserId}`);
+
+				const userRef = db.collection("users").doc(currentUserId);
+				await userRef.set(
+					{
+						flickrUserId: flickrUserId,
+						flickrUserName: flickrUserName,
+					},
+					{ merge: true }
+				);
+
 				res.status(200).json({
-					flickrUserId: userId,
+					flickrUserId: flickrUserId,
 				});
 			} else {
-				logger.error("Error:", data.message);
+				logger.error("Error:", data?.message);
 				res.status(404);
 			}
 		} catch (error: any) {
