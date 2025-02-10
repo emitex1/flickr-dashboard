@@ -21,7 +21,7 @@ import { Settings } from "./pages/Settings";
 import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
 
-var routes = [
+const routes = [
   {
     path: "/index",
     name: "Dashboard",
