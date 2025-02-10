@@ -87,7 +87,7 @@ export const WelcomePage: React.FC = () => {
 
 	// Listen to authentication state changes
 	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+		const unsubscribe = onAuthStateChanged(auth, (currentUser: User | null) => {
 			setFirebaseUser(currentUser);
 			if(currentUser) {
 				navigate('/user');

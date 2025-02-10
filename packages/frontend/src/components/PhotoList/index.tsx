@@ -32,7 +32,7 @@ export const PhotoList: React.FC = () => {
 	};
 
 	const updatePhotoInfo = async (photosCount: number) => {
-		const userRef = doc(db, "users", firebaseUser.uid);
+		const userRef = doc(db, "users", firebaseUser?.uid || '');
 		const userDoc = await getDoc(userRef);
 
 		if (userDoc.exists()) {
