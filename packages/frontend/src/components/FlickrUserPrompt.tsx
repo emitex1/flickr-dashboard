@@ -11,7 +11,7 @@ export const FlickrUserPrompt: React.FC = () => {
   const saveInfo = async () => {
 		if (userName) {
 			const token = await firebaseUser.getIdToken();
-			const response = await axios.get(
+			await axios.get(
 				"https://checkflickrusername-ag5w5dzqxq-uc.a.run.app",
 				{
 					params: { userName: userName },
@@ -21,7 +21,7 @@ export const FlickrUserPrompt: React.FC = () => {
 					},
 				}
 			);
-			const flickrUserId = response.data.flickrUserId;
+			// const flickrUserId = response.data.flickrUserId;
 			setFlickrUser(userName);
 			navigate('/user/index');
 		}
