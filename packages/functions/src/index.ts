@@ -109,10 +109,10 @@ export const checkFlickrUserName = functions.https.onRequest(
 
 		const authResult = await checkAuthorization(req);
 		if (!authResult.isDone) {
-      logger.error("Error: ", authResult.message);
-      res.status(authResult.status).json({ error: authResult.message });
-      return;
-    }
+			logger.error("Error: ", authResult.message);
+			res.status(authResult.status).json({ error: authResult.message });
+			return;
+		}
 		const currentUserId = authResult.data as string;
 
 		try {
@@ -180,14 +180,14 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 
 			let flickrUserId;
 			if (flickrUserName) {
-				flickrUserId = await getUserId(flickrUserName, apiKey)
+				flickrUserId = await getUserId(flickrUserName, apiKey);
 			} else {
 				const authResult = await checkAuthorization(req);
 				if (!authResult.isDone) {
-          logger.error("Error:", authResult.message);
-          res.status(authResult.status).json({ error: authResult.message });
-          return;
-        }
+					logger.error("Error:", authResult.message);
+					res.status(authResult.status).json({ error: authResult.message });
+					return;
+				}
 				const currentFirebaseUserId = authResult.data as string;
 				flickrUserId = readCurrentUserFlickrId(currentFirebaseUserId);
 			}
