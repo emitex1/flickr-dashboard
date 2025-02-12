@@ -92,9 +92,16 @@ async function getUserId(flickrUserName: string, api_key: string) {
 		const data = await callFlickrAPI("flickr.people.findByUsername", api_key, {
 			username: flickrUserName,
 		});
-		const userId = data.user.id;
-		logger.info(`User ID for ${flickrUserName}: ${userId}`);
-		return userId;
+
+		if (data?.stat === "ok") {
+			const flickrUserId = data.user.id;
+			logger.info(`User ID for ${flickrUserName} has found: ${flickrUserId}`);
+			return flickrUserId;
+		} else {
+			// 404
+			logger.error("Error:", data?.message);
+			throw new Error(data?.message);
+		}
 	} catch (error: any) {
 		logger.error("API request failed:", error.message);
 		throw new Error("API request failed:" + error.message);
@@ -113,7 +120,7 @@ export const checkFlickrUserName = functions.https.onRequest(
 			res.status(authResult.status).json({ error: authResult.message });
 			return;
 		}
-		const currentUserId = authResult.data as string;
+		const currentFirebaseUserId = authResult.data as string;
 
 		try {
 			const apiKey = getFlickrAPIKey();
@@ -122,31 +129,20 @@ export const checkFlickrUserName = functions.https.onRequest(
 			if (!flickrUserName) throw new Error("A user name should be provided.");
 			logger.info(`Target User Name: ${flickrUserName}`);
 
-			const data = await callFlickrAPI("flickr.people.findByUsername", apiKey, {
-				username: flickrUserName,
-			});
-			logger.info("Data fetched by Flickr API:", data);
+			const flickrUserId = await getUserId(flickrUserName, apiKey)
 
-			if (data?.stat === "ok") {
-				const flickrUserId = data.user.id;
-				logger.info(`Flickr User ID for ${flickrUserName}: ${flickrUserId}`);
-
-				const userRef = db.collection("users").doc(currentUserId);
-				await userRef.set(
-					{
-						flickrUserId: flickrUserId,
-						flickrUserName: flickrUserName,
-					},
-					{ merge: true }
-				);
-
-				res.status(200).json({
+			const userRef = db.collection("users").doc(currentFirebaseUserId);
+			await userRef.set(
+				{
 					flickrUserId: flickrUserId,
-				});
-			} else {
-				logger.error("Error:", data?.message);
-				res.status(404);
-			}
+					flickrUserName: flickrUserName,
+				},
+				{ merge: true }
+			);
+
+			res.status(200).json({
+				flickrUserId: flickrUserId,
+			});
 		} catch (error: any) {
 			logger.error("Error fetching Flickr User:", error);
 			res.status(500).send("Error fetching Flickr User:\n" + error.message);
