@@ -15,10 +15,15 @@ export const PhotoList: React.FC = () => {
 			setIsLoading(true);
 			setPhotos([]);
 
+			const token = await firebaseUser.getIdToken();
 			const response = await axios.get(
 				"https://fetchflickrphotos-ag5w5dzqxq-uc.a.run.app",
 				{
 					params: { userName: userName, isPublic: true },
+					headers: {
+						"Content-Type": "Application/json",
+						"Authorization": `Bearer ${token}`,
+					},
 				}
 			);
 			setPhotos(response.data.photos.photo);
