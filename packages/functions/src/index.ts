@@ -116,9 +116,9 @@ const readCurrentUserFlickrId = async (currentUserId: string) => {
 
 export const checkFlickrUserName = functions.https.onRequest(
 	async (req: any, res: any) => {
-		checkCORS(req, res);
+		logger.info("[checkFlickrUserName] is called.");
 
-		logger.info("Checking Flickr User Name.");
+		checkCORS(req, res);
 
 		const authResult = await checkAuthorization(req);
 		if (!authResult.isDone) {
@@ -164,8 +164,10 @@ export const checkFlickrUserName = functions.https.onRequest(
 
 export const fetchFlickrPhotos = functions.https.onRequest(
 	async (req: any, res: any) => {
+		logger.info("[fetchFlickrPhotos] is called.");
+
 		checkCORS(req, res);
-		logger.info("Fetching the photos is started.");
+
 		try {
 			const apiKey = getFlickrAPIKey();
 
