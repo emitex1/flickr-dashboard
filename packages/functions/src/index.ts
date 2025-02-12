@@ -196,7 +196,7 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 					return;
 				}
 				const currentFirebaseUserId = authResult.data as string;
-				flickrUserId = readCurrentUserFlickrId(currentFirebaseUserId);
+				flickrUserId = await readCurrentUserFlickrId(currentFirebaseUserId);
 			}
 			logger.info(`Flickr User ID: ${flickrUserId}`);
 
