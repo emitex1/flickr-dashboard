@@ -45,6 +45,14 @@ const checkAuthorization = async (req: any) => {
 	}
 };
 
+const getFlickrAPIKey = () => {
+	dotenvContent.config();
+	const apiKey = process.env.FLICKR_API_KEY;
+	logger.info("Flickr API Key is available.");
+	if (!apiKey) throw new Error("Flickr API Key is not defined");
+	return apiKey;
+};
+
 const callFlickrAPI = async (
 	method: string,
 	api_key: string,
@@ -79,14 +87,6 @@ const callFlickrAPI = async (
 	// }
 };
 
-const getFlickrAPIKey = () => {
-	dotenvContent.config();
-	const apiKey = process.env.FLICKR_API_KEY;
-	logger.info("Flickr API Key is available.");
-	if (!apiKey) throw new Error("Flickr API Key is not defined");
-	return apiKey;
-};
-
 const getUserId = async (flickrUserName: string, api_key: string) => {
 	try {
 		const data = await callFlickrAPI("flickr.people.findByUsername", api_key, {
@@ -104,6 +104,15 @@ const getUserId = async (flickrUserName: string, api_key: string) => {
 		return failResult(500, "API request failed: " + error.message);
 	}
 }
+
+const readCurrentUserFlickrId = async (currentUserId: string) => {
+	const userRef = db.collection("users").doc(currentUserId);
+	const flickrUserId = await userRef
+		.get()
+		.then((doc) => doc.data()?.flickrUserId);
+	if (!flickrUserId) throw new Error("Flickr User ID not found in Firestore.");
+	return flickrUserId;
+};
 
 export const checkFlickrUserName = functions.https.onRequest(
 	async (req: any, res: any) => {
@@ -152,15 +161,6 @@ export const checkFlickrUserName = functions.https.onRequest(
 		}
 	}
 );
-
-const readCurrentUserFlickrId = async (currentUserId: string) => {
-	const userRef = db.collection("users").doc(currentUserId);
-	const flickrUserId = await userRef
-		.get()
-		.then((doc) => doc.data()?.flickrUserId);
-	if (!flickrUserId) throw new Error("Flickr User ID not found in Firestore.");
-	return flickrUserId;
-};
 
 export const fetchFlickrPhotos = functions.https.onRequest(
 	async (req: any, res: any) => {
