@@ -28,6 +28,23 @@ const checkCORS = (req: any, res: any) => {
 	}
 };
 
+const checkAuthorization = async (req: any, res: any) => {
+	try {
+		const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const currentUserId = decodedToken.uid;
+		return currentUserId;
+	} catch (error: any) {
+		logger.error("Error checking authorization:", error.message);
+		res.status(401).send("Error checking authorization:\n" + error.message);
+	}
+};
+
 const callFlickrAPI = async (
 	method: string,
 	api_key: string,
@@ -86,14 +103,7 @@ export const checkFlickrUserName = functions.https.onRequest(
 
 		logger.info("Checking Flickr User Name.");
 
-		const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Unauthorized: No token provided" });
-    }
-
-    const idToken = authHeader.split("Bearer ")[1];
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    const currentUserId = decodedToken.uid;
+		const currentUserId = await checkAuthorization(req, res);
 
 		try {
 			const apiKey = getFlickrAPIKey();
