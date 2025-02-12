@@ -96,15 +96,12 @@ const getUserId = async (flickrUserName: string, api_key: string) => {
 		if (data?.stat === "ok") {
 			const flickrUserId = data.user.id;
 			logger.info(`User ID for ${flickrUserName} has found: ${flickrUserId}`);
-			return flickrUserId;
+			return successResult(flickrUserId);
 		} else {
-			// 404
-			logger.error("Error:", data?.message);
-			throw new Error(data?.message);
+			return failResult(404, "User not found: " + data?.message);
 		}
 	} catch (error: any) {
-		logger.error("API request failed:", error.message);
-		throw new Error("API request failed:" + error.message);
+		return failResult(500, "API request failed: " + error.message);
 	}
 }
 
@@ -129,7 +126,13 @@ export const checkFlickrUserName = functions.https.onRequest(
 			if (!flickrUserName) throw new Error("A user name should be provided.");
 			logger.info(`Target User Name: ${flickrUserName}`);
 
-			const flickrUserId = await getUserId(flickrUserName, apiKey)
+			const flickrUserResult = await getUserId(flickrUserName, apiKey);
+			if (!flickrUserResult.isDone) {
+        logger.error("Error: ", flickrUserResult.message);
+        res.status(flickrUserResult.status).json({ error: flickrUserResult.message });
+        return;
+      }
+			const flickrUserId = flickrUserResult.data as string;
 
 			const userRef = db.collection("users").doc(currentFirebaseUserId);
 			await userRef.set(
@@ -176,7 +179,13 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 
 			let flickrUserId;
 			if (flickrUserName) {
-				flickrUserId = await getUserId(flickrUserName, apiKey);
+				const flickrUserResult = await getUserId(flickrUserName, apiKey);
+				if (!flickrUserResult.isDone) {
+          logger.error("Error: ", flickrUserResult.message);
+          res.status(flickrUserResult.status).json({ error: flickrUserResult.message });
+          return;
+        }
+				flickrUserId = flickrUserResult.data as string;
 			} else {
 				const authResult = await checkAuthorization(req);
 				if (!authResult.isDone) {
