@@ -3,6 +3,7 @@ import * as logger from "firebase-functions/logger";
 import admin from "firebase-admin";
 import * as dotenvContent from "dotenv";
 import axios from "axios";
+import { failResult, successResult } from "./util/generalResult";
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -28,20 +29,19 @@ const checkCORS = (req: any, res: any) => {
 	}
 };
 
-const checkAuthorization = async (req: any, res: any) => {
+const checkAuthorization = async (req: any) => {
 	try {
 		const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Unauthorized: No token provided" });
-    }
+		if (!authHeader || !authHeader.startsWith("Bearer ")) {
+			return failResult(401, "Unauthorized: No token provided");
+		}
 
-    const idToken = authHeader.split("Bearer ")[1];
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    const currentUserId = decodedToken.uid;
-		return currentUserId;
+		const idToken = authHeader.split("Bearer ")[1];
+		const decodedToken = await admin.auth().verifyIdToken(idToken);
+		const currentUserId = decodedToken.uid;
+		return successResult(currentUserId);
 	} catch (error: any) {
-		logger.error("Error checking authorization:", error.message);
-		res.status(401).send("Error checking authorization:\n" + error.message);
+		return failResult(401, "Error checking authorization:\n" + error.message);
 	}
 };
 
@@ -73,6 +73,10 @@ const callFlickrAPI = async (
 	} else {
 		logger.error("Error:", data.message);
 	}
+	// if (photos.stat === "fail") {
+	//   logger.error("Error:", photos.message);
+	//   res.status(404);
+	// }
 };
 
 const getFlickrAPIKey = () => {
@@ -103,7 +107,13 @@ export const checkFlickrUserName = functions.https.onRequest(
 
 		logger.info("Checking Flickr User Name.");
 
-		const currentUserId = await checkAuthorization(req, res);
+		const authResult = await checkAuthorization(req);
+		if (!authResult.isDone) {
+      logger.error("Error: ", authResult.message);
+      res.status(authResult.status).json({ error: authResult.message });
+      return;
+    }
+		const currentUserId = authResult.data as string;
 
 		try {
 			const apiKey = getFlickrAPIKey();
@@ -144,18 +154,44 @@ export const checkFlickrUserName = functions.https.onRequest(
 	}
 );
 
+const readCurrentUserFlickrId = async (currentUserId: string) => {
+	const userRef = db.collection("users").doc(currentUserId);
+	const flickrUserId = await userRef
+		.get()
+		.then((doc) => doc.data()?.flickrUserId);
+	if (!flickrUserId) throw new Error("Flickr User ID not found in Firestore.");
+	return flickrUserId;
+};
+
 export const fetchFlickrPhotos = functions.https.onRequest(
 	async (req: any, res: any) => {
 		checkCORS(req, res);
-
 		logger.info("Fetching the photos is started.");
 		try {
 			const apiKey = getFlickrAPIKey();
 
-			const userName = req.query.userName || "";
-			if (!userName) throw new Error("Target User Name is not defined");
-			logger.info(`Target User Name: ${userName}`);
-			const userId = await getUserId(userName, apiKey);
+			const flickrUserName = req.query.userName;
+
+			logger.info(
+				flickrUserName
+					? `Provided User Name: ${flickrUserName}`
+					: "No Flickr User Name is provided."
+			);
+
+			let flickrUserId;
+			if (flickrUserName) {
+				flickrUserId = await getUserId(flickrUserName, apiKey)
+			} else {
+				const authResult = await checkAuthorization(req);
+				if (!authResult.isDone) {
+          logger.error("Error:", authResult.message);
+          res.status(authResult.status).json({ error: authResult.message });
+          return;
+        }
+				const currentFirebaseUserId = authResult.data as string;
+				flickrUserId = readCurrentUserFlickrId(currentFirebaseUserId);
+			}
+			logger.info(`Flickr User ID: ${flickrUserId}`);
 
 			const isPublic =
 				(req.query.isPublic || "").trim().toLowerCase() === "true";
@@ -165,14 +201,9 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 				"flickr.people." + flickrMethodName,
 				apiKey,
 				{
-					user_id: userId,
+					user_id: flickrUserId,
 				}
 			);
-
-			// if (photos.stat === "fail") {
-			//   logger.error("Error:", photos.message);
-			//   res.status(404);
-			// }
 			logger.info(`${result.photos.total} photos are fetched.`);
 
 			res.status(200).json(result);
