@@ -87,7 +87,7 @@ const getFlickrAPIKey = () => {
 	return apiKey;
 };
 
-async function getUserId(flickrUserName: string, api_key: string) {
+const getUserId = async (flickrUserName: string, api_key: string) => {
 	try {
 		const data = await callFlickrAPI("flickr.people.findByUsername", api_key, {
 			username: flickrUserName,
