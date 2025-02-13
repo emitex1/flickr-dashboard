@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import LoadingIcon from "./LoadingIcon";
+import { LoadingIcon } from "./LoadingIcon";
 
 export const FlickrUserPrompt: React.FC = () => {
 	const { firebaseUser, flickrUserName, setFlickrUser } = useAuth();

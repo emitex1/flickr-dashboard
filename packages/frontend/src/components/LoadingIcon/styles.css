@@ -1,3 +1,37 @@
+#background {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999999;
+}
+
+#loadingContainer {
+  position: relative;
+}
+
+#loadingIcon {
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  margin-left: -80px;
+  margin-top: -80px;
+}
+
+#LogoIcon {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  left: 6%;
+  top: 0%;
+}
+
 [data-loader] {
   margin: 8px;
 }
