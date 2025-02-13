@@ -6,35 +6,32 @@ import LoadingIcon from "./LoadingIcon";
 
 export const FlickrUserPrompt: React.FC = () => {
 	const { firebaseUser, flickrUserName, setFlickrUser } = useAuth();
-  const [userName, setUserName] = useState(flickrUserName);
+	const [userName, setUserName] = useState(flickrUserName);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
-  const saveInfo = async () => {
+	const saveInfo = async () => {
 		if (userName) {
 			setIsLoading(true);
 			const token = await firebaseUser.getIdToken();
-			await axios.get(
-				"https://checkflickrusername-ag5w5dzqxq-uc.a.run.app",
-				{
-					params: { userName: userName },
-					headers: {
-						"Content-Type": "Application/json",
-						"Authorization": `Bearer ${token}`,
-					},
-				}
-			);
+			await axios.get("https://checkflickrusername-ag5w5dzqxq-uc.a.run.app", {
+				params: { userName: userName },
+				headers: {
+					"Content-Type": "Application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			// const flickrUserId = response.data.flickrUserId;
 			setFlickrUser(userName);
 			setIsLoading(false);
-			navigate('/user/index');
+			navigate("/user/index");
 		}
-  }
+	};
 
 	return (
-		<div>
-			{isLoading && <LoadingIcon />}
-			
+		<div style={{ position: "relative" }}>
+			{isLoading && <LoadingIcon minHeight={100} />}
+
 			<input
 				type="text"
 				placeholder="User Name"

@@ -23,7 +23,7 @@ export const PhotoList: React.FC = () => {
 					params: { userName: userName, isPublic: true },
 					headers: {
 						"Content-Type": "Application/json",
-						"Authorization": `Bearer ${token}`,
+						Authorization: `Bearer ${token}`,
 					},
 				}
 			);
@@ -71,8 +71,10 @@ export const PhotoList: React.FC = () => {
 				</Row>
 			</CardHeader>
 			<CardBody>
-				<div style={{ display: "flex", flexWrap: "wrap" }}>
-					{isLoading && <LoadingIcon />}
+				<div
+					style={{ display: "flex", flexWrap: "wrap", position: "relative" }}
+				>
+					{isLoading && <LoadingIcon minHeight={200} />}
 
 					{!isLoading && photos.length == 0 && <div>No photos found</div>}
 
