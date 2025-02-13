@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoadingIcon } from "./LoadingIcon";
+import { Button, Col, Form, FormGroup, Input, Row } from "reactstrap";
 
 export const FlickrUserPrompt: React.FC = () => {
 	const { firebaseUser, flickrUserName, setFlickrUser } = useAuth();
@@ -32,14 +33,36 @@ export const FlickrUserPrompt: React.FC = () => {
 		<div style={{ position: "relative" }}>
 			{isLoading && <LoadingIcon minHeight={100} />}
 
-			<input
-				type="text"
-				placeholder="User Name"
-				value={userName}
-				onChange={(e) => setUserName(e.target.value)}
-				onKeyDown={(e) => e.key === "Enter" && saveInfo()}
-			/>
-			<button onClick={saveInfo}>Save</button>
+			<Form>
+				<FormGroup>
+					<Row>
+						<Col xl="4" lg="6" md="8" xs="8">
+							<Input
+								id="FlickrUserId"
+								type="text"
+								placeholder="Flickr User Name"
+								value={userName}
+								onChange={(e) => setUserName(e.target.value)}
+								onKeyDown={(e) => e.key === "Enter" && saveInfo()}
+							/>
+						</Col>
+
+						<Col xl="2" lg="3" md="4" xs="4">
+							<Button
+								className="btn-icon btn-3"
+								color="primary"
+								type="button"
+								onClick={saveInfo}
+							>
+								<span className="btn-inner--icon">
+									<i className="ni ni-check-bold" />
+								</span>
+								<span className="btn-inner--text">Save</span>
+							</Button>
+						</Col>
+					</Row>
+				</FormGroup>
+			</Form>
 		</div>
 	);
 };
