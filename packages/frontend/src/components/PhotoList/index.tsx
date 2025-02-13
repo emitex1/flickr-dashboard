@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardHeader, Row, CardBody } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import LoadingIcon from "../LoadingIcon";
 
 export const PhotoList: React.FC = () => {
 	const [photos, setPhotos] = useState([]);
@@ -71,9 +72,7 @@ export const PhotoList: React.FC = () => {
 			</CardHeader>
 			<CardBody>
 				<div style={{ display: "flex", flexWrap: "wrap" }}>
-					{isLoading && <div>Loading...</div>}
-
-					{/* {!userName && <div>Enter a user name to fetch the photos.</div>} */}
+					{isLoading && <LoadingIcon />}
 
 					{!isLoading && photos.length == 0 && <div>No photos found</div>}
 

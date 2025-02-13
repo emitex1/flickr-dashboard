@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import LoadingIcon from "./LoadingIcon";
 
 export const FlickrUserPrompt: React.FC = () => {
 	const { firebaseUser, flickrUserName, setFlickrUser } = useAuth();
   const [userName, setUserName] = useState(flickrUserName);
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
   const saveInfo = async () => {
 		if (userName) {
+			setIsLoading(true);
 			const token = await firebaseUser.getIdToken();
 			await axios.get(
 				"https://checkflickrusername-ag5w5dzqxq-uc.a.run.app",
@@ -23,12 +26,15 @@ export const FlickrUserPrompt: React.FC = () => {
 			);
 			// const flickrUserId = response.data.flickrUserId;
 			setFlickrUser(userName);
+			setIsLoading(false);
 			navigate('/user/index');
 		}
   }
 
 	return (
 		<div>
+			{isLoading && <LoadingIcon />}
+			
 			<input
 				type="text"
 				placeholder="User Name"
