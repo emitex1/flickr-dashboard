@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, Row, CardBody } from "reactstrap";
+import { Card, CardHeader, Row, CardBody, Button } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { LoadingIcon } from "../LoadingIcon";
+import { useNavigate } from "react-router-dom";
 
 export const PhotoList: React.FC = () => {
 	const [photos, setPhotos] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const db = getFirestore();
-	const { getFlickrUserName, firebaseUser } = useAuth();
+	const { firebaseUser, flickrUserName } = useAuth();
+	const navigate = useNavigate();
 
 	const getPhotos = async (userName: string) => {
 		try {
@@ -55,7 +57,7 @@ export const PhotoList: React.FC = () => {
 	};
 
 	useEffect(() => {
-		getPhotos(getFlickrUserName()!);
+		if (flickrUserName) getPhotos(flickrUserName);
 	}, []);
 
 	return (
@@ -74,9 +76,30 @@ export const PhotoList: React.FC = () => {
 				<div
 					style={{ display: "flex", flexWrap: "wrap", position: "relative" }}
 				>
+					{!flickrUserName && (
+						<div>
+							To view photos, you must have set a Flickr username
+							&nbsp;&nbsp;
+							<span className="ni ni-curved-next" />
+							&nbsp;&nbsp;
+							<Button
+								color="primary"
+								size="sm"
+								type="button"
+								onClick={() => (navigate("/user/set-flickr-user"))}
+							>
+								<span>Set Flickr User Name</span>
+								&nbsp;&nbsp;
+								<span className="ni ni-album-2" />
+							</Button>
+						</div>
+					)}
+
 					{isLoading && <LoadingIcon minHeight={200} />}
 
-					{!isLoading && photos.length == 0 && <div>No photos found</div>}
+					{!isLoading && photos.length == 0 && !!flickrUserName && (
+						<div>No photos found</div>
+					)}
 
 					{photos.map(
 						(photo: {
