@@ -35,6 +35,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { signOut, User } from "firebase/auth";
 import { auth } from "../../firebase";
+import { showErrorMessage } from "../../util/errorType";
 
 type UserNavbarProps = {
 	brandText: string;
@@ -49,8 +50,8 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ brandText }) => {
 				setFlickrUser(undefined);
 				setFirebaseUser({} as User);
 			})
-			.catch((error: { message: string }) => {
-				console.error("Logout Error:", error.message);
+			.catch((error: unknown) => {
+				showErrorMessage(error);
 			});
 	};
 

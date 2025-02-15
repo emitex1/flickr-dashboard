@@ -40,8 +40,9 @@ const checkAuthorization = async (req: any) => {
 		const decodedToken = await admin.auth().verifyIdToken(idToken);
 		const currentUserId = decodedToken.uid;
 		return successResult(currentUserId);
-	} catch (error: any) {
-		return failResult(401, "Error checking authorization:\n" + error.message);
+	} catch (error: unknown) {
+		logger.error("Error checking authorization", error);
+		return failResult(401, "Error checking authorization:\n" + (error as {message: string}).message);
 	}
 };
 
@@ -100,8 +101,9 @@ const getUserId = async (flickrUserName: string, api_key: string) => {
 		} else {
 			return failResult(404, "User not found: " + data?.message);
 		}
-	} catch (error: any) {
-		return failResult(500, "API request failed: " + error.message);
+	} catch (error: unknown) {
+		logger.error("API Request Failed", error);
+		return failResult(500, "API Request Failed: " + (error as {message: string}).message);
 	}
 }
 
@@ -155,9 +157,9 @@ export const checkFlickrUserName = functions.https.onRequest(
 			res.status(200).json({
 				flickrUserId: flickrUserId,
 			});
-		} catch (error: any) {
+		} catch (error: unknown) {
 			logger.error("Error fetching Flickr User:", error);
-			res.status(500).send("Error fetching Flickr User:\n" + error.message);
+			res.status(500).send("Error fetching Flickr User:\n" + (error as {message: string}).message);
 		}
 	}
 );
@@ -214,9 +216,9 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 			logger.info(`${result.photos.total} photos are fetched.`);
 
 			res.status(200).json(result);
-		} catch (error: any) {
+		} catch (error: unknown) {
 			logger.error("Error fetching Flickr photos:", error);
-			res.status(500).send("Error fetching Flickr photos:\n" + error.message);
+			res.status(500).send("Error fetching Flickr photos:\n" + (error as {message: string}).message);
 		}
 	}
 );

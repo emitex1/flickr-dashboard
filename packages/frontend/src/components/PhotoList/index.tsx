@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { LoadingIcon } from "../LoadingIcon";
 import { useNavigate } from "react-router-dom";
+import { showErrorMessage } from "../../util/errorType";
 
 export const PhotoList: React.FC = () => {
 	const [photos, setPhotos] = useState([]);
@@ -33,7 +34,7 @@ export const PhotoList: React.FC = () => {
 
 			updatePhotoInfo(response.data.photos.total);
 		} catch (error) {
-			console.error("Error fetching photos:", error);
+			showErrorMessage(error, "Error Fetching Photos");
 		} finally {
 			setIsLoading(false);
 		}

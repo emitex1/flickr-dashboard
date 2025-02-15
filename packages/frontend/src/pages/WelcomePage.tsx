@@ -30,6 +30,7 @@ import {
 } from "reactstrap";
 import googleLogo from "../assets/img/icons/common/google.svg";
 import { useNavigate } from "react-router-dom";
+import { showErrorMessage } from "../util/errorType";
 
 export const WelcomePage: React.FC = () => {
 	const { setFirebaseUser, setFlickrUser } = useAuth();
@@ -44,8 +45,8 @@ export const WelcomePage: React.FC = () => {
 
 			saveOrUpdateUser(result.user);
 			navigate("/user");
-		} catch (error: any) {
-			console.error("Login Error:", error.message);
+		} catch (error: unknown) {
+			showErrorMessage(error);
 		}
 	};
 
@@ -80,7 +81,7 @@ export const WelcomePage: React.FC = () => {
 				await setDoc(userRef, userData, { merge: true }); // merge: true ensures not to overwrite existing data
 				console.log("User info saved successfully:", userData);
 			} catch (error) {
-				console.error("Error in saving user info in DB:", error);
+				showErrorMessage(error, "Error in saving user info in DB");
 			}
 		}
 	};
