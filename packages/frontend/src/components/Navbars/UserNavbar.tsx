@@ -16,7 +16,6 @@
 
 */
 import { Link } from "react-router-dom";
-// reactstrap components
 import {
 	DropdownMenu,
 	DropdownItem,
@@ -37,7 +36,10 @@ import { useAuth } from "../../context/AuthContext";
 import { signOut, User } from "firebase/auth";
 import { auth } from "../../firebase";
 
-const UserNavbar = (props: any) => {
+type UserNavbarProps = {
+	brandText: string;
+}
+const UserNavbar: React.FC<UserNavbarProps> = ({ brandText }) => {
 	const { firebaseUser, setFirebaseUser, setFlickrUser } = useAuth();
 
 	const handleGoogleLogout = () => {
@@ -47,7 +49,7 @@ const UserNavbar = (props: any) => {
 				setFlickrUser(undefined);
 				setFirebaseUser({} as User);
 			})
-			.catch((error: any) => {
+			.catch((error: { message: string }) => {
 				console.error("Logout Error:", error.message);
 			});
 	};
@@ -60,7 +62,7 @@ const UserNavbar = (props: any) => {
 						className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
 						to="/"
 					>
-						{props.brandText}
+						{brandText}
 					</Link>
 					<Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
 						<FormGroup className="mb-0">
