@@ -56,7 +56,7 @@ export const WelcomePage: React.FC = () => {
 		const userDoc = await getDoc(userRef);
 
 		if (userDoc.exists()) {
-			setFlickrUser(userDoc.data().flickrId);
+			setFlickrUser(userDoc.data().flickrUserName);
 
 			await setDoc(
 				userRef,
