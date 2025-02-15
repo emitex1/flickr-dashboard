@@ -42,6 +42,7 @@ const routes = [
     icon: "ni ni-single-02 text-yellow",
     component: <SetFlickrUser />,
     layout: "/user",
+    notInSidebar: true,
   },
   // {
   //   path: "/user-profile",
@@ -57,20 +58,13 @@ const routes = [
     component: <Settings />,
     layout: "/user",
   },
-  // {
-  //   path: "/tables",
-  //   name: "Tables",
-  //   icon: "ni ni-bullet-list-67 text-red",
-  //   component: <Tables />,
-  //   layout: "/user",
-  // },
   {
     path: "/login",
     name: "Login",
     icon: "ni ni-key-25 text-info",
     component: <WelcomePage />,
-    // component: <div>Emad</div>,
     layout: "/auth",
+    notInSidebar: true,
   },
   // {
   //   path: "/register",
