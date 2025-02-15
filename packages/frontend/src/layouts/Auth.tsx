@@ -24,10 +24,10 @@ import { Container, Row, Col } from "reactstrap";
 import AuthNavbar from "../components/Navbars/AuthNavbar";
 import AuthFooter from "../components/Footers/AuthFooter";
 
-import routes from "../routes";
+import routes, { RouteType } from "../routes";
 import flickrDashboardLogo from "../assets/img/brand/white_logo.png";
 
-const Auth = (_props: unknown) => {
+const Auth = () => {
   const mainContent = React.useRef(null);
   const location = useLocation();
 
@@ -40,12 +40,13 @@ const Auth = (_props: unknown) => {
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     document.scrollingElement && (document.scrollingElement.scrollTop = 0);
     // mainContent.current && (mainContent.current.scrollTop = 0);
   }, [location]);
 
-  const getRoutes = (routes: any) => {
-    return routes.map((prop: any, key: any) => {
+  const getRoutes = (routes: RouteType[]) => {
+    return routes.map((prop: RouteType, key: number) => {
       if (prop.layout === "/auth") {
         return (
           // <Route path={prop.path} element={prop.component} key={key} exact />
