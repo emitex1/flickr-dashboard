@@ -31,10 +31,10 @@ const Login = () => {
                 © {new Date().getFullYear()}{" "}
                 <a
                   className="font-weight-bold ml-1"
-                  href="https://www.creative-tim.com?ref=adr-auth-footer"
+                  href="http://www.armoun.com"
                   target="_blank"
                 >
-                  Creative Tim
+                  EmArTex
                 </a>
               </div>
             </Col>
@@ -42,26 +42,26 @@ const Login = () => {
               <Nav className="nav-footer justify-content-center justify-content-xl-end">
                 <NavItem>
                   <NavLink
-                    href="https://www.creative-tim.com?ref=adr-auth-footer"
+                    href="http://www.armoun.com"
                     target="_blank"
                   >
-                    Creative Tim
+                    About me
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
-                    href="https://www.creative-tim.com/presentation?ref=adr-auth-footer"
+                    href="https://github.com/emitex1"
                     target="_blank"
                   >
-                    About Us
+                    GitHub
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
-                    href="http://blog.creative-tim.com?ref=adr-auth-footer"
+                    href="https://www.linkedin.com/in/emitex/"
                     target="_blank"
                   >
-                    Blog
+                    LinkedIn
                   </NavLink>
                 </NavItem>
                 <NavItem>
