@@ -18,54 +18,45 @@
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
-  UncontrolledCollapse,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
-  Container,
-  Row,
-  Col,
+	UncontrolledCollapse,
+	NavbarBrand,
+	Navbar,
+	Container,
+	Row,
+	Col,
 } from "reactstrap";
 import flickrDashboardWideLogo from "../../assets/img/brand/wide_white_logo.png";
-import argonReactLogo from "../../assets/img/brand/argon-react.png"
+import argonReactLogo from "../../assets/img/brand/argon-react.png";
 
 const AuthNavbar = () => {
-  return (
-    <>
-      <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
-        <Container className="px-4">
-          <NavbarBrand to="/" tag={Link}>
-            <img
-              alt="..."
-              src={flickrDashboardWideLogo}
-            />
-          </NavbarBrand>
-          <button className="navbar-toggler" id="navbar-collapse-main">
-            <span className="navbar-toggler-icon" />
-          </button>
-          <UncontrolledCollapse navbar toggler="#navbar-collapse-main">
-            <div className="navbar-collapse-header d-md-none">
-              <Row>
-                <Col className="collapse-brand" xs="6">
-                  <Link to="/">
-                    <img
-                      alt="..."
-                      src={argonReactLogo}
-                    />
-                  </Link>
-                </Col>
-                <Col className="collapse-close" xs="6">
-                  <button className="navbar-toggler" id="navbar-collapse-main">
-                    <span />
-                    <span />
-                  </button>
-                </Col>
-              </Row>
-            </div>
-            {/* Navbar Placeholder */}
-            {/* <Nav className="ml-auto" navbar>
+	return (
+		<>
+			<Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
+				<Container className="px-4">
+					<NavbarBrand to="/" tag={Link}>
+						<img alt="..." src={flickrDashboardWideLogo} />
+					</NavbarBrand>
+					<button className="navbar-toggler" id="navbar-collapse-main">
+						<span className="navbar-toggler-icon" />
+					</button>
+					<UncontrolledCollapse navbar toggler="#navbar-collapse-main">
+						<div className="navbar-collapse-header d-md-none">
+							<Row>
+								<Col className="collapse-brand" xs="6">
+									<Link to="/">
+										<img alt="..." src={argonReactLogo} />
+									</Link>
+								</Col>
+								<Col className="collapse-close" xs="6">
+									<button className="navbar-toggler" id="navbar-collapse-main">
+										<span />
+										<span />
+									</button>
+								</Col>
+							</Row>
+						</div>
+						{/* Navbar Placeholder */}
+						{/* <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink className="nav-link-icon" to="/" tag={Link}>
                   <i className="ni ni-planet" />
@@ -73,11 +64,11 @@ const AuthNavbar = () => {
                 </NavLink>
               </NavItem>
             </Nav> */}
-          </UncontrolledCollapse>
-        </Container>
-      </Navbar>
-    </>
-  );
+					</UncontrolledCollapse>
+				</Container>
+			</Navbar>
+		</>
+	);
 };
 
 export default AuthNavbar;
