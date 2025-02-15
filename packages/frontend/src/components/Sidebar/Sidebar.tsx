@@ -15,25 +15,15 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-/*eslint-disable*/
 import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
-// nodejs library to set properties for components
-// import { PropTypes } from "prop-types";
 
-// reactstrap components
 import {
-  // Button,
-  // Card,
-  // CardHeader,
-  // CardBody,
-  // CardTitle,
   Collapse,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  // FormGroup,
   Form,
   Input,
   InputGroupAddon,
@@ -45,33 +35,53 @@ import {
   NavItem,
   NavLink,
   Nav,
-  // Progress,
-  // Table,
   Container,
   Row,
   Col,
 } from "reactstrap";
 import teamLogo from "../../assets/img/theme/team-1-800x800.jpg";
+import { RouteType } from "../../routes";
 
 // var ps;
 
-const Sidebar = (props: any) => {
+type SidebarProps = {
+  // bgColor: string;
+  // links that will be displayed inside the component
+  routes: RouteType[];
+  logo: {
+    // innerLink is for links that will direct the user within the app
+    // it will be rendered as <Link to="...">...</Link> tag
+    innerLink?: string,
+    // outterLink is for links that will direct the user outside the app
+    // it will be rendered as simple <a href="...">...</a> tag
+    outterLink?: string,
+    // the image src of the logo
+    imgSrc: string,
+    // the alt for the img
+    imgAlt: string,
+  },
+}
+  
+const Sidebar: React.FC<SidebarProps> = ({ routes, logo }) => {
   const [collapseOpen, setCollapseOpen] = useState<boolean>();
   // verifies if routeName is the one active (in browser input)
   // const activeRoute = (routeName) => {
   //   return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   // };
+  
   // toggles collapse between opened and closed (true/false)
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
   };
+  
   // closes the collapse
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
+  
   // creates the links that appear in the left menu / Sidebar
-  const createLinks = (routes: any) => {
-    return routes.map((prop: any, key: any) => {
+  const createLinks = (routes: RouteType[]) => {
+    return routes.map((prop: RouteType, key: number) => {
       if (prop.notInSidebar) return;
       return (
         <NavItem key={key}>
@@ -88,8 +98,6 @@ const Sidebar = (props: any) => {
     });
   };
 
-  // const { bgColor, routes, logo } = props;
-  const { routes, logo } = props;
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {
@@ -250,26 +258,5 @@ const Sidebar = (props: any) => {
     </Navbar>
   );
 };
-
-Sidebar.defaultProps = {
-  routes: [{}],
-};
-
-// Sidebar.propTypes = {
-//   // links that will be displayed inside the component
-//   routes: PropTypes.arrayOf(PropTypes.object),
-//   logo: PropTypes.shape({
-//     // innerLink is for links that will direct the user within the app
-//     // it will be rendered as <Link to="...">...</Link> tag
-//     innerLink: PropTypes.string,
-//     // outterLink is for links that will direct the user outside the app
-//     // it will be rendered as simple <a href="...">...</a> tag
-//     outterLink: PropTypes.string,
-//     // the image src of the logo
-//     imgSrc: PropTypes.string.isRequired,
-//     // the alt for the img
-//     imgAlt: PropTypes.string.isRequired,
-//   }),
-// };
 
 export default Sidebar;
