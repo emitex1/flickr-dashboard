@@ -20,8 +20,18 @@ import { Photos } from "./pages/Photos";
 import { Settings } from "./pages/Settings";
 import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
+import { ReactElement } from "react";
 
-const routes = [
+export type RouteType = {
+  path: string;
+  name: string;
+  icon: string;
+  component: ReactElement;
+  layout: string;
+  notInSidebar?: boolean;
+}
+
+const routes: RouteType[] = [
   {
     path: "/index",
     name: "Dashboard",
