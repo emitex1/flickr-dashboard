@@ -21,6 +21,7 @@ import { Settings } from "./pages/Settings";
 import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
 import { ReactElement } from "react";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 
 export type RouteType = {
   path: string;
@@ -42,7 +43,7 @@ const routes: RouteType[] = [
   {
     path: "/photos",
     name: "Photos",
-    icon: "ni ni-single-02 text-yellow",
+    icon: "ni ni-camera-compact text-green",
     component: <Photos />,
     layout: "/user",
   },
@@ -64,7 +65,7 @@ const routes: RouteType[] = [
   {
     path: "/settings",
     name: "Settings",
-    icon: "ni ni-single-02 text-yellow",
+    icon: "ni ni-settings-gear-65 text-red",
     component: <Settings />,
     layout: "/user",
   },
@@ -83,5 +84,12 @@ const routes: RouteType[] = [
   //   component: <Register />,
   //   layout: "/auth",
   // },
+  {
+    path: "/privacy",
+    name: "Privacy Policy",
+    icon: "ni ni-single-copy-04 text-yellow",
+    component: <PrivacyPolicy />,
+    layout: "/user",
+  },
 ];
 export default routes;
