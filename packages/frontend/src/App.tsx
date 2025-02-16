@@ -8,7 +8,7 @@ import {
 import { useAuth } from "./context/AuthContext";
 import UserLayout from "./layouts/User";
 import AuthLayout from "./layouts/Auth";
-import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { PrivacyPolicyPage } from "./pages/PrivacyPolicy";
 
 import "./assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -20,7 +20,7 @@ const App: React.FC = () => {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/privacy-policy" element={<PrivacyPolicy />} />
+				<Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 				<Route path="/user/*" element={isAuthenticated ? <UserLayout /> : <Navigate to={"/auth/login"} />} />
 				<Route path="/auth/*" element={<AuthLayout />} />
 				<Route path="*" element={<Navigate to="/user/index" replace />} />

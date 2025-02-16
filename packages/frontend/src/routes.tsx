@@ -21,7 +21,7 @@ import { Settings } from "./pages/Settings";
 import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
 import { ReactElement } from "react";
-import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { PrivacyPolicy } from "./components/PrivacyPolicy";
 
 export type RouteType = {
   path: string;
@@ -85,7 +85,7 @@ const routes: RouteType[] = [
   //   layout: "/auth",
   // },
   {
-    path: "/privacy",
+    path: "/privacy-policy",
     name: "Privacy Policy",
     icon: "ni ni-single-copy-04 text-yellow",
     component: <PrivacyPolicy />,
