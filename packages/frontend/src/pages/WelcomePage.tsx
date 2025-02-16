@@ -67,7 +67,7 @@ export const WelcomePage: React.FC = () => {
 				{ merge: true }
 			);
 
-			console.log("Last login date updated successfully.");
+			console.log("Last Login Date updated successfully.");
 		} else {
 			const userData = {
 				uid: user.uid,
