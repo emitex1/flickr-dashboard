@@ -16,14 +16,9 @@
 
 */
 import React from "react";
-import { useLocation, Link, NavLink } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 // reactstrap components
-import {
-	Container,
-	Nav,
-	Navbar,
-	NavItem,
-} from "reactstrap";
+import { Container, Nav, Navbar, NavItem, NavLink } from "reactstrap";
 // core components
 import UserFooter from "../components/Footers/UserFooter";
 import { PrivacyPolicy } from "../components/PrivacyPolicy";
@@ -52,8 +47,8 @@ export const PrivacyPolicyPage = () => {
 						<Nav className="ml-auto d-none d-md-flex" navbar>
 							<NavItem>
 								<NavLink className="nav-link-icon" to="/auth/login" tag={Link}>
-									<i className="ni ni-key-25 text-white" />
-									<span className="nav-link-inner--text text-white">Login</span>
+									<i className="ni ni-key-25" />
+									<span className="nav-link-inner--text">Login</span>
 								</NavLink>
 							</NavItem>
 						</Nav>
