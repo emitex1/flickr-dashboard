@@ -1,0 +1,18 @@
+h1, h2 {
+  color: #333;
+}
+a {
+  color: #007BFF;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.section {
+  margin-bottom: 30px;
+}
+.back-to-top {
+  display: block;
+  margin-top: 20px;
+  font-weight: bold;
+}
