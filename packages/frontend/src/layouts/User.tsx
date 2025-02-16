@@ -26,7 +26,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import flickrDashboardWideLogo from "../assets/img/brand/wide_logo.png";
 import { useAuth } from "../context/AuthContext";
 
-import routes from "../routes";
+import routes, { RouteType } from "../routes";
 
 const User = (props: any) => {
 	const mainContent = React.useRef(null);
@@ -35,12 +35,13 @@ const User = (props: any) => {
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     document.scrollingElement && (document.scrollingElement.scrollTop = 0);
     // mainContent.current && (mainContent.current.scrollTop = 0);
   }, [location]);
 
-  const getRoutes = (routes: any) => {
-    return routes.map((prop: any, key: any) => {
+  const getRoutes = (routes: RouteType[]) => {
+    return routes.map((prop: RouteType, key: number) => {
       if (prop.layout === "/user") {
         return (
           // <Route path={prop.path} element={prop.component} key={key} exact />
