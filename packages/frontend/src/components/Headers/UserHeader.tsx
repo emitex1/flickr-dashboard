@@ -18,6 +18,7 @@
 
 // reactstrap components
 import { Button, Container, Row, Col } from "reactstrap";
+import profileCover from "../../assets/img/theme/profile-cover.jpg";
 
 const UserHeader = () => {
   return (
@@ -27,7 +28,7 @@ const UserHeader = () => {
         style={{
           minHeight: "600px",
           backgroundImage:
-            "url(" + require("../../assets/img/theme/profile-cover.jpg") + ")",
+            "url(" + profileCover + ")",
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}
