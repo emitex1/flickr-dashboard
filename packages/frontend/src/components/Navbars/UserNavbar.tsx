@@ -98,7 +98,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({ brandText }) => {
 								<DropdownItem className="noti-title" header tag="div">
 									<h6 className="text-overflow m-0">Welcome!</h6>
 								</DropdownItem>
-								<DropdownItem to="/user/user-profile" tag={Link} disabled>
+								<DropdownItem to="/user/user-profile" tag={Link}>
 									<i className="ni ni-single-02" />
 									<span>My profile</span>
 								</DropdownItem>
