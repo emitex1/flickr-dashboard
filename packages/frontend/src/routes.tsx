@@ -15,12 +15,13 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import { ReactElement } from "react";
 import { Index } from "./pages/Index";
 import { Photos } from "./pages/Photos";
 import { Settings } from "./pages/Settings";
 import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
-import { ReactElement } from "react";
+import { Profile } from "./pages/Profile";
 import { PrivacyPolicy } from "./components/PrivacyPolicy";
 
 export type RouteType = {
@@ -55,13 +56,13 @@ const routes: RouteType[] = [
     layout: "/user",
     notInSidebar: true,
   },
-  // {
-  //   path: "/user-profile",
-  //   name: "User Profile",
-  //   icon: "ni ni-single-02 text-yellow",
-  //   component: <Profile />,
-  //   layout: "/user",
-  // },
+  {
+    path: "/user-profile",
+    name: "User Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: <Profile />,
+    layout: "/user",
+  },
   {
     path: "/settings",
     name: "Settings",
