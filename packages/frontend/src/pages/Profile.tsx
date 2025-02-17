@@ -55,7 +55,6 @@ export const Profile: React.FC = () => {
 			showErrorMessage("Error in saving user info in DB");
 		}
 	};
-  console.log(user);
 
 	useEffect(() => {
 		getUserInfo(firebaseUser);
