@@ -23,9 +23,12 @@ const getUserId = async (flickrUserName: string, api_key: string) => {
 		}
 	} catch (error: unknown) {
 		logger.error("API Request Failed", error);
-		return failResult(500, "API Request Failed: " + (error as {message: string}).message);
+		return failResult(
+			500,
+			"API Request Failed: " + (error as { message: string }).message
+		);
 	}
-}
+};
 
 const readCurrentUserFlickrId = async (currentUserId: string) => {
 	const userRef = db.collection("users").doc(currentUserId);
@@ -59,10 +62,12 @@ export const checkFlickrUserName = functions.https.onRequest(
 
 			const flickrUserResult = await getUserId(flickrUserName, apiKey);
 			if (!flickrUserResult.isDone) {
-        logger.error("Error: ", flickrUserResult.message);
-        res.status(flickrUserResult.status).json({ error: flickrUserResult.message });
-        return;
-      }
+				logger.error("Error: ", flickrUserResult.message);
+				res
+					.status(flickrUserResult.status)
+					.json({ error: flickrUserResult.message });
+				return;
+			}
 			const flickrUserId = flickrUserResult.data as string;
 
 			const userRef = db.collection("users").doc(currentFirebaseUserId);
@@ -79,7 +84,12 @@ export const checkFlickrUserName = functions.https.onRequest(
 			});
 		} catch (error: unknown) {
 			logger.error("Error fetching Flickr User:", error);
-			res.status(500).send("Error fetching Flickr User:\n" + (error as {message: string}).message);
+			res
+				.status(500)
+				.send(
+					"Error fetching Flickr User:\n" +
+						(error as { message: string }).message
+				);
 		}
 	}
 );
@@ -105,10 +115,12 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 			if (flickrUserName) {
 				const flickrUserResult = await getUserId(flickrUserName, apiKey);
 				if (!flickrUserResult.isDone) {
-          logger.error("Error: ", flickrUserResult.message);
-          res.status(flickrUserResult.status).json({ error: flickrUserResult.message });
-          return;
-        }
+					logger.error("Error: ", flickrUserResult.message);
+					res
+						.status(flickrUserResult.status)
+						.json({ error: flickrUserResult.message });
+					return;
+				}
 				flickrUserId = flickrUserResult.data as string;
 			} else {
 				const authResult = await checkAuthorization(req, admin);
@@ -138,7 +150,12 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 			res.status(200).json(result);
 		} catch (error: unknown) {
 			logger.error("Error fetching Flickr photos:", error);
-			res.status(500).send("Error fetching Flickr photos:\n" + (error as {message: string}).message);
+			res
+				.status(500)
+				.send(
+					"Error fetching Flickr photos:\n" +
+						(error as { message: string }).message
+				);
 		}
 	}
 );
