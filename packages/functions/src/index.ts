@@ -3,14 +3,14 @@ import * as functions from "firebase-functions";
 import * as logger from "firebase-functions/logger";
 import { failResult, successResult } from "./util/generalResult";
 import { checkAuthorization, checkCORS } from "./util/webUtils";
-import { callFlickrAPI, getFlickrAPIKey } from "./util/flickrUtils";
+import { callFlickrAPI } from "./util/flickrUtils";
 
 admin.initializeApp();
 const db = admin.firestore();
 
-const getUserId = async (flickrUserName: string, api_key: string) => {
+const getUserId = async (flickrUserName: string) => {
 	try {
-		const data = await callFlickrAPI("flickr.people.findByUsername", api_key, {
+		const data = await callFlickrAPI("flickr.people.findByUsername", {
 			username: flickrUserName,
 		});
 
@@ -54,13 +54,11 @@ export const checkFlickrUserName = functions.https.onRequest(
 		const currentFirebaseUserId = authResult.data as string;
 
 		try {
-			const apiKey = getFlickrAPIKey();
-
 			const flickrUserName = req.query.userName || "";
 			if (!flickrUserName) throw new Error("A user name should be provided.");
 			logger.info(`Target User Name: ${flickrUserName}`);
 
-			const flickrUserResult = await getUserId(flickrUserName, apiKey);
+			const flickrUserResult = await getUserId(flickrUserName);
 			if (!flickrUserResult.isDone) {
 				logger.error("Error: ", flickrUserResult.message);
 				res
@@ -101,8 +99,6 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 		checkCORS(req, res);
 
 		try {
-			const apiKey = getFlickrAPIKey();
-
 			const flickrUserName = req.query.userName;
 
 			logger.info(
@@ -113,7 +109,7 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 
 			let flickrUserId;
 			if (flickrUserName) {
-				const flickrUserResult = await getUserId(flickrUserName, apiKey);
+				const flickrUserResult = await getUserId(flickrUserName);
 				if (!flickrUserResult.isDone) {
 					logger.error("Error: ", flickrUserResult.message);
 					res
@@ -138,13 +134,9 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 				(req.query.isPublic || "").trim().toLowerCase() === "true";
 			const flickrMethodName = isPublic ? "getPublicPhotos" : "getPhotos";
 
-			const result = await callFlickrAPI(
-				"flickr.people." + flickrMethodName,
-				apiKey,
-				{
-					user_id: flickrUserId,
-				}
-			);
+			const result = await callFlickrAPI("flickr.people." + flickrMethodName, {
+				user_id: flickrUserId,
+			});
 			logger.info(`${result.photos.total} photos are fetched.`);
 
 			res.status(200).json(result);
