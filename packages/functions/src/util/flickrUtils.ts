@@ -2,17 +2,19 @@ import * as logger from "firebase-functions/logger";
 import * as dotenvContent from "dotenv";
 import axios from "axios";
 
-const getFlickrAPIKey = () => {
+const getFlickrAPIInfo = () => {
 	dotenvContent.config();
 	const apiKey = process.env.FLICKR_API_KEY;
-	logger.info("Flickr API Key is available.");
+	const apiSecret = process.env.FLICKR_API_SECRET;
+	logger.info("Flickr API Key and Secret are available.");
 	if (!apiKey) throw new Error("Flickr API Key is not defined");
-	return apiKey;
+	if (!apiSecret) throw new Error("Flickr API Secret is not defined");
+	return { apiKey, apiSecret };
 };
 
 export const callFlickrAPI = async (method: string, otherParams?: object) => {
 	const url = "https://www.flickr.com/services/rest/";
-	const api_key = getFlickrAPIKey();
+	const api_key = getFlickrAPIInfo().apiKey;
 	const params = {
 		method: method,
 		api_key: api_key,
