@@ -2,7 +2,7 @@ import * as logger from "firebase-functions/logger";
 import * as dotenvContent from "dotenv";
 import axios from "axios";
 
-export const getFlickrAPIKey = () => {
+const getFlickrAPIKey = () => {
 	dotenvContent.config();
 	const apiKey = process.env.FLICKR_API_KEY;
 	logger.info("Flickr API Key is available.");
@@ -32,11 +32,11 @@ export const callFlickrAPI = async (method: string, otherParams?: object) => {
 
 	if (data.stat === "ok") {
 		return data;
+	} else if (data.stat === "fail") {
+		logger.log("Failure:", data.message);
+		return null;
 	} else {
-		logger.error("Error:", data.message);
+		logger.log("Error:", data);
+		return null;
 	}
-	// if (photos.stat === "fail") {
-	//   logger.error("Error:", photos.message);
-	//   res.status(404);
-	// }
 };
