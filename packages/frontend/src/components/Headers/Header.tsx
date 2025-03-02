@@ -29,6 +29,9 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 	const { firebaseUser } = useAuth();
 	const db = getFirestore();
 	const [photosCount, setPhotosCount] = useState(0);
+	const [userViews, setUserViews] = useState(0);
+	const [userFaves, setUserFaves] = useState(0);
+	const [userComments, setUserComments] = useState(0);
 
 	const getUserInfo = async () => {
 		if (!firebaseUser) return;
@@ -37,7 +40,11 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 		const userDoc = await getDoc(userRef);
 
 		if (userDoc.exists()) {
-			setPhotosCount(userDoc.data().photosCount);
+			const { photosCount, totalViews, totalFaves, totalComments } = userDoc.data();
+			setPhotosCount(photosCount);
+			setUserViews(totalViews);
+			setUserFaves(totalFaves);
+			setUserComments(totalComments);
 		}
 	};
 
@@ -75,7 +82,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 											</Row>
 											<p className="mt-3 mb-0 text-muted text-sm">
 												<span className="text-success mr-2">
-													<i className="fa fa-arrow-up" /> 3.48%
+													<i className="fa fa-arrow-up" /> 1.00%
 												</span>{" "}
 												<span className="text-nowrap">Since last month</span>
 											</p>
@@ -94,7 +101,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 														Views
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														2374
+														{userViews}
 													</span>
 												</div>
 												<Col className="col-auto">
@@ -105,7 +112,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 											</Row>
 											<p className="mt-3 mb-0 text-muted text-sm">
 												<span className="text-danger mr-2">
-													<i className="fas fa-arrow-down" /> 3.48%
+													<i className="fas fa-arrow-down" /> 1.00%
 												</span>{" "}
 												<span className="text-nowrap">Since last week</span>
 											</p>
@@ -123,7 +130,9 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 													>
 														Faves
 													</CardTitle>
-													<span className="h2 font-weight-bold mb-0">36</span>
+													<span className="h2 font-weight-bold mb-0">
+														{userFaves}
+													</span>
 												</div>
 												<Col className="col-auto">
 													<div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -133,7 +142,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 											</Row>
 											<p className="mt-3 mb-0 text-muted text-sm">
 												<span className="text-warning mr-2">
-													<i className="fas fa-arrow-down" /> 1.10%
+													<i className="fas fa-arrow-up" /> 1.00%
 												</span>{" "}
 												<span className="text-nowrap">Since yesterday</span>
 											</p>
@@ -152,7 +161,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 														Comments
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														12
+														{userComments}
 													</span>
 												</div>
 												<Col className="col-auto">
@@ -163,7 +172,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 											</Row>
 											<p className="mt-3 mb-0 text-muted text-sm">
 												<span className="text-success mr-2">
-													<i className="fas fa-arrow-up" /> 12%
+													<i className="fas fa-arrow-down" /> 1.00%
 												</span>{" "}
 												<span className="text-nowrap">Since last month</span>
 											</p>
