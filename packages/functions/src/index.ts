@@ -260,7 +260,6 @@ export const updateFlickrStats = functionsV2.onSchedule(
 					const result = await callFlickrAPI("flickr.photos.getInfo", {
 						photo_id: photoId,
 					});
-					// logger.log('Photo Info Result', result);
 					const photoComments = parseInt(result?.photo?.comments._content, 10);
 					const photoViews = parseInt(result?.photo?.views, 10);
 					log(
@@ -274,7 +273,6 @@ export const updateFlickrStats = functionsV2.onSchedule(
 							per_page: 1,
 						}
 					);
-					// logger.log('Photo Faves Result', result);
 					const photoFaves = parseInt(resultFaves?.photo?.total, 10);
 					log(`Photo stats: Faves -> ${photoFaves}`);
 
