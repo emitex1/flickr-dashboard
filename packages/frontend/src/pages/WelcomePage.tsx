@@ -78,7 +78,7 @@ export const WelcomePage: React.FC = () => {
 			};
 
 			try {
-				await setDoc(userRef, userData, { merge: true }); // merge: true ensures not to overwrite existing data
+				await setDoc(userRef, userData, { merge: true });
 				console.log("User info saved successfully:", userData);
 			} catch (error) {
 				showErrorMessage(error, "Error in saving user info in DB");
