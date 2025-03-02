@@ -220,7 +220,7 @@ export const updateFlickrStats = functionsV2.onSchedule(
 	"every day 06:00",
 	async () => {
 		const logPrefix = "[UpdateStats]";
-		const log = (message: string) => logger.info(logPrefix, message);
+		const log = (message: string, ...params: unknown[]) => logger.info(logPrefix, message, ...params);
 
 		log("Cron Job Started: Fetching Flickr Stats...");
 
@@ -228,11 +228,12 @@ export const updateFlickrStats = functionsV2.onSchedule(
 		const usersSnapshot = await usersRef.get();
 
 		const today = new Date().toISOString().split("T")[0];
-		console.log("Today:", today);
+		log("Today:", today);
 
 		for (const userDoc of usersSnapshot.docs) {
 			const userId = userDoc.id;
 			const { flickrUserName } = userDoc.data();
+			log("--------------------------------");
 			log(
 				"Checking the Photos owned by User '" +
 					flickrUserName +
@@ -244,6 +245,8 @@ export const updateFlickrStats = functionsV2.onSchedule(
 			const photosSnapshot = await photosListRef.get();
 
 			for (const photoDoc of photosSnapshot.docs) {
+				log("- - - - - - - - - - - - - - - - -");
+
 				const photoId = photoDoc.id;
 				log("Fetching the statistics of photo " + photoId);
 
@@ -262,9 +265,6 @@ export const updateFlickrStats = functionsV2.onSchedule(
 					});
 					const photoComments = parseInt(result?.photo?.comments._content, 10);
 					const photoViews = parseInt(result?.photo?.views, 10);
-					log(
-						`Photo stats: Views -> ${photoViews}, Comments -> ${photoComments}`
-					);
 
 					const resultFaves = await callFlickrAPI(
 						"flickr.photos.getFavorites",
@@ -274,7 +274,9 @@ export const updateFlickrStats = functionsV2.onSchedule(
 						}
 					);
 					const photoFaves = parseInt(resultFaves?.photo?.total, 10);
-					log(`Photo stats: Faves -> ${photoFaves}`);
+					log(
+						`New photo stats: Views -> ${photoViews}, Faves -> ${photoFaves}, Comments -> ${photoComments}`
+					);
 
 					const totalPhotoStats = {
 						views: totalViews,
@@ -294,7 +296,7 @@ export const updateFlickrStats = functionsV2.onSchedule(
 						totalPhotoStats.comments === 0
 					) {
 						log(
-							`Initializing the stats for photo ${photoId} from user '${flickrUserName}'`
+							`No pre photo states was saved, Initializing the stats for photo ${photoId} from user '${flickrUserName}'`
 						);
 
 						totalPhotoStats.views = newPhotoStats.views;
@@ -312,7 +314,6 @@ export const updateFlickrStats = functionsV2.onSchedule(
 						continue;
 					}
 
-					log("Calculating the difference in stats for today...");
 					const todayPhotoStats = {
 						views: totalPhotoStats.views - newPhotoStats.views,
 						favorites: totalPhotoStats.favorites - newPhotoStats.favorites,
