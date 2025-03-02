@@ -180,13 +180,15 @@ export const saveFlickrPhotos = functionsV2.onSchedule(
 				const result = await callFlickrAPI("flickr.people.getPhotos", {
 					user_id: flickrUserId,
 				});
-				log(`${result.photos.total} photos owned by '${flickrUserName}' are fetched.`);
+				log(
+					`${result.photos.total} photos owned by '${flickrUserName}' are fetched.`
+				);
 
 				const photos = result.photos.photo;
 				const photoListRef = usersRef.doc(userId).collection("photos");
 				for (const photo of photos) {
 					const photoId = photo.id;
-					
+
 					// Check if the photo already exists in Firestore
 					const photoRef = photoListRef.doc(photoId);
 					const photoDoc = await photoRef.get();
@@ -199,10 +201,15 @@ export const saveFlickrPhotos = functionsV2.onSchedule(
 						// url: `https://www.flickr.com/photos/${flickrUserId}/${photoId}`,
 						timestamp: new Date().toISOString(),
 					});
-					log(`Added photo ${photoId} from user '${flickrUserName}' to Firestore.`);
+					log(
+						`Added photo ${photoId} from user '${flickrUserName}' to Firestore.`
+					);
 				}
 			} catch (error) {
-				logger.error(`${logPrefix} Failed to fetch photos for user ${userId}:`, error);
+				logger.error(
+					`${logPrefix} Failed to fetch photos for user ${userId}:`,
+					error
+				);
 			}
 		}
 		log("Cron Job Completed.");
@@ -211,7 +218,7 @@ export const saveFlickrPhotos = functionsV2.onSchedule(
 
 export const updateFlickrStats = functionsV2.onSchedule(
 	"every day 06:00",
-	async () => {	
+	async () => {
 		const logPrefix = "[UpdateStats]";
 		const log = (message: string) => logger.info(logPrefix, message);
 
@@ -221,7 +228,7 @@ export const updateFlickrStats = functionsV2.onSchedule(
 		const usersSnapshot = await usersRef.get();
 
 		const today = new Date().toISOString().split("T")[0];
-		console.log('Today:', today);
+		console.log("Today:", today);
 
 		for (const userDoc of usersSnapshot.docs) {
 			const userId = userDoc.id;
@@ -240,22 +247,33 @@ export const updateFlickrStats = functionsV2.onSchedule(
 				const photoId = photoDoc.id;
 				log("Fetching the statistics of photo " + photoId);
 
-				const { totalViews = 0, totalFaves = 0, totalComments = 0 } = photoDoc.data();
-				log(`Current stats for photo ${photoId}: Views -> ${totalViews}, Comments -> ${totalComments}, Faves -> ${totalFaves}`);
+				const {
+					totalViews = 0,
+					totalFaves = 0,
+					totalComments = 0,
+				} = photoDoc.data();
+				log(
+					`Current stats for photo ${photoId}: Views -> ${totalViews}, Comments -> ${totalComments}, Faves -> ${totalFaves}`
+				);
 
 				try {
 					const result = await callFlickrAPI("flickr.photos.getInfo", {
-						"photo_id": photoId,
+						photo_id: photoId,
 					});
 					// logger.log('Photo Info Result', result);
 					const photoComments = parseInt(result?.photo?.comments._content, 10);
 					const photoViews = parseInt(result?.photo?.views, 10);
-					log(`Photo stats: Views -> ${photoViews}, Comments -> ${photoComments}`);
+					log(
+						`Photo stats: Views -> ${photoViews}, Comments -> ${photoComments}`
+					);
 
-					const resultFaves = await callFlickrAPI("flickr.photos.getFavorites", {
-						"photo_id": photoId,
-						"per_page": 1,
-					});
+					const resultFaves = await callFlickrAPI(
+						"flickr.photos.getFavorites",
+						{
+							photo_id: photoId,
+							per_page: 1,
+						}
+					);
 					// logger.log('Photo Faves Result', result);
 					const photoFaves = parseInt(resultFaves?.photo?.total, 10);
 					log(`Photo stats: Faves -> ${photoFaves}`);
@@ -272,22 +290,31 @@ export const updateFlickrStats = functionsV2.onSchedule(
 						comments: photoComments,
 					};
 
-					if (totalPhotoStats.views === 0 && totalPhotoStats.favorites === 0 && totalPhotoStats.comments === 0) {
-						log(`Initializing the stats for photo ${photoId} from user '${flickrUserName}'`);
+					if (
+						totalPhotoStats.views === 0 &&
+						totalPhotoStats.favorites === 0 &&
+						totalPhotoStats.comments === 0
+					) {
+						log(
+							`Initializing the stats for photo ${photoId} from user '${flickrUserName}'`
+						);
 
 						totalPhotoStats.views = newPhotoStats.views;
 						totalPhotoStats.favorites = newPhotoStats.favorites;
 						totalPhotoStats.comments = newPhotoStats.comments;
 
-						await photosListRef.doc(photoId).set({
-							totalViews: totalPhotoStats.views,
-							totalFaves: totalPhotoStats.favorites,
-							totalComments: totalPhotoStats.comments,
-						}, { merge: true });
+						await photosListRef.doc(photoId).set(
+							{
+								totalViews: totalPhotoStats.views,
+								totalFaves: totalPhotoStats.favorites,
+								totalComments: totalPhotoStats.comments,
+							},
+							{ merge: true }
+						);
 						continue;
 					}
 
-					log('Calculating the difference in stats for today...');
+					log("Calculating the difference in stats for today...");
 					const todayPhotoStats = {
 						views: totalPhotoStats.views - newPhotoStats.views,
 						favorites: totalPhotoStats.favorites - newPhotoStats.favorites,
@@ -304,9 +331,14 @@ export const updateFlickrStats = functionsV2.onSchedule(
 						updatedAt: new Date().toISOString(),
 					});
 
-					log(`Updated stats for photo ${photoId} from user '${flickrUserName}' for today (${today}).`);
+					log(
+						`Updated stats for photo ${photoId} from user '${flickrUserName}' for today (${today}).`
+					);
 				} catch (error) {
-					logger.error(`${logPrefix} Failed to fetch stats for photo ${photoId}:`, error);
+					logger.error(
+						`${logPrefix} Failed to fetch stats for photo ${photoId}:`,
+						error
+					);
 				}
 			}
 		}
