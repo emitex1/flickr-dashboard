@@ -6,7 +6,6 @@ const getFlickrAPIInfo = () => {
 	dotenvContent.config();
 	const apiKey = process.env.FLICKR_API_KEY;
 	const apiSecret = process.env.FLICKR_API_SECRET;
-	logger.info("Flickr API Key and Secret are available.");
 	if (!apiKey) throw new Error("Flickr API Key is not defined");
 	if (!apiSecret) throw new Error("Flickr API Secret is not defined");
 	return { apiKey, apiSecret };
