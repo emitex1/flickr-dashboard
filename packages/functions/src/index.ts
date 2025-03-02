@@ -5,6 +5,7 @@ import * as logger from "firebase-functions/logger";
 import { failResult, successResult } from "./util/generalResult";
 import { checkAuthorization, checkCORS } from "./util/webUtils";
 import { callFlickrAPI } from "./util/flickrUtils";
+import { PhotStat } from "./util/types";
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -256,15 +257,26 @@ export const updateFlickrStats = functionsV2.onSchedule(
 					totalComments = 0,
 				} = photoDoc.data();
 				log(
-					`Current stats for photo ${photoId}: Views -> ${totalViews}, Comments -> ${totalComments}, Faves -> ${totalFaves}`
+					`Current stats for photo ${photoId}: Views -> ${totalViews}, Faves -> ${totalFaves}, Comments -> ${totalComments}`
 				);
+				const totalPhotoStats: PhotStat = {
+					views: totalViews,
+					faves: totalFaves,
+					comments: totalComments,
+				};
 
 				try {
+					const newPhotoStats: PhotStat = {
+						views: 0,
+						faves: 0,
+						comments: 0,
+					};
+
 					const result = await callFlickrAPI("flickr.photos.getInfo", {
 						photo_id: photoId,
 					});
-					const photoComments = parseInt(result?.photo?.comments._content, 10);
-					const photoViews = parseInt(result?.photo?.views, 10);
+					newPhotoStats.views = parseInt(result?.photo?.views, 10);
+					newPhotoStats.comments = parseInt(result?.photo?.comments._content, 10);
 
 					const resultFaves = await callFlickrAPI(
 						"flickr.photos.getFavorites",
@@ -273,26 +285,14 @@ export const updateFlickrStats = functionsV2.onSchedule(
 							per_page: 1,
 						}
 					);
-					const photoFaves = parseInt(resultFaves?.photo?.total, 10);
+					newPhotoStats.faves = parseInt(resultFaves?.photo?.total, 10);
 					log(
-						`New photo stats: Views -> ${photoViews}, Faves -> ${photoFaves}, Comments -> ${photoComments}`
+						`New photo stats: Views -> ${newPhotoStats.views}, Faves -> ${newPhotoStats.faves}, Comments -> ${newPhotoStats.comments}`
 					);
-
-					const totalPhotoStats = {
-						views: totalViews,
-						favorites: totalFaves,
-						comments: totalComments,
-					};
-
-					const newPhotoStats = {
-						views: photoViews,
-						favorites: photoFaves,
-						comments: photoComments,
-					};
 
 					if (
 						totalPhotoStats.views === 0 &&
-						totalPhotoStats.favorites === 0 &&
+						totalPhotoStats.faves === 0 &&
 						totalPhotoStats.comments === 0
 					) {
 						log(
@@ -300,23 +300,22 @@ export const updateFlickrStats = functionsV2.onSchedule(
 						);
 
 						totalPhotoStats.views = newPhotoStats.views;
-						totalPhotoStats.favorites = newPhotoStats.favorites;
+						totalPhotoStats.faves = newPhotoStats.faves;
 						totalPhotoStats.comments = newPhotoStats.comments;
 
 						await photosListRef.doc(photoId).set(
 							{
 								totalViews: totalPhotoStats.views,
-								totalFaves: totalPhotoStats.favorites,
+								totalFaves: totalPhotoStats.faves,
 								totalComments: totalPhotoStats.comments,
 							},
 							{ merge: true }
 						);
-						continue;
 					}
 
-					const todayPhotoStats = {
+					const todayPhotoStats: PhotStat = {
 						views: totalPhotoStats.views - newPhotoStats.views,
-						favorites: totalPhotoStats.favorites - newPhotoStats.favorites,
+						faves: totalPhotoStats.faves - newPhotoStats.faves,
 						comments: totalPhotoStats.comments - newPhotoStats.comments,
 					};
 					const statsRef = photosListRef
@@ -324,10 +323,9 @@ export const updateFlickrStats = functionsV2.onSchedule(
 						.collection("history")
 						.doc(today);
 					await statsRef.set({
-						likes: todayPhotoStats.favorites,
+						faves: todayPhotoStats.faves,
 						comments: todayPhotoStats.comments,
 						views: todayPhotoStats.views,
-						updatedAt: new Date().toISOString(),
 					});
 
 					log(
