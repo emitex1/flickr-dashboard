@@ -245,6 +245,12 @@ export const updateFlickrStats = functionsV2.onSchedule(
 			const photosListRef = usersRef.doc(userId).collection("photos");
 			const photosSnapshot = await photosListRef.get();
 
+			const userStats: PhotStat = {
+				views: 0,
+        faves: 0,
+        comments: 0,
+			}
+
 			for (const photoDoc of photosSnapshot.docs) {
 				log("- - - - - - - - - - - - - - - - -");
 
@@ -289,6 +295,10 @@ export const updateFlickrStats = functionsV2.onSchedule(
 					log(
 						`New photo stats: Views -> ${newPhotoStats.views}, Faves -> ${newPhotoStats.faves}, Comments -> ${newPhotoStats.comments}`
 					);
+
+					userStats.views += newPhotoStats.views;
+					userStats.faves += newPhotoStats.faves;
+					userStats.comments += newPhotoStats.comments;
 
 					if (
 						totalPhotoStats.views === 0 &&
@@ -338,6 +348,12 @@ export const updateFlickrStats = functionsV2.onSchedule(
 					);
 				}
 			}
+
+			usersRef.doc(userId).update({
+				totalViews: userStats.views,
+				totalFaves: userStats.faves,
+				totalComments: userStats.comments,
+			});
 		}
 
 		log("Flickr Stats Fetcher Cron Job Completed.");
