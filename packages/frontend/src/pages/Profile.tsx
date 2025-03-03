@@ -129,7 +129,7 @@ export const Profile: React.FC = () => {
 									</div>
 									<div className="h5 mt-4">
 										<i className="ni business_briefcase-24 mr-2" />
-										Photographer - EmArTex Co.
+										Photographer - EmArTx Co.
 									</div>
 									<div>
 										<i className="ni education_hat mr-2" />

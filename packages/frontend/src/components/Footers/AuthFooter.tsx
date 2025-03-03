@@ -31,10 +31,10 @@ const Login = () => {
 								© {new Date().getFullYear()}{" "}
 								<a
 									className="font-weight-bold ml-1"
-									href="http://www.armoun.com"
+									href="http://www.EmArTx.net"
 									target="_blank"
 								>
-									EmArTex
+									EmArTx
 								</a>
 							</div>
 						</Col>
@@ -44,7 +44,7 @@ const Login = () => {
 									<NavLink href="/privacy-policy">Privacy Policy</NavLink>
 								</NavItem>
 								<NavItem>
-									<NavLink href="http://www.armoun.com" target="_blank">
+									<NavLink href="http://www.EmArTx.net" target="_blank">
 										About me
 									</NavLink>
 								</NavItem>

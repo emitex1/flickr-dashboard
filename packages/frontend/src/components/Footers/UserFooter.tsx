@@ -29,11 +29,11 @@ const Footer = () => {
             © {new Date().getFullYear()}{" "}
             <a
               className="font-weight-bold ml-1"
-              href="http://www.armoun.com"
+              href="http://www.EmArTx.net"
               rel="noopener noreferrer"
               target="_blank"
             >
-              EmArTex
+              EmArTx
             </a>
           </div>
         </Col>
@@ -42,7 +42,7 @@ const Footer = () => {
           <Nav className="nav-footer justify-content-center justify-content-xl-end">
             <NavItem>
               <NavLink
-                href="http://www.armoun.com"
+                href="http://www.EmArTx.net"
                 rel="noopener noreferrer"
                 target="_blank"
               >
