@@ -114,6 +114,7 @@ export const PhotoList: React.FC = () => {
 									src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`}
 									// src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg`}
 									alt={photo.title}
+									onClick={() => navigate(`/photo/${photo.id}`)}
 								/>
 							</div>
 						)
