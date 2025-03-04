@@ -201,6 +201,8 @@ export const saveFlickrPhotos = functionsV2.onSchedule(
 						title: photo.title,
 						// url: `https://www.flickr.com/photos/${flickrUserId}/${photoId}`,
 						timestamp: new Date().toISOString(),
+						server: photo.server,
+						secret: photo.secret,
 					});
 					log(
 						`Added photo ${photoId} from user '${flickrUserName}' to Firestore.`
