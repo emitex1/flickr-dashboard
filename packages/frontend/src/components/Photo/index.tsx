@@ -16,7 +16,7 @@ type Photo = {
 	totalViews : number,
 }
 export const PhotoPage: React.FC = () => {
-	const [photo, setPhoto] = useState<Photo>({});
+	const [photo, setPhoto] = useState<Photo | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const { firebaseUser } = useAuth();
   const db = getFirestore();
@@ -25,7 +25,7 @@ export const PhotoPage: React.FC = () => {
 	const getPhoto = async (photoId: string) => {
 		try {
 			setIsLoading(true);
-			setPhoto({});
+			setPhoto(null);
 
 			const photoRef = doc(db, "users", firebaseUser.uid, "photos", photoId);
 			const photoDoc = await getDoc(photoRef);
@@ -45,6 +45,8 @@ export const PhotoPage: React.FC = () => {
 	useEffect(() => {
 		if (id) getPhoto(id);
 	}, [id]);
+
+	if (!photo) return <></>;
 
 	return (
 		<Card className="shadow">
