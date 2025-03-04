@@ -23,7 +23,7 @@ import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
 import { Profile } from "./pages/Profile";
 import { PrivacyPolicy } from "./components/PrivacyPolicy";
-import { Photo } from "./components/Photo";
+import { PhotoPage } from "./components/Photo";
 
 export type RouteType = {
   path: string;
@@ -53,7 +53,7 @@ const routes: RouteType[] = [
     path: "/photo/:id",
     name: "Photo",
     icon: "ni ni-single-02 text-yellow",
-    component: <Photo />,
+    component: <PhotoPage />,
     layout: "/user",
     notInSidebar: true,
   },

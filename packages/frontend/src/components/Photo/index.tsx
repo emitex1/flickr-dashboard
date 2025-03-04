@@ -1,44 +1,50 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, Row, CardBody } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { LoadingIcon } from "../LoadingIcon";
 import { showErrorMessage } from "../../util/errorType";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { useParams } from "react-router-dom";
 
-export const Photo: React.FC = () => {
-	const [photo, setPhoto] = useState([]);
+type Photo = {
+	secret: string,
+	server: string,
+	timestamp: string,
+	title: string,
+	totalComments: number,
+	totalFaves : number,
+	totalViews : number,
+}
+export const PhotoPage: React.FC = () => {
+	const [photo, setPhoto] = useState<Photo>({});
 	const [isLoading, setIsLoading] = useState(false);
-	const { firebaseUser, flickrUserName } = useAuth();
+	const { firebaseUser } = useAuth();
+  const db = getFirestore();
+	const { id } = useParams();
 
-	const getPhotos = async (userName: string) => {
+	const getPhoto = async (photoId: string) => {
 		try {
 			setIsLoading(true);
-			setPhoto(undefined);
+			setPhoto({});
 
-			const token = await firebaseUser.getIdToken();
-			const response = await axios.get(
-				"https://fetchflickrphotos-ag5w5dzqxq-uc.a.run.app",
-				{
-					params: { userName: userName, isPublic: true },
-					headers: {
-						"Content-Type": "Application/json",
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			setPhoto(response.data.photos.photo[0]);
+			const photoRef = doc(db, "users", firebaseUser.uid, "photos", photoId);
+			const photoDoc = await getDoc(photoRef);
 
+			if (photoDoc.exists()) {
+        const photoObj = photoDoc.data() as Photo;
+				setPhoto(photoObj);
+			} else {
+				showErrorMessage("Photo not found", "Error Fetching Photos");
+			}
 		} catch (error) {
 			showErrorMessage(error, "Error Fetching Photos");
-		} finally {
-			setIsLoading(false);
 		}
+    setIsLoading(false);
 	};
 
-
 	useEffect(() => {
-		if (flickrUserName) getPhotos(flickrUserName);
-	}, []);
+		if (id) getPhoto(id);
+	}, [id]);
 
 	return (
 		<Card className="shadow">
@@ -46,9 +52,9 @@ export const Photo: React.FC = () => {
 				<Row className="align-items-center">
 					<div className="col">
 						<h6 className="text-uppercase text-muted ls-1 mb-1">
-							Photos from Flickr
+							Photo from Flickr
 						</h6>
-						<h2 className="mb-0">Photo X</h2>
+						<h2 className="mb-0">{photo.title}</h2>
 					</div>
 				</Row>
 			</CardHeader>
@@ -58,11 +64,14 @@ export const Photo: React.FC = () => {
 				>
 					{isLoading && <LoadingIcon minHeight={200} />}
 
-					{!isLoading && !!photo && !!flickrUserName && (
+					{!isLoading && !photo.secret && (
 						<div>No photo found</div>
 					)}
 
-          Photo X
+					<img
+						src={`https://live.staticflickr.com/${photo.server}/${id}_${photo.secret}_b.jpg`}
+						alt="Flickr"
+					/>
 				</div>
 			</CardBody>
 		</Card>
