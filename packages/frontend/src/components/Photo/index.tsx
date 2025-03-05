@@ -55,7 +55,7 @@ export const PhotoPage: React.FC = () => {
 						<h6 className="text-uppercase text-muted ls-1 mb-1">
 							Photo from Flickr
 						</h6>
-						<h2 className="mb-0">{photo ? photo.title : "NO PHOTO"}</h2>
+						<h2 className="mb-0">{photo ? photo.title : "The photo not found"}</h2>
 					</div>
 				</Row>
 			</CardHeader>
@@ -67,15 +67,16 @@ export const PhotoPage: React.FC = () => {
 
 					{!isLoading && !photo && (
 						<div>
-							<h1>No photo found</h1>
 							<img src={notFoundImage} alt="Not Found" />
 						</div>
 					)}
 
-					<img
-						src={`https://live.staticflickr.com/${photo!.server}/${id}_${photo!.secret}_b.jpg`}
-						alt="Flickr"
-					/>
+					{!isLoading && photo && (
+						<img
+							src={`https://live.staticflickr.com/${photo.server}/${id}_${photo.secret}_b.jpg`}
+							alt="Flickr"
+						/>
+					)}
 				</div>
 			</CardBody>
 		</Card>
