@@ -5,6 +5,7 @@ import { LoadingIcon } from "../LoadingIcon";
 import { showErrorMessage } from "../../util/errorType";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useParams } from "react-router-dom";
+import notFoundImage from "../../assets/img/not_found.jpg";
 
 type Photo = {
 	secret: string,
@@ -46,8 +47,6 @@ export const PhotoPage: React.FC = () => {
 		if (id) getPhoto(id);
 	}, [id]);
 
-	if (!photo) return <></>;
-
 	return (
 		<Card className="shadow">
 			<CardHeader className="bg-transparent">
@@ -56,7 +55,7 @@ export const PhotoPage: React.FC = () => {
 						<h6 className="text-uppercase text-muted ls-1 mb-1">
 							Photo from Flickr
 						</h6>
-						<h2 className="mb-0">{photo.title}</h2>
+						<h2 className="mb-0">{photo ? photo.title : "NO PHOTO"}</h2>
 					</div>
 				</Row>
 			</CardHeader>
@@ -66,12 +65,15 @@ export const PhotoPage: React.FC = () => {
 				>
 					{isLoading && <LoadingIcon minHeight={200} />}
 
-					{!isLoading && !photo.secret && (
-						<div>No photo found</div>
+					{!isLoading && !photo && (
+						<div>
+							<h1>No photo found</h1>
+							<img src={notFoundImage} alt="Not Found" />
+						</div>
 					)}
 
 					<img
-						src={`https://live.staticflickr.com/${photo.server}/${id}_${photo.secret}_b.jpg`}
+						src={`https://live.staticflickr.com/${photo!.server}/${id}_${photo!.secret}_b.jpg`}
 						alt="Flickr"
 					/>
 				</div>
