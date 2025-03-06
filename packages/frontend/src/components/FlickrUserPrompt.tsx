@@ -6,7 +6,8 @@ import { LoadingIcon } from "./LoadingIcon";
 import { Button, Col, Form, FormGroup, Input, Row } from "reactstrap";
 
 export const FlickrUserPrompt: React.FC = () => {
-	const { firebaseUser, flickrUserName, setFlickrUser } = useAuth();
+	const { firebaseUser, getFlickrUserName, setFlickrUser } = useAuth();
+	const flickrUserName = getFlickrUserName();
 	const [userName, setUserName] = useState(flickrUserName);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();

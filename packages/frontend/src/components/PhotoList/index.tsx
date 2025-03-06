@@ -11,7 +11,8 @@ export const PhotoList: React.FC = () => {
 	const [photos, setPhotos] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const db = getFirestore();
-	const { firebaseUser, flickrUserName } = useAuth();
+	const { firebaseUser, getFlickrUserName } = useAuth();
+	const flickrUserName = getFlickrUserName();
 	const navigate = useNavigate();
 
 	const getPhotos = async (userName: string) => {

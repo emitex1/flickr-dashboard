@@ -31,7 +31,8 @@ import routes, { RouteType } from "../routes";
 const User = (props: any) => {
 	const mainContent = React.useRef(null);
 	const location = useLocation();
-	const { flickrUserName } = useAuth();
+	const { getFlickrUserName } = useAuth();
+	const flickrUserName = getFlickrUserName();
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
