@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, Row, CardBody } from "reactstrap";
+import { Card, CardHeader, Row, CardBody, Col, Container } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { LoadingIcon } from "../LoadingIcon";
 import { showErrorMessage } from "../../util/errorType";
@@ -72,10 +72,51 @@ export const PhotoPage: React.FC = () => {
 					)}
 
 					{!isLoading && photo && (
-						<img
-							src={`https://live.staticflickr.com/${photo.server}/${id}_${photo.secret}_b.jpg`}
-							alt="Flickr"
-						/>
+						<Container>
+							<Row className="mb-3">
+								<Col lg="4" sm="12">
+							    <Row>
+										<Col xs="5">
+											<i className="ni ni-image"></i>
+											<span className="lg-12"> Views: </span>
+										</Col>
+										<Col xs="7">
+											{photo.totalViews}
+										</Col>
+									</Row>
+								</Col>
+								<Col lg="4" sm="12">
+									<Row>
+										<Col xs="5">
+											<i className="ni ni-favourite-28"></i>
+											<span className="lg-12"> Faves: </span>
+										</Col>
+										<Col xs="7">
+											{photo.totalFaves}
+										</Col>
+									</Row>
+								</Col>
+								<Col lg="4" sm="12">
+									<Row>
+										<Col xs="5">
+											<i className="ni ni-chat-round"></i>
+											<span className="lg-12"> Comments: </span>
+										</Col>
+										<Col xs="7">
+											{photo.totalComments}
+										</Col>
+									</Row>
+								</Col>
+							</Row>
+
+							<Row>
+								<img
+									src={`https://live.staticflickr.com/${photo.server}/${id}_${photo.secret}_b.jpg`}
+									alt="Flickr"
+									className="w-100"
+								/>
+							</Row>
+						</Container>
 					)}
 				</div>
 			</CardBody>
