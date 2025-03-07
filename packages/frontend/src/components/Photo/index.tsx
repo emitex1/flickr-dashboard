@@ -77,7 +77,7 @@ export const PhotoPage: React.FC = () => {
 								<Col lg="4" sm="12">
 							    <Row>
 										<Col xs="5">
-											<i className="ni ni-image"></i>
+											<i className="fas fa-eye"></i>
 											<span className="lg-12"> Views: </span>
 										</Col>
 										<Col xs="7">
