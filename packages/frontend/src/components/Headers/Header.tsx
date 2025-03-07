@@ -76,7 +76,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 												</div>
 												<Col className="col-auto">
 													<div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-														<i className="fas fa-chart-bar" />
+														<i className="fas fa-image" />
 													</div>
 												</Col>
 											</Row>
@@ -106,7 +106,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 												</div>
 												<Col className="col-auto">
 													<div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-														<i className="fas fa-chart-pie" />
+														<i className="fas fa-eye" />
 													</div>
 												</Col>
 											</Row>
@@ -136,7 +136,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 												</div>
 												<Col className="col-auto">
 													<div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-														<i className="fas fa-users" />
+														<i className="fas fa-heart" />
 													</div>
 												</Col>
 											</Row>
@@ -166,7 +166,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 												</div>
 												<Col className="col-auto">
 													<div className="icon icon-shape bg-info text-white rounded-circle shadow">
-														<i className="fas fa-percent" />
+														<i className="fas fa-comment" />
 													</div>
 												</Col>
 											</Row>
