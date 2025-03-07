@@ -141,7 +141,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 												</Col>
 											</Row>
 											<p className="mt-3 mb-0 text-muted text-sm">
-												<span className="text-warning mr-2">
+												<span className="text-success mr-2">
 													<i className="fas fa-arrow-up" /> 1.00%
 												</span>{" "}
 												<span className="text-nowrap">Since yesterday</span>
@@ -171,7 +171,7 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 												</Col>
 											</Row>
 											<p className="mt-3 mb-0 text-muted text-sm">
-												<span className="text-success mr-2">
+												<span className="text-warning mr-2">
 													<i className="fas fa-arrow-down" /> 1.00%
 												</span>{" "}
 												<span className="text-nowrap">Since last month</span>
