@@ -87,33 +87,33 @@ export const PhotoDetails: React.FC = () => {
 							<Row className="mb-3">
 								<Col lg="4" sm="12">
 							    <Row>
-										<Col xs="5" lg="auto">
+										<Col xs="6" lg="auto">
 											<i className="fas fa-eye"></i>
 											<span className="lg-12"> Views: </span>
 										</Col>
-										<Col xs="7" lg="auto" className="pl-0">
+										<Col xs="6" lg="auto" className="pl-0">
 											{photo.totalViews}
 										</Col>
 									</Row>
 								</Col>
 								<Col lg="4" sm="12">
 									<Row>
-										<Col xs="5" lg="auto">
+										<Col xs="6" lg="auto">
 											<i className="ni ni-favourite-28"></i>
 											<span className="lg-12"> Faves: </span>
 										</Col>
-										<Col xs="7" lg="auto" className="pl-0">
+										<Col xs="6" lg="auto" className="pl-0">
 											{photo.totalFaves}
 										</Col>
 									</Row>
 								</Col>
 								<Col lg="4" sm="12">
 									<Row>
-										<Col xs="5" lg="auto">
+										<Col xs="6" lg="auto">
 											<i className="ni ni-chat-round"></i>
 											<span className="lg-12"> Comments: </span>
 										</Col>
-										<Col xs="7" lg="auto" className="pl-0">
+										<Col xs="6" lg="auto" className="pl-0">
 											{photo.totalComments}
 										</Col>
 									</Row>
