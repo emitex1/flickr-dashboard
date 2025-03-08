@@ -16,7 +16,7 @@ type Photo = {
 	totalFaves : number,
 	totalViews : number,
 }
-export const PhotoPage: React.FC = () => {
+export const PhotoDetails: React.FC = () => {
 	const [photo, setPhoto] = useState<Photo | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const { firebaseUser } = useAuth();

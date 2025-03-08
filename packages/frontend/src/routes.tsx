@@ -23,7 +23,7 @@ import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
 import { Profile } from "./pages/Profile";
 import { PrivacyPolicy } from "./components/PrivacyPolicy";
-import { PhotoPage } from "./components/Photo";
+import { PhotoPage } from "./pages/PhotoPage";
 
 export type RouteType = {
   path: string;
