@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, Row, CardBody, Col, Container } from "reactstrap";
+import { Card, CardHeader, Row, CardBody, Col, Container, NavLink } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { LoadingIcon } from "../LoadingIcon";
 import { showErrorMessage } from "../../util/errorType";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useParams } from "react-router-dom";
+import { NavLink as NavLinkRRD } from "react-router-dom";
 import notFoundImage from "../../assets/img/not_found.jpg";
 
 type Photo = {
@@ -50,12 +51,22 @@ export const PhotoDetails: React.FC = () => {
 	return (
 		<Card className="shadow">
 			<CardHeader className="bg-transparent">
-				<Row className="align-items-center">
-					<div className="col">
+				<Row className="align-items-center justify-content-between">
+					<div>
 						<h6 className="text-uppercase text-muted ls-1 mb-1">
 							Photo from Flickr
 						</h6>
 						<h2 className="mb-0">{photo ? photo.title : "The photo not found"}</h2>
+					</div>
+					<div>
+						<NavLink
+							to={"/user/photos"}
+							tag={NavLinkRRD}
+							className="text-orange"
+						>
+							<i className="ni ni-bold-left" />
+							&nbsp;Back to photos
+						</NavLink>
 					</div>
 				</Row>
 			</CardHeader>
