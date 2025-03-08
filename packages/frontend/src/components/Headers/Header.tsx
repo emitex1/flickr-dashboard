@@ -19,13 +19,14 @@
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 type Props = {
   displayStats?: boolean;
+	actions?: ReactElement;
 };
 
-const Header: React.FC<Props> = ({ displayStats = false }) => {
+const Header: React.FC<Props> = ({ displayStats = false, actions = <></> }) => {
 	const { firebaseUser } = useAuth();
 	const db = getFirestore();
 	const [photosCount, setPhotosCount] = useState(0);
@@ -182,6 +183,9 @@ const Header: React.FC<Props> = ({ displayStats = false }) => {
 							</Row>
 						)}
 					</div>
+					{!!actions && (
+						<div>{actions}</div>
+					)}
 				</Container>
 			</div>
 		</>
