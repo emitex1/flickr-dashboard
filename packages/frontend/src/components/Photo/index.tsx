@@ -76,33 +76,33 @@ export const PhotoPage: React.FC = () => {
 							<Row className="mb-3">
 								<Col lg="4" sm="12">
 							    <Row>
-										<Col xs="5">
+										<Col xs="5" lg="auto">
 											<i className="fas fa-eye"></i>
 											<span className="lg-12"> Views: </span>
 										</Col>
-										<Col xs="7">
+										<Col xs="7" lg="auto" className="pl-0">
 											{photo.totalViews}
 										</Col>
 									</Row>
 								</Col>
 								<Col lg="4" sm="12">
 									<Row>
-										<Col xs="5">
+										<Col xs="5" lg="auto">
 											<i className="ni ni-favourite-28"></i>
 											<span className="lg-12"> Faves: </span>
 										</Col>
-										<Col xs="7">
+										<Col xs="7" lg="auto" className="pl-0">
 											{photo.totalFaves}
 										</Col>
 									</Row>
 								</Col>
 								<Col lg="4" sm="12">
 									<Row>
-										<Col xs="5">
+										<Col xs="5" lg="auto">
 											<i className="ni ni-chat-round"></i>
 											<span className="lg-12"> Comments: </span>
 										</Col>
-										<Col xs="7">
+										<Col xs="7" lg="auto" className="pl-0">
 											{photo.totalComments}
 										</Col>
 									</Row>
