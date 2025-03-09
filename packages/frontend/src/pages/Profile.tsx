@@ -38,6 +38,7 @@ import { showErrorMessage } from "../util/errorType.js";
 import { useAuth } from "../context/AuthContext.js";
 import { UserType } from "../util/user.js";
 import { StatsSimpleBox } from "../atoms";
+import { commaSeparateNumber } from "../util/numbers.js";
 
 export const Profile: React.FC = () => {
 	const db = getFirestore();
@@ -132,8 +133,8 @@ export const Profile: React.FC = () => {
 								<Row>
 									<div className="col">
 										<div className="card-profile-stats d-flex justify-content-center mt-md-0">
-											<StatsSimpleBox title="Photos" value={user?.photosCount} />
-											<StatsSimpleBox title="Views" value={user?.totalViews} />
+											<StatsSimpleBox title="Photos" value={commaSeparateNumber(user?.photosCount)} />
+											<StatsSimpleBox title="Views" value={commaSeparateNumber(user?.totalViews)} />
 										</div>
 									</div>
 								</Row>
@@ -141,8 +142,8 @@ export const Profile: React.FC = () => {
 								<Row>
 									<div className="col">
 										<div className="card-profile-stats d-flex justify-content-center mt-0 md-5">
-											<StatsSimpleBox title="Faves" value={user?.totalFaves} />
-											<StatsSimpleBox title="Comments" value={user?.totalComments} />
+											<StatsSimpleBox title="Faves" value={commaSeparateNumber(user?.totalFaves)} />
+											<StatsSimpleBox title="Comments" value={commaSeparateNumber(user?.totalComments)} />
 										</div>
 									</div>
 								</Row>

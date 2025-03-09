@@ -1,6 +1,6 @@
 type StatBoxProps = {
   title: string;
-  value: number;
+  value: string;
 }
 
 export const StatsSimpleBox: React.FC<StatBoxProps> = ({title, value}) => (
