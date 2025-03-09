@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, Row, CardBody, Button } from "reactstrap";
+import { Card, CardHeader, Row, CardBody, Button, Container, Col } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { LoadingIcon } from "../../atoms";
@@ -103,23 +103,27 @@ export const PhotoList: React.FC = () => {
 						<div>No photos found</div>
 					)}
 
-					{photos.map(
-						(photo: {
-							id: string;
-							server: string;
-							secret: string;
-							title: string;
-						}) => (
-							<div key={photo.id} style={{ margin: "10px" }}>
-								<img
-									src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`}
-									// src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg`}
-									alt={photo.title}
-									onClick={() => navigate(`/user/photo/${photo.id}`)}
-								/>
-							</div>
-						)
-					)}
+					<Container>
+						<Row>
+							{photos.map(
+								(photo: {
+									id: string;
+									server: string;
+									secret: string;
+									title: string;
+								}) => (
+									<Col key={photo.id} className="py-2 text-center" xs="6" sm="4" md="4" lg="3" xl="2">
+										<img
+											src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`}
+											// src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg`}
+											alt={photo.title}
+											onClick={() => navigate(`/user/photo/${photo.id}`)}
+										/>
+									</Col>
+								)
+							)}
+							</Row>
+						</Container>
 				</div>
 			</CardBody>
 		</Card>
