@@ -37,6 +37,7 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { showErrorMessage } from "../util/errorType.js";
 import { useAuth } from "../context/AuthContext.js";
 import { UserType } from "../util/user.js";
+import { StatsSimpleBox } from "../atoms";
 
 export const Profile: React.FC = () => {
 	const db = getFirestore();
@@ -131,14 +132,8 @@ export const Profile: React.FC = () => {
 								<Row>
 									<div className="col">
 										<div className="card-profile-stats d-flex justify-content-center mt-md-0">
-											<div>
-												<span className="heading">{user?.photosCount}</span>
-												<span className="description">Photos</span>
-											</div>
-											<div>
-												<span className="heading">{user?.totalViews}</span>
-												<span className="description">Views</span>
-											</div>
+											<StatsSimpleBox title="Photos" value={user?.photosCount} />
+											<StatsSimpleBox title="Views" value={user?.totalViews} />
 										</div>
 									</div>
 								</Row>
@@ -146,14 +141,8 @@ export const Profile: React.FC = () => {
 								<Row>
 									<div className="col">
 										<div className="card-profile-stats d-flex justify-content-center mt-0 md-5">
-											<div>
-												<span className="heading">{user?.totalFaves}</span>
-												<span className="description">Faves</span>
-											</div>
-											<div>
-												<span className="heading">{user?.totalComments}</span>
-												<span className="description">Comments</span>
-											</div>
+											<StatsSimpleBox title="Faves" value={user?.totalFaves} />
+											<StatsSimpleBox title="Comments" value={user?.totalComments} />
 										</div>
 									</div>
 								</Row>
