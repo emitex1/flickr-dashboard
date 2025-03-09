@@ -21,8 +21,8 @@ import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 
 // core components
-import AuthNavbar from "../components/Navbars/AuthNavbar";
-import AuthFooter from "../components/Footers/AuthFooter";
+import AuthNavbar from "../organisms/Navbars/AuthNavbar";
+import AuthFooter from "../organisms/Footers/AuthFooter";
 
 import routes, { RouteType } from "../routes";
 import flickrDashboardLogo from "../assets/img/brand/white_logo.png";

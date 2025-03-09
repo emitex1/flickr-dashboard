@@ -9,10 +9,10 @@ import {
 	Table,
 	Progress,
 } from "reactstrap";
-import Header from "../components/Headers/Header";
-import { PhotoList } from "../components/PhotoList";
+import Header from "../organisms/Headers/Header";
+import { PhotoList } from "../organisms";
 
-export const Index: React.FC = ({}) => {
+export const Index: React.FC = () => {
 	return (
 		<>
 			<Header displayStats />

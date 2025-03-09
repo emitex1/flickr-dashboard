@@ -20,9 +20,9 @@ import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
-import UserNavbar from "../components/Navbars/UserNavbar";
-import UserFooter from "../components/Footers/UserFooter";
-import Sidebar from "../components/Sidebar/Sidebar";
+import UserNavbar from "../organisms/Navbars/UserNavbar";
+import UserFooter from "../organisms/Footers/UserFooter";
+import Sidebar from "../organisms/Sidebar/Sidebar";
 import flickrDashboardWideLogo from "../assets/img/brand/wide_logo.png";
 import { useAuth } from "../context/AuthContext";
 

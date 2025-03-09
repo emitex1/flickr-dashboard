@@ -22,7 +22,7 @@ import { Settings } from "./pages/Settings";
 import { WelcomePage } from "./pages/WelcomePage";
 import { SetFlickrUser } from "./pages/SetFlickrUser";
 import { Profile } from "./pages/Profile";
-import { PrivacyPolicy } from "./components/PrivacyPolicy";
+import { PrivacyPolicy } from "./organisms";
 import { PhotoPage } from "./pages/PhotoPage";
 
 export type RouteType = {

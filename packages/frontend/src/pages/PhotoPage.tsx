@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
-import Header from "../components/Headers/Header";
-import { PhotoDetails } from "../components/Photo";
+import Header from "../organisms/Headers/Header";
+import { PhotoDetails } from "../organisms";
 
 export const PhotoPage
 : React.FC = () => {

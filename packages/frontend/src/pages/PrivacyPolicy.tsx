@@ -20,8 +20,8 @@ import { useLocation, Link } from "react-router-dom";
 // reactstrap components
 import { Container, Nav, Navbar, NavItem, NavLink } from "reactstrap";
 // core components
-import UserFooter from "../components/Footers/UserFooter";
-import { PrivacyPolicy } from "../components/PrivacyPolicy";
+import UserFooter from "../organisms/Footers/UserFooter";
+import { PrivacyPolicy } from "../organisms";
 
 export const PrivacyPolicyPage = () => {
 	const location = useLocation();

@@ -30,7 +30,7 @@ import {
 	Col,
 } from "reactstrap";
 // core components
-import UserHeader from "../components/Headers/UserHeader.js";
+import UserHeader from "../organisms/Headers/UserHeader";
 import { useEffect, useState } from "react";
 import { User } from "firebase/auth";
 import { doc, getDoc, getFirestore } from "firebase/firestore";

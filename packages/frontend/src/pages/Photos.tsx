@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
-import Header from "../components/Headers/Header";
-import { PhotoList } from "../components/PhotoList";
+import Header from "../organisms/Headers/Header";
+import { PhotoList } from "../organisms";
 
 export const Photos: React.FC = () => {
 	return (
