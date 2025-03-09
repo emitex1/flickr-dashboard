@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardHeader, Row, CardBody, Button } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { LoadingIcon } from "../../atoms/LoadingIcon";
+import { LoadingIcon } from "../../atoms";
 import { useNavigate } from "react-router-dom";
 import { showErrorMessage } from "../../util/errorType";
 

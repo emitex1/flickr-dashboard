@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, Row, CardBody, Col, Container, NavLink } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
-import { LoadingIcon } from "../../atoms/LoadingIcon";
+import { LoadingIcon } from "../../atoms";
 import { showErrorMessage } from "../../util/errorType";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useParams } from "react-router-dom";

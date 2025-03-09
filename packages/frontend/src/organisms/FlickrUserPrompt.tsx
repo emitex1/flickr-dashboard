@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { LoadingIcon } from "../atoms/LoadingIcon";
+import { LoadingIcon } from "../atoms";
 import { Button, Col, Form, FormGroup, Input, Row } from "reactstrap";
 
 export const FlickrUserPrompt: React.FC = () => {
