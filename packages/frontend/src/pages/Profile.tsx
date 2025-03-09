@@ -38,7 +38,7 @@ import { showErrorMessage } from "../util/errorType.js";
 import { useAuth } from "../context/AuthContext.js";
 import { UserType } from "../util/user.js";
 import { StatsSimpleBox } from "../atoms";
-import { commaSeparateNumber } from "../util/numbers.js";
+import { commaSeparateNumber } from "../util/numbers";
 
 export const Profile: React.FC = () => {
 	const db = getFirestore();

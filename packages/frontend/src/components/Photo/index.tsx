@@ -7,6 +7,7 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { NavLink as NavLinkRRD } from "react-router-dom";
 import notFoundImage from "../../assets/img/not_found.jpg";
+import { commaSeparateNumber } from "../../util/numbers";
 
 type Photo = {
 	secret: string,
@@ -92,7 +93,7 @@ export const PhotoDetails: React.FC = () => {
 											<span className="lg-12"> Views: </span>
 										</Col>
 										<Col xs="6" lg="auto" className="pl-0">
-											{photo.totalViews}
+											{commaSeparateNumber(photo.totalViews)}
 										</Col>
 									</Row>
 								</Col>
@@ -103,7 +104,7 @@ export const PhotoDetails: React.FC = () => {
 											<span className="lg-12"> Faves: </span>
 										</Col>
 										<Col xs="6" lg="auto" className="pl-0">
-											{photo.totalFaves}
+											{commaSeparateNumber(photo.totalFaves)}
 										</Col>
 									</Row>
 								</Col>
@@ -114,7 +115,7 @@ export const PhotoDetails: React.FC = () => {
 											<span className="lg-12"> Comments: </span>
 										</Col>
 										<Col xs="6" lg="auto" className="pl-0">
-											{photo.totalComments}
+											{commaSeparateNumber(photo.totalComments)}
 										</Col>
 									</Row>
 								</Col>

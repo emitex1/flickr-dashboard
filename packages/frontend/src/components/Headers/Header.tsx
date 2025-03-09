@@ -20,6 +20,7 @@ import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { ReactElement, useEffect, useState } from "react";
+import { commaSeparateNumber } from "../../util/numbers";
 
 type Props = {
   displayStats?: boolean;
@@ -72,7 +73,7 @@ const Header: React.FC<Props> = ({ displayStats = false, actions = <></> }) => {
 														Photos
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														{photosCount}
+														{commaSeparateNumber(photosCount)}
 													</span>
 												</div>
 												<Col className="col-auto">
@@ -102,7 +103,7 @@ const Header: React.FC<Props> = ({ displayStats = false, actions = <></> }) => {
 														Views
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														{userViews}
+														{commaSeparateNumber(userViews)}
 													</span>
 												</div>
 												<Col className="col-auto">
@@ -132,7 +133,7 @@ const Header: React.FC<Props> = ({ displayStats = false, actions = <></> }) => {
 														Faves
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														{userFaves}
+														{commaSeparateNumber(userFaves)}
 													</span>
 												</div>
 												<Col className="col-auto">
@@ -162,7 +163,7 @@ const Header: React.FC<Props> = ({ displayStats = false, actions = <></> }) => {
 														Comments
 													</CardTitle>
 													<span className="h2 font-weight-bold mb-0">
-														{userComments}
+														{commaSeparateNumber(userComments)}
 													</span>
 												</div>
 												<Col className="col-auto">
