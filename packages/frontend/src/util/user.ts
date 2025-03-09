@@ -8,4 +8,7 @@ export type UserType = {
 	photoURL: string;
 	photosCount: number;
 	uid: string;
+	totalViews: number,
+	totalFaves: number,
+	totalComments: number,
 };
