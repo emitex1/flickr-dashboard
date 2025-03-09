@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { FlickrUserPrompt } from "../components/FlickrUserPrompt";
+import { FlickrUserPrompt } from "../molecules";
 import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
-import Header from "../components/Headers/Header";
+import Header from "../organisms/Headers/Header";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import React from "react";
-import { FlickrUserPrompt } from "../components/FlickrUserPrompt";
+import { FlickrUserPrompt } from "../molecules";
 import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
-import Header from "../components/Headers/Header";
+import Header from "../organisms/Headers/Header";
 
 export const Settings: React.FC = () => {
 	return (
