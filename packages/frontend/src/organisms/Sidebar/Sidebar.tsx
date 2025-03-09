@@ -39,7 +39,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import teamLogo from "../../assets/img/theme/team-1-800x800.jpg";
+import { useAuth } from "../../context/AuthContext";
 import { RouteType } from "../../routes";
 
 // var ps;
@@ -64,6 +64,8 @@ type SidebarProps = {
   
 const Sidebar: React.FC<SidebarProps> = ({ routes, logo }) => {
   const [collapseOpen, setCollapseOpen] = useState<boolean>();
+  const { firebaseUser } = useAuth();
+
   // verifies if routeName is the one active (in browser input)
   // const activeRoute = (routeName) => {
   //   return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -158,8 +160,8 @@ const Sidebar: React.FC<SidebarProps> = ({ routes, logo }) => {
               <Media className="align-items-center">
                 <span className="avatar avatar-sm rounded-circle">
                   <img
-                    alt="..."
-                    src={teamLogo}
+                    alt={firebaseUser.displayName || "User's Name"}
+                    src={firebaseUser.photoURL || ""}
                   />
                 </span>
               </Media>
@@ -168,7 +170,7 @@ const Sidebar: React.FC<SidebarProps> = ({ routes, logo }) => {
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">Welcome!</h6>
               </DropdownItem>
-              <DropdownItem to="/user/user-profile" tag={Link} disabled>
+              <DropdownItem to="/user/user-profile" tag={Link}>
                 <i className="ni ni-single-02" />
                 <span>My profile</span>
               </DropdownItem>
