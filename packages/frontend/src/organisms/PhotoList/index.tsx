@@ -6,6 +6,7 @@ import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { LoadingIcon } from "../../atoms";
 import { useNavigate } from "react-router-dom";
 import { showErrorMessage } from "../../util/errorType";
+import "./styles.css";
 
 export const PhotoList: React.FC = () => {
 	const [photos, setPhotos] = useState([]);
@@ -118,6 +119,7 @@ export const PhotoList: React.FC = () => {
 											// src={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg`}
 											alt={photo.title}
 											onClick={() => navigate(`/user/photo/${photo.id}`)}
+											className="photo-thumbnail"
 										/>
 									</Col>
 								)

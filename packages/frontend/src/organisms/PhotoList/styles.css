@@ -1,0 +1,9 @@
+.photo-thumbnail {
+  transition: transform 0.3s ease-in-out;
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+.photo-thumbnail:hover {
+  transform: scale(1.05);
+  background-color: #e9ecef;
+}
