@@ -100,24 +100,6 @@ export const Profile: React.FC = () => {
 								</div>
 							</CardHeader>
 							<CardBody className="pt-0 pt-md-4">
-								<Row>
-									<div className="col">
-										<div className="card-profile-stats d-flex justify-content-center mt-md-5">
-											<div>
-												<span className="heading">22</span>
-												<span className="description">Friends</span>
-											</div>
-											<div>
-												<span className="heading">10</span>
-												<span className="description">Photos</span>
-											</div>
-											<div>
-												<span className="heading">89</span>
-												<span className="description">Comments</span>
-											</div>
-										</div>
-									</div>
-								</Row>
 								<div className="text-center">
 									<h3>
 										{user?.name}
@@ -145,6 +127,36 @@ export const Profile: React.FC = () => {
 										Show more
 									</a>
 								</div>
+
+								<Row>
+									<div className="col">
+										<div className="card-profile-stats d-flex justify-content-center mt-md-0">
+											<div>
+												<span className="heading">{user?.photosCount}</span>
+												<span className="description">Photos</span>
+											</div>
+											<div>
+												<span className="heading">{user?.totalViews}</span>
+												<span className="description">Views</span>
+											</div>
+										</div>
+									</div>
+								</Row>
+
+								<Row>
+									<div className="col">
+										<div className="card-profile-stats d-flex justify-content-center mt-0 md-5">
+											<div>
+												<span className="heading">{user?.totalFaves}</span>
+												<span className="description">Faves</span>
+											</div>
+											<div>
+												<span className="heading">{user?.totalComments}</span>
+												<span className="description">Comments</span>
+											</div>
+										</div>
+									</div>
+								</Row>
 							</CardBody>
 						</Card>
 					</Col>
