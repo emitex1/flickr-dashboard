@@ -4,7 +4,7 @@ export * from './Headers/Header';
 export * from './Headers/UserHeader';
 export * from './Navbars/AuthNavbar';
 export * from './Navbars/UserNavbar';
-export * from './Photo';
+export * from './PhotoDetails';
 export * from './PhotoList';
 export * from './PrivacyPolicy';
 export * from './Sidebar/Sidebar';
