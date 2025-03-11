@@ -1,59 +1,63 @@
 // import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, CardHeader, Row, CardBody, Button, Container, Col } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
-import { collection, getDocs, getFirestore,
+import { getFirestore,
+	// collection, getDocs,
 	// doc, getDoc, setDoc
 } from "firebase/firestore";
 import { LoadingIcon } from "../../atoms";
 import { useNavigate } from "react-router-dom";
-import { showErrorMessage } from "../../util/errorType";
+// import { showErrorMessage } from "../../util/errorType";
 import "./styles.css";
+import usePhotos from "../../hooks/usePhotos";
 
 export const PhotoList: React.FC = () => {
-	const [photos, setPhotos] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	// const [photos, setPhotos] = useState([]);
+	// const [isLoading, setIsLoading] = useState(false);
 	const db = getFirestore();
 	const { firebaseUser, getFlickrUserName } = useAuth();
 	const flickrUserName = getFlickrUserName();
 	const navigate = useNavigate();
 
+	const { data: photos, isLoading, error } = usePhotos(db, firebaseUser);
+
 	// const getPhotos = async (userName: string) => {
-	const getPhotos = async () => {
-		try {
-			setIsLoading(true);
-			setPhotos([]);
+	// const getPhotos = async () => {
+	// 	try {
+	// 		setIsLoading(true);
+	// 		setPhotos([]);
 
-			// const token = await firebaseUser.getIdToken();
-			// const response = await axios.get(
-			// 	"https://fetchflickrphotos-ag5w5dzqxq-uc.a.run.app",
-			// 	{
-			// 		params: { userName: userName, isPublic: true },
-			// 		headers: {
-			// 			"Content-Type": "Application/json",
-			// 			Authorization: `Bearer ${token}`,
-			// 		},
-			// 	}
-			// );
+	// 		// const token = await firebaseUser.getIdToken();
+	// 		// const response = await axios.get(
+	// 		// 	"https://fetchflickrphotos-ag5w5dzqxq-uc.a.run.app",
+	// 		// 	{
+	// 		// 		params: { userName: userName, isPublic: true },
+	// 		// 		headers: {
+	// 		// 			"Content-Type": "Application/json",
+	// 		// 			Authorization: `Bearer ${token}`,
+	// 		// 		},
+	// 		// 	}
+	// 		// );
 
-			const photosRef = collection(db, "users", firebaseUser.uid, "photos");
-			console.log(photosRef);
-			const photoDocs = await getDocs(photosRef);
-			console.log(photoDocs);
+	// 		const photosRef = collection(db, "users", firebaseUser.uid, "photos");
+	// 		console.log(photosRef);
+	// 		const photoDocs = await getDocs(photosRef);
+	// 		console.log(photoDocs);
 
-			const photosArr = [];
-			for (const photoDoc of photoDocs.docs) {
-				const photoData = photoDoc.data();
-				photosArr.push({...photoData, id: photoDoc.id});
-			}
-			setPhotos(photosArr as unknown as []);
-			// 	updatePhotoInfo(response.data.photos.total);
-		} catch (error) {
-			showErrorMessage(error, "Error Fetching Photos");
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	// 		const photosArr = [];
+	// 		for (const photoDoc of photoDocs.docs) {
+	// 			const photoData = photoDoc.data();
+	// 			photosArr.push({...photoData, id: photoDoc.id});
+	// 		}
+	// 		setPhotos(photosArr as unknown as []);
+	// 		// 	updatePhotoInfo(response.data.photos.total);
+	// 	} catch (error) {
+	// 		showErrorMessage(error, "Error Fetching Photos");
+	// 	} finally {
+	// 		setIsLoading(false);
+	// 	}
+	// };
 
 	// const updatePhotoInfo = async (photosCount: number) => {
 	// 	const userRef = doc(db, "users", firebaseUser.uid);
@@ -72,10 +76,10 @@ export const PhotoList: React.FC = () => {
 	// 	}
 	// };
 
-	useEffect(() => {
-		// if (flickrUserName) getPhotos(flickrUserName);
-		if (flickrUserName) getPhotos();
-	}, []);
+	// useEffect(() => {
+	// 	// if (flickrUserName) getPhotos(flickrUserName);
+	// 	if (flickrUserName) getPhotos();
+	// }, []);
 
 	return (
 		<Card className="shadow">
@@ -114,13 +118,15 @@ export const PhotoList: React.FC = () => {
 
 					{isLoading && <LoadingIcon minHeight={200} />}
 
-					{!isLoading && photos.length == 0 && !!flickrUserName && (
+					{!isLoading && photos?.length == 0 && !!flickrUserName && (
 						<div>No photos found</div>
 					)}
 
+					{ error && error.message}
+
 					<Container>
 						<Row>
-							{photos.map(
+							{photos?.map(
 								(photo: {
 									id: string;
 									server: string;
