@@ -17,7 +17,7 @@ const usePhotos = (db: any, firebaseUser: any) => {
   return useQuery({
     queryKey: ["photos", firebaseUser?.uid],
     queryFn: () => fetchPhotos(db, firebaseUser?.uid),
-    enabled: !!firebaseUser?.uid, // فقط وقتی uid موجود باشد درخواست اجرا می‌شود
+    enabled: !!firebaseUser?.uid,
   });
 };
 
