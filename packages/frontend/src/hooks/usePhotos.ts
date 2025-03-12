@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { Photo } from "../types/photos";
 
 const fetchPhotos = async (userId: string) => {
   if (!userId) return [];
@@ -7,9 +8,10 @@ const fetchPhotos = async (userId: string) => {
     const db = getFirestore();
     const photosRef = collection(db, "users", userId, "photos");
     const photoDocs = await getDocs(photosRef);
-    return photoDocs.docs.map(photoDoc => ({ ...photoDoc.data(), id: photoDoc.id }));
+    return photoDocs.docs.map(photoDoc => ({ ...photoDoc.data(), id: photoDoc.id } as Photo));
   } catch (error: unknown) {
-    throw new Error("Error Fetching Photos: " + (error as Error)?.message);
+    console.error("Error Fetching Photos: ", (error as Error).message);
+    return [] as Photo[];
   }
 };
 
