@@ -36,7 +36,7 @@ import { User } from "firebase/auth";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { showErrorMessage } from "../util/errorType.js";
 import { useAuth } from "../context/AuthContext.js";
-import { UserType } from "../util/user.js";
+import { UserType } from "../types/user";
 import { StatsSimpleBox } from "../atoms";
 import { commaSeparateNumber } from "../util/numbers";
 

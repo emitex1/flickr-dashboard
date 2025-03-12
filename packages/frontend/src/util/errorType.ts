@@ -1,6 +1,4 @@
-type ErrorObject = {
-	message: string;
-};
+import { ErrorObject } from "../types/other";
 
 export const showErrorMessage = (error: unknown, prefixMsg?: string) => {
 	console.error(

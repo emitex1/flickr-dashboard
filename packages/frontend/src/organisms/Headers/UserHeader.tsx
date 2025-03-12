@@ -19,7 +19,7 @@
 // reactstrap components
 import { Button, Container, Row, Col } from "reactstrap";
 import profileCover from "../../assets/img/theme/profile-cover.jpg";
-import { UserType } from "../../util/user";
+import { UserType } from "../../types/user";
 
 type Props = {
   user: UserType;
