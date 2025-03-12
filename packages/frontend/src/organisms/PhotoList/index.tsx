@@ -1,84 +1,17 @@
-// import axios from "axios";
 import React from "react";
 import { Card, CardHeader, Row, CardBody, Button, Container, Col } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
-// import { getFirestore,
-	// collection, getDocs,
-	// doc, getDoc, setDoc
-// } from "firebase/firestore";
 import { LoadingIcon } from "../../atoms";
 import { useNavigate } from "react-router-dom";
-// import { showErrorMessage } from "../../util/errorType";
 import "./styles.css";
 import { usePhotos } from "../../hooks/usePhotos";
 
 export const PhotoList: React.FC = () => {
-	// const [photos, setPhotos] = useState([]);
-	// const [isLoading, setIsLoading] = useState(false);
 	const { firebaseUser, getFlickrUserName } = useAuth();
 	const flickrUserName = getFlickrUserName();
 	const navigate = useNavigate();
 
 	const { data: photos, isLoading, error } = usePhotos(firebaseUser?.uid);
-
-	// const getPhotos = async (userName: string) => {
-	// const getPhotos = async () => {
-	// 	try {
-	// 		setIsLoading(true);
-	// 		setPhotos([]);
-
-	// 		// const token = await firebaseUser.getIdToken();
-	// 		// const response = await axios.get(
-	// 		// 	"https://fetchflickrphotos-ag5w5dzqxq-uc.a.run.app",
-	// 		// 	{
-	// 		// 		params: { userName: userName, isPublic: true },
-	// 		// 		headers: {
-	// 		// 			"Content-Type": "Application/json",
-	// 		// 			Authorization: `Bearer ${token}`,
-	// 		// 		},
-	// 		// 	}
-	// 		// );
-
-	// 		const photosRef = collection(db, "users", firebaseUser.uid, "photos");
-	// 		console.log(photosRef);
-	// 		const photoDocs = await getDocs(photosRef);
-	// 		console.log(photoDocs);
-
-	// 		const photosArr = [];
-	// 		for (const photoDoc of photoDocs.docs) {
-	// 			const photoData = photoDoc.data();
-	// 			photosArr.push({...photoData, id: photoDoc.id});
-	// 		}
-	// 		setPhotos(photosArr as unknown as []);
-	// 		// 	updatePhotoInfo(response.data.photos.total);
-	// 	} catch (error) {
-	// 		showErrorMessage(error, "Error Fetching Photos");
-	// 	} finally {
-	// 		setIsLoading(false);
-	// 	}
-	// };
-
-	// const updatePhotoInfo = async (photosCount: number) => {
-	// 	const userRef = doc(db, "users", firebaseUser.uid);
-	// 	const userDoc = await getDoc(userRef);
-
-	// 	if (userDoc.exists()) {
-	// 		await setDoc(
-	// 			userRef,
-	// 			{
-	// 				photosCount: photosCount,
-	// 			},
-	// 			{ merge: true }
-	// 		);
-
-	// 		console.log("Number of current photos updated successfully.");
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	// if (flickrUserName) getPhotos(flickrUserName);
-	// 	if (flickrUserName) getPhotos();
-	// }, []);
 
 	return (
 		<Card className="shadow">
