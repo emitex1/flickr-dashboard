@@ -1,24 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "react-query";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 
-const fetchPhotos = async (db: any, userId: any) => {
+const fetchPhotos = async (userId: string) => {
   if (!userId) return [];
   try {
+    const db = getFirestore();
     const photosRef = collection(db, "users", userId, "photos");
     const photoDocs = await getDocs(photosRef);
     return photoDocs.docs.map(photoDoc => ({ ...photoDoc.data(), id: photoDoc.id }));
-  } catch (error: any) {
-    throw new Error("Error Fetching Photos: " + error?.message);
+  } catch (error: unknown) {
+    throw new Error("Error Fetching Photos: " + (error as Error)?.message);
   }
 };
 
-const usePhotos = (db: any, firebaseUser: any) => {
+export const usePhotos = (firebaseUserId: string) => {
   return useQuery({
-    queryKey: ["photos", firebaseUser?.uid],
-    queryFn: () => fetchPhotos(db, firebaseUser?.uid),
-    enabled: !!firebaseUser?.uid,
+    queryKey: ["photos", firebaseUserId],
+    queryFn: () => fetchPhotos(firebaseUserId),
+    enabled: !!firebaseUserId,
   });
 };
-
-export default usePhotos;

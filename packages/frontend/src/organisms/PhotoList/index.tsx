@@ -2,25 +2,24 @@
 import React from "react";
 import { Card, CardHeader, Row, CardBody, Button, Container, Col } from "reactstrap";
 import { useAuth } from "../../context/AuthContext";
-import { getFirestore,
+// import { getFirestore,
 	// collection, getDocs,
 	// doc, getDoc, setDoc
-} from "firebase/firestore";
+// } from "firebase/firestore";
 import { LoadingIcon } from "../../atoms";
 import { useNavigate } from "react-router-dom";
 // import { showErrorMessage } from "../../util/errorType";
 import "./styles.css";
-import usePhotos from "../../hooks/usePhotos";
+import { usePhotos } from "../../hooks/usePhotos";
 
 export const PhotoList: React.FC = () => {
 	// const [photos, setPhotos] = useState([]);
 	// const [isLoading, setIsLoading] = useState(false);
-	const db = getFirestore();
 	const { firebaseUser, getFlickrUserName } = useAuth();
 	const flickrUserName = getFlickrUserName();
 	const navigate = useNavigate();
 
-	const { data: photos, isLoading, error } = usePhotos(db, firebaseUser);
+	const { data: photos, isLoading, error } = usePhotos(firebaseUser?.uid);
 
 	// const getPhotos = async (userName: string) => {
 	// const getPhotos = async () => {
