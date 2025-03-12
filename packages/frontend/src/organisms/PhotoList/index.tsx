@@ -12,6 +12,7 @@ export const PhotoList: React.FC = () => {
 	const navigate = useNavigate();
 
 	const { data: photos, isLoading, error } = usePhotos(firebaseUser?.uid);
+	const errorMessage = (error as Error)?.message;
 
 	return (
 		<Card className="shadow">
@@ -54,7 +55,7 @@ export const PhotoList: React.FC = () => {
 						<div>No photos found</div>
 					)}
 
-					{ error && error.message}
+					{!!error && errorMessage}
 
 					<Container>
 						<Row>
