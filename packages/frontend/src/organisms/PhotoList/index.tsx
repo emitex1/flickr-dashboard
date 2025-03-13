@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardHeader, Row, CardBody, Button, Container, Col } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { LoadingIcon } from "../../atoms";
-import { useNavigate } from "react-router-dom";
-import "./styles.css";
 import { usePhotos } from "../../hooks/usePhotos";
+import { getRecentPhotos } from "../../infra/photos";
+import "./styles.css";
 
 export const PhotoList: React.FC = () => {
 	const { firebaseUser, getFlickrUserName } = useAuth();
@@ -13,6 +14,13 @@ export const PhotoList: React.FC = () => {
 
 	const { data: photos, isLoading, error } = usePhotos(firebaseUser?.uid);
 	const errorMessage = (error as Error)?.message;
+
+	useEffect(() => {
+		firebaseUser.getIdToken().then(async (token) => {
+			const recentPhotos = await getRecentPhotos(token);
+			console.log('recentPhotos', recentPhotos);
+		});
+	}, [firebaseUser]);
 
 	return (
 		<Card className="shadow">
