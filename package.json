@@ -7,7 +7,11 @@
   ],
   "scripts": {
     "start:be": "cd packages/functions && yarn emulate",
-    "start:fe": "cd packages/frontend && yarn start"
+    "start:fe": "cd packages/frontend && yarn start",
+    "build:be": "cd packages/functions && yarn build",
+    "build:fe": "cd packages/frontend && yarn build",
+    "deploy:be": "cd packages/functions && yarn deploy",
+    "deploy:fe": "cd packages/frontend && yarn deploy"
   },
   "devDependencies": {
     "eslint": "^8.0.0"
