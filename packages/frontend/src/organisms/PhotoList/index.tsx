@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { LoadingIcon } from "../../atoms";
 import { usePhotos } from "../../hooks/usePhotos";
-import { getRecentPhotos } from "../../infra/photos";
+import { getRecentPhotos, saveNewPhotos } from "../../infra/photos";
 import "./styles.css";
+import { Photo } from "../../types/photos";
 
 export const PhotoList: React.FC = () => {
 	const { firebaseUser, getFlickrUserName } = useAuth();
@@ -15,10 +16,22 @@ export const PhotoList: React.FC = () => {
 	const { data: photos, isLoading, error } = usePhotos(firebaseUser?.uid);
 	const errorMessage = (error as Error)?.message;
 
+	const getNewPhotos = async (recentPhotos: Photo[]) => {
+		const photoIds = photos?.map((photo: { id: string }) => photo.id);
+		const newPhotos = recentPhotos.filter(
+			(photo: { id: string }) => !photoIds?.includes(photo.id)
+		);
+		return newPhotos;
+	}
+
 	useEffect(() => {
 		firebaseUser.getIdToken().then(async (token) => {
 			const recentPhotos = await getRecentPhotos(token);
 			console.log('recentPhotos', recentPhotos);
+			const newPhotos = await getNewPhotos(recentPhotos);
+			console.log('newPhotos', newPhotos);
+
+			saveNewPhotos(newPhotos, firebaseUser.uid);
 		});
 	}, [firebaseUser]);
 
