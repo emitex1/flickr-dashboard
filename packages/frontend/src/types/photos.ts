@@ -1,10 +1,20 @@
-export type Photo = {
-  id: string;
+export type PhotoBase = {
   secret: string;
   server: string;
-  timestamp: string;
   title: string;
+}
+
+export type PhotoFlickr = PhotoBase & {
+  id: string;
+}
+
+export type PhotoPayload = PhotoBase & {
+  timestamp: string;
   totalComments: number;
   totalFaves: number;
   totalViews: number;
+}
+
+export type Photo = PhotoPayload & {
+  id: string;
 }

@@ -17,6 +17,8 @@ export const PhotoList: React.FC = () => {
 	const errorMessage = (error as Error)?.message;
 
 	const getNewPhotos = async (recentPhotos: Photo[]) => {
+		if (!photos || photos?.length === 0) return [];
+
 		const photoIds = photos?.map((photo: { id: string }) => photo.id);
 		const newPhotos = recentPhotos.filter(
 			(photo: { id: string }) => !photoIds?.includes(photo.id)
@@ -25,15 +27,17 @@ export const PhotoList: React.FC = () => {
 	}
 
 	useEffect(() => {
+		if (photos?.length === 0) return;
+
 		firebaseUser.getIdToken().then(async (token) => {
 			const recentPhotos = await getRecentPhotos(token);
-			console.log('recentPhotos', recentPhotos);
-			const newPhotos = await getNewPhotos(recentPhotos);
+			console.log('recentPhotos', recentPhotos.photo);
+			const newPhotos = await getNewPhotos(recentPhotos.photo);
 			console.log('newPhotos', newPhotos);
 
 			saveNewPhotos(newPhotos, firebaseUser.uid);
 		});
-	}, [firebaseUser]);
+	}, [firebaseUser, photos]);
 
 	return (
 		<Card className="shadow">

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { Photo } from "../types/photos";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
+import { PhotoFlickr, PhotoPayload } from "../types/photos";
 
 export const getRecentPhotos = async (token: string) => {
   try {
@@ -21,13 +21,22 @@ export const getRecentPhotos = async (token: string) => {
   return [];
 };
 
-export const saveNewPhotos = async (newPhotos: Photo[], firebaseUserId: string) => {
+export const saveNewPhotos = async (newPhotos: PhotoFlickr[], firebaseUserId: string) => {
   if (newPhotos.length > 0) {
     const db = getFirestore();
-    const photosRef = collection(db, "users", firebaseUserId, "photos");
-    newPhotos.forEach(async (photo: { id: string; title: string; server: string; secret: string }) => {
-      const result = await addDoc(photosRef, photo);
-      console.log(`Added photo with ID: ${result.id}`);
+    newPhotos.forEach(async (photo: PhotoFlickr) => {
+      const photoDetails: PhotoPayload = {
+        secret: photo.secret,
+        server: photo.server,
+        timestamp: new Date().toISOString(),
+        title: photo.title,
+        totalComments: 0,
+        totalFaves: 0,
+        totalViews: 0,
+      }
+      const photoRef = doc(db, "users", firebaseUserId, "photos", photo.id);
+      await setDoc(photoRef, photoDetails);
+      console.log(`Added photo with id: ${photo.id}`);
     });
   }
 };
