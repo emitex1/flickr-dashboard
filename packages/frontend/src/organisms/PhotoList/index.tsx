@@ -31,9 +31,7 @@ export const PhotoList: React.FC = () => {
 
 		firebaseUser.getIdToken().then(async (token) => {
 			const recentPhotos = await getRecentPhotos(token);
-			console.log('recentPhotos', recentPhotos.photo);
 			const newPhotos = await getNewPhotos(recentPhotos.photo);
-			console.log('newPhotos', newPhotos);
 
 			saveNewPhotos(newPhotos, firebaseUser.uid);
 		});
