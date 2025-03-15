@@ -5,6 +5,7 @@ import { checkAuthorization, checkCORS } from "./util/webUtils";
 import { callFlickrAPI } from "./util/flickrUtils";
 import { saveFlickrPhotos, updateFlickrStats } from "./scheduled";
 import { fetchRecentFlickrPhotos } from "./http";
+import { getUserId, readCurrentUserFlickrId } from "./services";
 
 admin.initializeApp();
 export const db = admin.firestore();
