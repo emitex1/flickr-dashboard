@@ -5,5 +5,8 @@ import { checkFlickrUserName, fetchFlickrPhotos, fetchRecentFlickrPhotos } from 
 admin.initializeApp();
 export const db = admin.firestore();
 
+// Scheduled Functions
 export { saveFlickrPhotos, updateFlickrStats }
+
+// HTTP Functions
 export { fetchRecentFlickrPhotos, checkFlickrUserName, fetchFlickrPhotos }
