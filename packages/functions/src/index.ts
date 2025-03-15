@@ -1,44 +1,13 @@
 import admin from "firebase-admin";
 import * as functions from "firebase-functions";
 import * as logger from "firebase-functions/logger";
-import { failResult, successResult } from "./util/generalResult";
 import { checkAuthorization, checkCORS } from "./util/webUtils";
 import { callFlickrAPI } from "./util/flickrUtils";
 import { saveFlickrPhotos, updateFlickrStats } from "./scheduled";
+import { fetchRecentFlickrPhotos } from "./http";
 
 admin.initializeApp();
 export const db = admin.firestore();
-
-const getUserId = async (flickrUserName: string) => {
-	try {
-		const data = await callFlickrAPI("flickr.people.findByUsername", {
-			username: flickrUserName,
-		});
-
-		if (data?.stat === "ok") {
-			const flickrUserId = data.user.id;
-			logger.info(`User ID for ${flickrUserName} has found: ${flickrUserId}`);
-			return successResult(flickrUserId);
-		} else {
-			return failResult(404, "User not found: " + data?.message);
-		}
-	} catch (error: unknown) {
-		logger.error("API Request Failed", error);
-		return failResult(
-			500,
-			"API Request Failed: " + (error as { message: string }).message
-		);
-	}
-};
-
-const readCurrentUserFlickrId = async (currentUserId: string) => {
-	const userRef = db.collection("users").doc(currentUserId);
-	const flickrUserId = await userRef
-		.get()
-		.then((doc) => doc.data()?.flickrUserId);
-	if (!flickrUserId) throw new Error("Flickr User ID not found in Firestore.");
-	return flickrUserId;
-};
 
 export const checkFlickrUserName = functions.https.onRequest(
 	async (req: any, res: any) => {
@@ -153,46 +122,4 @@ export const fetchFlickrPhotos = functions.https.onRequest(
 	}
 );
 
-export const fetchRecentFlickrPhotos = functions.https.onRequest(
-	async (req: any, res: any) => {
-		const logPrefix = "[FetchRecentPhotos]";
-		const log = (message: string, ...params: unknown[]) => logger.info(logPrefix, message, ...params);
-
-		log("fetchRecentFlickrPhotos() is called.");
-
-		checkCORS(req, res);
-
-		try {
-			const authResult = await checkAuthorization(req, admin);
-			if (!authResult.isDone) {
-				logger.error(logPrefix, "Error:", authResult.message);
-				res.status(authResult.status).json({ error: authResult.message });
-				return;
-			}
-			const currentFirebaseUserId = authResult.data as string;
-			const flickrUserId = await readCurrentUserFlickrId(currentFirebaseUserId);
-			log(`Flickr User ID: ${flickrUserId}`);
-
-			const todayMorning = new Date();
-			todayMorning.setHours(5, 0, 0, 0);
-			log("Today Morning:", todayMorning);
-			const result = await callFlickrAPI("flickr.photos.search", {
-				user_id: flickrUserId,
-				min_upload_date: todayMorning,
-			});
-			log(`${result.photos.total} photos are fetched.`);
-
-			res.status(200).json(result);
-		} catch (error: unknown) {
-			logger.error(logPrefix, "Error fetching recent Flickr photos:", error);
-			res
-				.status(500)
-				.send(
-					"Error fetching recent Flickr photos:\n" +
-						(error as { message: string }).message
-				);
-		}
-	}
-);
-
-export { saveFlickrPhotos, updateFlickrStats }
+export { saveFlickrPhotos, updateFlickrStats, fetchRecentFlickrPhotos }

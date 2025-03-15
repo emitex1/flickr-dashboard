@@ -1,0 +1,1 @@
+export { fetchRecentFlickrPhotos } from './fetchRecentFlickrPhotos';
